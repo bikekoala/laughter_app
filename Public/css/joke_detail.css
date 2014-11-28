@@ -1,0 +1,49 @@
+@charset "utf-8";
+@media screen and (min-width:600px) {
+    body {
+        width: 400px;
+        margin: 0 auto;
+        border: 1px dashed green;
+    }
+    #joke {
+        border: 1px solid pink;
+        margin: 5px 5px 0 5px;
+        padding: 5px;
+    }
+    #joke-author {
+        border: 1px solid yellow; 
+        height: 50px;
+    }
+    #joke-author img {
+        display: block;
+        float: left;
+        height: 100%;
+        -webkit-border-radius: 50em;
+        -moz-border-radius: 50em;
+        border-radius: 50em;
+    }
+    #joke-author span {
+        display: block;
+        float: left;
+        margin: 5px 0 0 10px;
+        font-family: "verdana","ms song","Arial","Helvetica", "sans-serif";
+        font-size: 9pt;
+        color: #bbb;
+    }
+    #joke-content {
+        margin-top: 10px;
+        border: 1px solid yellow;
+        line-height: 180%;
+        font-family: "verdana","ms song","Arial","Helvetica", "sans-serif";
+        font-size: 14pt;
+        color: #555;
+    }
+    #comment {
+        height: 340px;
+        margin: 8px 5px 0 5px;
+        border: 1px solid yellow;
+    }
+}
+
+@media screen and (max-width:599px) {
+}

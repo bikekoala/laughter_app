@@ -22,6 +22,24 @@ class CommentService extends AbstractService
     }
 
     /**
+     * 获取他人回复我的评论列表
+     *
+     * @param int $jokeId
+     * @param array $mineComments
+     * @return array
+     */
+    public function getRepliedMine($jokeId, $mineComments)
+    {
+        $commentIds = array();
+        foreach ($mineComments as $item) {
+            $commentIds[] = $item['id'];
+        }
+        $comments = $this->model->getRepliedList($jokeId, $commentIds);
+
+        return $this->_mergeUserInfo($comments);
+    }
+
+    /**
      * 获取自己的评论列表
      *
      * @param int $jokeId
@@ -30,8 +48,7 @@ class CommentService extends AbstractService
      */
     public function getMine($jokeId, $userId)
     {
-        $comments =  (array) $this->model->
-            getListByJokeidAndUserid($jokeId, $userId);
+        $comments =  $this->model->getListByJokeidAndUserid($jokeId, $userId);
 
         return $this->_mergeUserInfo($comments);
     }
@@ -45,8 +62,7 @@ class CommentService extends AbstractService
      */
     public function getSuper($jokeId, $limit = 5)
     {
-        $comments = (array) $this->model->
-            getListOrderByUpcount($jokeId, $limit);
+        $comments = $this->model->getListOrderByUpcount($jokeId, $limit);
 
         return $this->_mergeUserInfo($comments);
     }
@@ -61,7 +77,7 @@ class CommentService extends AbstractService
      */
     public function getLastest($jokeId, $userId, $limit = 10)
     {
-        $comments =  (array) $this->model->
+        $comments = $this->model->
             getListByJokeidButUserid($jokeId, $userId, $limit);
 
         return $this->_mergeUserInfo($comments);
@@ -92,6 +108,8 @@ class CommentService extends AbstractService
                     }
                 }
             }
+        } else {
+            $comments = array();
         }
 
         return $comments;

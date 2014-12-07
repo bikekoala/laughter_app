@@ -28,10 +28,20 @@ class JokeController extends Controller
             $joke = (new \App\Service\JokeService)->getDetail($jokeId);
             $user = (new \App\Service\UserService)->getDetail($joke['user_id']);
 
-            $commentService  = new \App\Service\CommentService;
-            $mineComments    = $commentService->getMine($joke['id'], $userId);
-            $superComments   = $commentService->getSuper($joke['id']);
-            $lastestComments = $commentService->getLastest($joke['id'], $userId);
+            $repliedMineComments = array();
+            $mineComments = array();
+            $superComments = array();
+            $lastestComments = array();
+            if (0 !== $userId) {
+                $commentService  = new \App\Service\CommentService;
+                $mineComments = $commentService->getMine($jokeId, $userId);
+                $repliedMineComments = $commentService->getRepliedMine(
+                    $jokeId,
+                    $mineComments
+                );
+                $superComments = $commentService->getSuper($jokeId);
+                $lastestComments = $commentService->getLastest($jokeId, $userId);
+            }
         } catch (\Exception $e) {
             $this->error($e->getMessage(), C('PORTAL_URL'));
         }
@@ -39,6 +49,7 @@ class JokeController extends Controller
         // vendor
         $this->assign('joke', $joke);
         $this->assign('joke_user', $user);
+        $this->assign('comment_replied_mine', $repliedMineComments);
         $this->assign('comment_mine', $mineComments);
         $this->assign('comment_super', $superComments);
         $this->assign('comment_lastest', $lastestComments);

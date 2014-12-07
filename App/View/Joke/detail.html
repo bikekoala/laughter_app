@@ -8,23 +8,92 @@
         <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/joke_detail.css">
     </head>
     <body>
-        <div id="joke">
-            <div id="joke-author">
-                <img src="http://tp4.sinaimg.cn/1694801047/180/39999291455/1"/>
-                <span>树袋大熊</span>
+        <div class="body">
+            <div class="joke">
+                <div class="joke-header">
+                    <img class="joke-avatar" src="<empty name='joke_user.avatar'>__PUBLIC__/img/avatar_default_large.png<else />{$joke_user.avatar}</empty>"/>
+                    <div class="joke-author">
+                        <span>{$joke_user.nickname}</span>
+                        <span>{$joke_user.create_time|date="m-d H:i",###}</span>
+                    </div>
+                </div>
+                <div class="joke-content">
+                    {$joke.content|nl2br}
+                </div>
+                <div id="joke-up-btn">
+                    <img src="__PUBLIC__/img/joke_up.png"/>
+                    <span>{$joke.up_count}</span>
+                </div>
+                <div class="joke-action-btn">
+                    <div class="joke-favorite-btn">
+                        <img src="__PUBLIC__/img/joke_favorite.png"/>
+                        <span>{$joke.favorate_count}</span>
+                    </div>
+                    <div class="joke-comment-btn">
+                        <img src="__PUBLIC__/img/joke_comment.png"/>
+                        <span>{$joke.comment_count}</span>
+                    </div>
+                    <div class="joke-share-btn">
+                        <img src="__PUBLIC__/img/joke_share.png"/>
+                        <span>{$joke.share_count}</span>
+                    </div>
+                </div>
             </div>
-            <div id="joke-content">
-                下班回去的路上，一美女骑自行车把我撞了，她不好意思的看着我，说：对不起。<br>
-                我深情的走过去，问：有男朋友吗？<br>
-                美女害羞的摇摇头。<br>
-                我上去就是一脚，没男朋友还敢撞我，看老子不削死你个憋犊子。。。
+            <div class="comment">
+                <div id="comment-mine">
+                    <span class="comment-title">我的评论</span>
+                    <foreach name="comment_mine" item="v">
+                    <div class="comment-body">
+                        <div class="comment-header">
+                            <img class="comment-avatar" src="{$v.user_avatar}"/>
+                            <div class="comment-author">
+                                <span>{$v.user_nickname}</span>
+                                <span>{$v.create_time|date="m-d H:i",###}</span>
+                            </div>
+                            <img class="comment-up-btn" src="__PUBLIC__/img/comment_up.png"/>
+                            <span class="comment-up-count">{$v.up_count}</span>
+                        </div>
+                        <span class="comment-content">{$v.content}</span>
+                    </div>
+                    </foreach>
+                </div>
+                <div id="comment-super">
+                    <span class="comment-title">神评</span>
+                    <foreach name="comment_super" item="v">
+                    <div class="comment-body">
+                        <div class="comment-header">
+                            <img class="comment-avatar" src="{$v.user_avatar}"/>
+                            <div class="comment-name">
+                                <span>{$v.user_nickname}</span>
+                                <span>{$v.create_time|date="m-d H:i",###}</span>
+                            </div>
+                            <img class="comment-up-btn" src="__PUBLIC__/img/comment_up.png"/>
+                            <span class="comment-up-count">{$v.up_count}</span>
+                        </div>
+                        <span class="comment-content">{$v.content}</span>
+                    </div>
+                    </foreach>
+                </div>
+                <div id="comment-lastest">
+                    <span class="comment-title">最新</span>
+                    <foreach name="comment_lastest" item="v">
+                    <div class="comment-body">
+                        <div class="comment-header">
+                            <img class="comment-avatar" src="<empty name='v.user_avatar'>__PUBLIC__/img/avatar_default_small.png<else />{$v.user_avatar}</empty>"/>
+                            <div class="comment-name">
+                                <span>{$v.user_nickname}</span>
+                                <span>{$v.create_time|date="m-d H:i",###}</span>
+                            </div>
+                            <img class="comment-up-btn" src="__PUBLIC__/img/comment_up.png"/>
+                            <span class="comment-up-count">{$v.up_count}</span>
+                        </div>
+                        <span class="comment-content">{$v.content}</span>
+                    </div>
+                    </foreach>
+                </div>
             </div>
-            <div id="joke-liked">
-                <div></div>
-            </div>
-            <div id="joke-liked-users"></div>
         </div>
-        <div id="comment"></div>
-        <script src="__PUBLIC__/js/common/zepto.min.js"></script>
-    </body>
+    </div>
+    <script src="__PUBLIC__/js/common/zepto.min.js"></script>
+</body>
 </html>

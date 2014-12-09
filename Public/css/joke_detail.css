@@ -8,7 +8,7 @@
         padding: 10px;
         background-color: #ececec;
     }
-    .joke {
+    #joke {
         background-color: #ffffff;
         border-right: 1px solid #ccc;
         border-bottom: 2px solid #ccc;

@@ -9,7 +9,7 @@
     </head>
     <body>
         <div class="body">
-            <div class="joke">
+            <div id="joke" data-joke-id="{$joke.id}" data-joke-user-id="{$joke_user.id}">
                 <div class="joke-header">
                     <img class="joke-avatar" src="<empty name='joke_user.avatar'>__PUBLIC__/img/avatar_default_large.png<else />{$joke_user.avatar}</empty>"/>
                     <div class="joke-author">
@@ -44,18 +44,7 @@
                 <div id="comment-replied-mine">
                     <span class="comment-title">回复我的评论</span>
                     <foreach name="comment_replied_mine" item="v">
-                    <div class="comment-body">
-                        <div class="comment-header">
-                            <img class="comment-avatar" src="<empty name='v.user_avatar'>__PUBLIC__/img/avatar_default_small.png<else />{$v.user_avatar}</empty>"/>
-                            <div class="comment-author">
-                                <span>{$v.user_nickname}</span>
-                                <span>{$v.create_time|date="m-d H:i",###}</span>
-                            </div>
-                            <img class="comment-up-btn" src="__PUBLIC__/img/comment_up.png"/>
-                            <span class="comment-up-count">{$v.up_count}</span>
-                        </div>
-                        <span class="comment-content">{$v.content}</span>
-                    </div>
+                    <include file="Joke/detail_comment_cell" />
                     </foreach>
                 </div>
                 </notempty>
@@ -63,18 +52,7 @@
                 <div id="comment-mine">
                     <span class="comment-title">我的评论</span>
                     <foreach name="comment_mine" item="v">
-                    <div class="comment-body">
-                        <div class="comment-header">
-                            <img class="comment-avatar" src="<empty name='v.user_avatar'>__PUBLIC__/img/avatar_default_small.png<else />{$v.user_avatar}</empty>"/>
-                            <div class="comment-author">
-                                <span>{$v.user_nickname}</span>
-                                <span>{$v.create_time|date="m-d H:i",###}</span>
-                            </div>
-                            <img class="comment-up-btn" src="__PUBLIC__/img/comment_up.png"/>
-                            <span class="comment-up-count">{$v.up_count}</span>
-                        </div>
-                        <span class="comment-content">{$v.content}</span>
-                    </div>
+                    <include file="Joke/detail_comment_cell" />
                     </foreach>
                 </div>
                 </notempty>
@@ -82,37 +60,15 @@
                 <div id="comment-super">
                     <span class="comment-title">神评</span>
                     <foreach name="comment_super" item="v">
-                    <div class="comment-body">
-                        <div class="comment-header">
-                            <img class="comment-avatar" src="<empty name='v.user_avatar'>__PUBLIC__/img/avatar_default_small.png<else />{$v.user_avatar}</empty>"/>
-                            <div class="comment-name">
-                                <span>{$v.user_nickname}</span>
-                                <span>{$v.create_time|date="m-d H:i",###}</span>
-                            </div>
-                            <img class="comment-up-btn" src="__PUBLIC__/img/comment_up.png"/>
-                            <span class="comment-up-count">{$v.up_count}</span>
-                        </div>
-                        <span class="comment-content">{$v.content}</span>
-                    </div>
+                    <include file="Joke/detail_comment_cell" />
                     </foreach>
                 </div>
                 </notempty>
                 <notempty name="comment_lastest">
-                <div id="comment-lastest">
+                <div id="comment-lastest" data-start={$comment_lastest|count}>
                     <span class="comment-title">最新</span>
                     <foreach name="comment_lastest" item="v">
-                    <div class="comment-body">
-                        <div class="comment-header">
-                            <img class="comment-avatar" src="<empty name='v.user_avatar'>__PUBLIC__/img/avatar_default_small.png<else />{$v.user_avatar}</empty>"/>
-                            <div class="comment-name">
-                                <span>{$v.user_nickname}</span>
-                                <span>{$v.create_time|date="m-d H:i",###}</span>
-                            </div>
-                            <img class="comment-up-btn" src="__PUBLIC__/img/comment_up.png"/>
-                            <span class="comment-up-count">{$v.up_count}</span>
-                        </div>
-                        <span class="comment-content">{$v.content}</span>
-                    </div>
+                    <include file="Joke/detail_comment_cell" />
                     </foreach>
                 </div>
                 </notempty>
@@ -120,5 +76,6 @@
         </div>
     </div>
     <script src="__PUBLIC__/js/common/zepto.min.js"></script>
+    <script src="__PUBLIC__/js/joke_detail.js"></script>
 </body>
 </html>

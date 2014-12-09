@@ -1,0 +1,12 @@
+<div class="comment-body">
+    <div class="comment-header">
+        <img class="comment-avatar" src="<empty name='v.user_avatar'>__PUBLIC__/img/avatar_default_small.png<else />{$v.user_avatar}</empty>"/>
+        <div class="comment-author">
+            <span>{$v.user_nickname}</span>
+            <span>{$v.create_time}</span>
+        </div>
+        <img class="comment-up-btn" src="__PUBLIC__/img/comment_up.png"/>
+        <span class="comment-up-count">{$v.up_count}</span>
+    </div>
+    <span class="comment-content">{$v.content}</span>
+</div>

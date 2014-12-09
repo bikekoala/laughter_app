@@ -69,11 +69,11 @@ class CommentModel extends Model
      * 通过笑话ID获取评论列表，并排序指定用户记录
      *
      * @param int $userId
-     * @param int $jokeId
+     * @param int $start
      * @param int $limit
      * @return mixed
      */
-    public function getListByJokeidButUserid($jokeId, $userId, $limit)
+    public function getListByJokeidButUserid($jokeId, $userId, $start, $limit)
     {
         return $this->field(
             array(
@@ -90,7 +90,7 @@ class CommentModel extends Model
                 'joke_id'   => $jokeId,
                 'is_closed' => 0
             )
-        )->order('create_time DESC')->limit($limit)->select();
+        )->order('create_time DESC')->limit($start, $limit)->select();
     }
 
     /**

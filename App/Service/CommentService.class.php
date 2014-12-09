@@ -36,7 +36,7 @@ class CommentService extends AbstractService
         }
         $comments = $this->model->getRepliedList($jokeId, $commentIds);
 
-        return $this->_mergeUserInfo($comments);
+        return $this->_process($comments);
     }
 
     /**
@@ -50,7 +50,7 @@ class CommentService extends AbstractService
     {
         $comments =  $this->model->getListByJokeidAndUserid($jokeId, $userId);
 
-        return $this->_mergeUserInfo($comments);
+        return $this->_process($comments);
     }
 
     /**
@@ -64,7 +64,7 @@ class CommentService extends AbstractService
     {
         $comments = $this->model->getListOrderByUpcount($jokeId, $limit);
 
-        return $this->_mergeUserInfo($comments);
+        return $this->_process($comments);
     }
 
     /**
@@ -72,14 +72,35 @@ class CommentService extends AbstractService
      *
      * @param int $jokeId
      * @param int $userId
+     * @param int $start
      * @param int $limit
      * @return array
      */
-    public function getLastest($jokeId, $userId, $limit = 10)
+    public function getLastest($jokeId, $userId, $start = 0, $limit = 10)
     {
         $comments = $this->model->
-            getListByJokeidButUserid($jokeId, $userId, $limit);
+            getListByJokeidButUserid($jokeId, $userId, $start, $limit);
 
+        return $this->_process($comments);
+    }
+
+    /**
+     * 处理评论数据
+     *
+     * @param array $comments
+     * @return array
+     */
+    private function _process($comments)
+    {
+        // 格式化日期
+        foreach ($comments as &$item) {
+            $item['create_time'] = date(
+                'm-d H:i',
+                strtotime($item['create_time'])
+            );
+        }
+
+        // 合并用户信息
         return $this->_mergeUserInfo($comments);
     }
 

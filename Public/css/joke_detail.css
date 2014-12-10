@@ -1,195 +1,199 @@
 @charset "utf-8";
-@media screen and (min-width:600px) {
+@media screen and (min-width:800px) {
     body {
         width: 500px; 
         margin: 0 auto;
     }
-    .body {
-        padding: 10px;
-        background-color: #ececec;
-    }
-    #joke {
-        background-color: #ffffff;
-        border-right: 1px solid #ccc;
-        border-bottom: 2px solid #ccc;
-    }
-    .joke-header {
-        height: 90px;
-    }
-    .joke-avatar {
-        display: block;
-        float: left;
-        margin-left: 10px;
-        height: 100%;
-        -webkit-border-radius: 50%;
-        -moz-border-radius: 50%;
-        border-radius: 50%;
-    }
-    .joke-author {
-        float: left;
-        margin: 20px 0 0 10px;
-    }
-    .joke-author span {
-        display: block;
-    }
-    .joke-author span:nth-child(1) {
-        font-family: "verdana","ms song","Arial","Helvetica", "sans-serif";
-        font-size: 12pt;
-        color: #727778;
-    }
-    .joke-author span:nth-child(2) {
-        margin-top: 5px;
-        font-size: 10pt;
-        color: #a2a2a2;
-    }
-    .joke-content {
-        padding: 10px;
-        line-height: 180%;
-        font-family: "verdana","ms song","Arial","Helvetica", "sans-serif";
-        font-size: 16pt;
-        letter-spacing: 1px;
-        color: #4a5152;
-    }
-    #joke-up-btn {
-        position: relative;
-        height: 110px;
-        width: 110px;
+}
+@media screen and (max-width:799px) {
+    body {
+        width: 100%; 
         margin: 0 auto;
-        margin-top: 5px;
-    }
-    #joke-up-btn img {
-        display: block;
-        height: 100%;
-    }
-    #joke-up-btn span {
-        display: block;
-        position: absolute;
-        width: 100%;
-        margin-top: -35px;
-        text-align: center;
-        font-size: 12pt;
-        color: #a2a2a2;
-    }
-    .joke-action-btn {
-        position: relative;
-        height: 35px;
-        width: 100%;
-        margin-top: 5px;
-        background-color: #f4f4f4;
-    }
-    .joke-action-btn div {
-        height: 100%;
-    }
-    .joke-action-btn img {
-        display: block;
-        height: 100%;
-        width: 35px;
-    }
-    .joke-action-btn span {
-        position: absolute;
-        display: block;
-        top : 13px;
-        font-size: 9pt;
-        color: #a2a2a2;
-    }
-    .joke-favorite-btn {
-        position: relative;
-        width: 100px;
-        margin: 0 auto;
-    }
-    .joke-favorite-btn img {
-        margin: 0 auto;
-    }
-    .joke-favorite-btn span {
-        left: 70%;
-    }
-    .joke-comment-btn {
-        position: absolute;
-        width: 100px;
-        top : 0px;
-        left: 8%;
-    }
-    .joke-comment-btn span {
-        left: 40%;
-    }
-    .joke-share-btn {
-        position: absolute;
-        top : 0px;
-        right: 8%;
-    }
-    .joke-share-btn span {
-        left: 100%;
-    }
-    .comment {
-        margin-top: 20px;
-        background-color: #ffffff;
-    }
-    .comment-title {
-        display: block;
-        background-color: #f4f4f4;
-        padding: 4px;
-        line-height: 180%;
-        font-family: "verdana","ms song","Arial","Helvetica", "sans-serif";
-        font-size: 12pt;
-        color: #555555;
-    }
-    .comment-header {
-        height: 60px;
-        padding: 5px 0 0 5px;
-    }
-    .comment-avatar {
-        display: block;
-        float: left;
-        height: 100%;
-        margin-left: 5px;
-        -webkit-border-radius: 50%;
-        -moz-border-radius: 50%;
-        border-radius: 50%;
-    }
-    .comment-author {
-        float: left;
-        margin: 8px 0 0 8px;
-    }
-    .comment-author span {
-        display: block;
-        line-height: 140%;
-        color: #a2a2a2;
-    }
-    .comment-author span:nth-child(1) {
-        font-family: "verdana","ms song","Arial","Helvetica", "sans-serif";
-        font-size: 10pt;
-    }
-    .comment-author span:nth-child(2) {
-        font-size: 8pt;
-    }
-    .comment-up-count {
-        display: block;
-        float: right;
-        height: 35px;
-        margin-top: 5px;
-        line-height: 320%;
-        font-size: 10pt;
-        color: #a2a2a2;
-    }
-    .comment-up-btn {
-        display: block;
-        float: right;
-        margin: 5px 3px 0 0;
-        height: 35px;
-    }
-    .comment-content {
-        display: block;
-        clear: both;
-        min-height: 20px;
-        padding: 15px 0 15px 75px;
-        line-height: 150%;
-        letter-spacing: 1px;
-        font-family: "verdana","ms song","Arial","Helvetica", "sans-serif";
-        font-size: 12pt;
-        color: #4a5152;
-
     }
 }
 
-@media screen and (max-width:599px) {
+.body {
+    padding: 10px;
+    background-color: #ececec;
+}
+#joke {
+    background-color: #ffffff;
+    border-right: 1px solid #ccc;
+    border-bottom: 2px solid #ccc;
+}
+.joke-header {
+    height: 90px;
+}
+.joke-avatar {
+    display: block;
+    float: left;
+    margin-left: 10px;
+    height: 100%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+.joke-author {
+    float: left;
+    margin: 20px 0 0 10px;
+}
+.joke-author span {
+    display: block;
+}
+.joke-author span:nth-child(1) {
+    font-family: "verdana","ms song","Arial","Helvetica", "sans-serif";
+    font-size: 12pt;
+    color: #727778;
+}
+.joke-author span:nth-child(2) {
+    margin-top: 5px;
+    font-size: 10pt;
+    color: #a2a2a2;
+}
+.joke-content {
+    padding: 10px;
+    line-height: 180%;
+    font-family: "verdana","ms song","Arial","Helvetica", "sans-serif";
+    font-size: 16pt;
+    letter-spacing: 1px;
+    color: #4a5152;
+}
+#joke-up-btn {
+    position: relative;
+    height: 110px;
+    width: 110px;
+    margin: 0 auto;
+    margin-top: 5px;
+}
+#joke-up-btn img {
+    display: block;
+    height: 100%;
+}
+#joke-up-btn span {
+    display: block;
+    position: absolute;
+    width: 100%;
+    margin-top: -35px;
+    text-align: center;
+    font-size: 12pt;
+    color: #a2a2a2;
+}
+.joke-action-btn {
+    position: relative;
+    height: 35px;
+    width: 100%;
+    margin-top: 5px;
+    background-color: #f4f4f4;
+}
+.joke-action-btn div {
+    height: 100%;
+}
+.joke-action-btn img {
+    display: block;
+    height: 100%;
+    width: 35px;
+}
+.joke-action-btn span {
+    position: absolute;
+    display: block;
+    top : 13px;
+    font-size: 9pt;
+    color: #a2a2a2;
+}
+.joke-favorite-btn {
+    position: relative;
+    width: 100px;
+    margin: 0 auto;
+}
+.joke-favorite-btn img {
+    margin: 0 auto;
+}
+.joke-favorite-btn span {
+    left: 70%;
+}
+.joke-comment-btn {
+    position: absolute;
+    width: 100px;
+    top : 0px;
+    left: 8%;
+}
+.joke-comment-btn span {
+    left: 40%;
+}
+.joke-share-btn {
+    position: absolute;
+    top : 0px;
+    right: 8%;
+}
+.joke-share-btn span {
+    left: 100%;
+}
+.comment {
+    margin-top: 20px;
+    background-color: #ffffff;
+}
+.comment-title {
+    display: block;
+    background-color: #f4f4f4;
+    padding: 4px;
+    line-height: 180%;
+    font-family: "verdana","ms song","Arial","Helvetica", "sans-serif";
+    font-size: 12pt;
+    color: #555555;
+}
+.comment-header {
+    height: 60px;
+    padding: 5px 0 0 5px;
+}
+.comment-avatar {
+    display: block;
+    float: left;
+    height: 100%;
+    margin-left: 5px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+.comment-author {
+    float: left;
+    margin: 8px 0 0 8px;
+}
+.comment-author span {
+    display: block;
+    line-height: 140%;
+    color: #a2a2a2;
+}
+.comment-author span:nth-child(1) {
+    font-family: "verdana","ms song","Arial","Helvetica", "sans-serif";
+    font-size: 10pt;
+}
+.comment-author span:nth-child(2) {
+    font-size: 8pt;
+}
+.comment-up-count {
+    display: block;
+    float: right;
+    height: 35px;
+    margin-top: 5px;
+    line-height: 320%;
+    font-size: 10pt;
+    color: #a2a2a2;
+}
+.comment-up-btn {
+    display: block;
+    float: right;
+    margin: 5px 3px 0 0;
+    height: 35px;
+}
+.comment-content {
+    display: block;
+    clear: both;
+    min-height: 20px;
+    padding: 15px 0 15px 75px;
+    line-height: 150%;
+    letter-spacing: 1px;
+    font-family: "verdana","ms song","Arial","Helvetica", "sans-serif";
+    font-size: 12pt;
+    color: #4a5152;
+
 }

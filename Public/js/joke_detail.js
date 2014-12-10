@@ -49,7 +49,7 @@ Client = (function() {
         code += '<div class="comment-body">';
         code += '   <div class="comment-header">';
         code += '       <img class="comment-avatar" src="'+d.user_avatar+'"/>';
-        code += '       <div class="comment-name">';
+        code += '       <div class="comment-author">';
         code += '           <span>'+d.user_nickname+'</span>';
         code += '           <span>'+d.create_time+'</span>';
         code += '       </div>';

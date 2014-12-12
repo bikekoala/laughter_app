@@ -24,13 +24,16 @@ define('BUILD_DIR_SECURE', false);
 define('BIND_MODULE', 'App');
 
 // 定义应用目录
-define('APP_PATH', './');
+define('APP_PATH', realpath('./') . '/');
 
 // 定义公共模块目录
-define('COMMON_PATH', './Common/');
+define('COMMON_PATH', APP_PATH . 'Common/');
+
+// 定义公共第三方类库目录
+define('ADDONS_PATH', COMMON_PATH . 'Addons/');
 
 // 定义运行时目录
-define('RUNTIME_PATH', './Runtime/');
+define('RUNTIME_PATH', APP_PATH . 'Runtime/');
 
 // 引入ThinkPHP入口文件
 require realpath('../core/ThinkPHP') . '/ThinkPHP.php';

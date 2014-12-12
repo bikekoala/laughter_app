@@ -1,6 +1,5 @@
 <?PHP
 /**
- * Curl
  * curl库的封装
  *
  * @author sunxuewu <sunxw@ucloudworld.com>

@@ -25,4 +25,16 @@ class AbstractController extends Controller
             )
         );
     }
+
+    /**
+     * 空操作
+     *
+     * @return void
+     */
+    public function _empty()
+    {
+        $msg = '我有一头小毛驴呀我从来也不骑～';
+        $url = C('PORTAL_URL');
+        $this->error($msg, $url);
+    }
 }

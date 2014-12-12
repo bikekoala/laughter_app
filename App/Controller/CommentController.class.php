@@ -1,6 +1,5 @@
 <?PHP
 namespace App\Controller;
-use App\Controller\AbstractController;
 
 /**
  * 评论控制器

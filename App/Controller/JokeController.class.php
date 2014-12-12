@@ -1,13 +1,12 @@
 <?PHP
 namespace App\Controller;
-use Think\Controller;
 
 /**
  * 笑话控制器
  *
  * @author popfeng <popfeng@yeah.net>
  */
-class JokeController extends Controller
+class JokeController extends AbstractController
 {
     /**
      * 笑话详情页面
@@ -55,17 +54,5 @@ class JokeController extends Controller
         $this->assign('comment_lastest', $lastestComments);
         $this->assign('user_id', $userId);
         $this->display();
-    }
-
-    /**
-     * 空操作
-     *
-     * @return void
-     */
-    public function _empty()
-    {
-        $msg = '我有一头小毛驴呀我从来也不骑～';
-        $url = C('PORTAL_URL');
-        $this->error($msg, $url);
     }
 }

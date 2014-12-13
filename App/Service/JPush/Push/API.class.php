@@ -11,18 +11,18 @@ use Common\Addons\Curl;
 class API 
 {
     /**
+     * 推送设备指定的别名
+     *
+     * @var array
+     */
+    protected $_audienceAlias;
+
+    /**
      * 推送平台设置
      *
      * @var array
      */
     protected $_platform = array(Consts::PF_ANDROID);
-
-    /**
-     * 推送设备指定
-     *
-     * @var mixed
-     */
-    protected $_audience = Consts::AUDIENCE_ALL;
 
     /**
      * 消息内容本身
@@ -75,6 +75,19 @@ class API
     }
 
     /**
+     * 推送设备指定的alias
+     *
+     * @param array $alias
+     * @return void
+     */
+    public function setAudienceAlias(...$alias)
+    {
+        if ( ! empty($alias)) {
+            $this->_audienceAlias = $alias;
+        }
+    }
+
+    /**
      * 设置消息内容本身
      *
      * @param string $content
@@ -114,7 +127,8 @@ class API
      */
     public function run()
     {
-        $body = $this->_getRequestBody();
+        echo $body = $this->_getRequestBody();
+        exit;
         $conf = C('JPUSH');
         $authString = $conf['APP_KEY'] . ':' . $conf['MASTER_SECRET'];
 
@@ -133,7 +147,7 @@ class API
     {
         $data = array(
             'platform' => $this->_platform,
-            'audience' => $this->_audience,
+            'audience' => $this->_audienceAlias,
             'message' => array(
                 'msg_content' => $this->_messageContent,
                 'title' => $this->_messageTitle,

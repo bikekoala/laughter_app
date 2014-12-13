@@ -8,7 +8,7 @@ use App\Service\JPush\Push\Consts;
  *
  * @author popfeng <popfeng@yeah.net>
  */
-class PushService
+class Push
 {
     /**
      * 操作类型
@@ -60,6 +60,20 @@ class PushService
      * @var int
      */
     protected $_jokeId;
+
+    /**
+     * 笑话作者ID
+     *
+     * @var int
+     */
+    protected $_jokeUserId;
+
+    /**
+     * 笑话作者名称
+     *
+     * @var string
+     */
+    protected $_jokeUserName;
 
     /**
      * 操作用户ID
@@ -188,6 +202,28 @@ class PushService
     }
 
     /**
+     * 设置笑话作者ID
+     *
+     * @param int $id
+     * @return void
+     */
+    public function setJokeUserId($id)
+    {
+        $this->_jokeUserId = $id;
+    }
+
+    /**
+     * 设置笑话作者名称
+     *
+     * @param string $name
+     * @return void
+     */
+    public function setJokeUserName($name)
+    {
+        $this->_jokeUserName = $name;
+    }
+
+    /**
      * 设置操作用户ID
      *
      * @param int $id
@@ -273,11 +309,14 @@ class PushService
     {
         $pushApi = new API;
         $pushApi->setPlatform(Consts::PF_ANDROID);
+        $pushApi->setAudienceAlias(md5($this->_userToken));
         $pushApi->setMessageTitle($this->_title);
         $pushApi->setMessageContent($this->_content);
         $pushApi->setMessageExtras(array(
-            'user_tid' => md5($this->_userToken),
+            //'user_tid' => ,
             'joke_id' => $this->_jokeId,
+            'joke_user_id' => $this->_jokeUserId,
+            'joke_user_name' => $this->_jokeUserName,
             'op_type' => $this->_opType,
             'op_user_id' => $this->_opUserId,
             'op_user_name' => $this->_opUserName,

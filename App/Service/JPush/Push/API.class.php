@@ -127,8 +127,7 @@ class API
      */
     public function run()
     {
-        echo $body = $this->_getRequestBody();
-        exit;
+        $body = $this->_getRequestBody();
         $conf = C('JPUSH');
         $authString = $conf['APP_KEY'] . ':' . $conf['MASTER_SECRET'];
 

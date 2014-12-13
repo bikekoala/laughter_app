@@ -313,7 +313,6 @@ class Push
         $pushApi->setMessageTitle($this->_title);
         $pushApi->setMessageContent($this->_content);
         $pushApi->setMessageExtras(array(
-            //'user_tid' => ,
             'joke_id' => $this->_jokeId,
             'joke_user_id' => $this->_jokeUserId,
             'joke_user_name' => $this->_jokeUserName,

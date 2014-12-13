@@ -4,6 +4,7 @@ $common = array(
     'URL_CASE_INSENSITIVE'  => true, // URL大小写
     'URL_MODEL'             => '2', // URL模式
     'URL_ROUTER_ON'         => true, // 开启路由
+    'DEFAULT_C_LAYER'       => 'Action', // 控制器命名空间
     'URL_ROUTE_RULES'       => array( // 定义路由规则
         'joke/:joke_id\d/[:user_id\d]' => 'joke/detail'
     ),

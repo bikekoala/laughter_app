@@ -1,12 +1,12 @@
 <?PHP
-namespace App\Controller;
+namespace App\Action;
 
 /**
  * 空控制器类
  *
  * @author popfeng <popfeng@yeah.net>
  */
-class EmptyController extends AbstractController
+class EmptyAction extends AbstractAction
 {
     /**
      * 入口

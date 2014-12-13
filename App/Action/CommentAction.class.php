@@ -1,12 +1,12 @@
 <?PHP
-namespace App\Controller;
+namespace App\Action;
 
 /**
  * 评论控制器
  *
  * @author popfeng <popfeng@yeah.net>
  */
-class CommentController extends AbstractController
+class CommentAction extends AbstractAction
 {
     /**
      * 最新评论列表接口
@@ -26,7 +26,7 @@ class CommentController extends AbstractController
 
         // service
         try {
-            $commentService  = new \App\Service\CommentService;
+            $commentService  = new \App\Service\Comment;
             $lastestComments = $commentService->getLastest($jokeId, $userId, $start, $limit);
         } catch (\Exception $e) {
             $this->outputJSON('oops.', false);

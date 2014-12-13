@@ -7,7 +7,7 @@ use App\Service\AbstractService;
  *
  * @author popfeng <popfeng@yeah.net>
  */
-class CommentService extends AbstractService
+class Comment extends AbstractService
 {
     protected $model;
 
@@ -18,7 +18,7 @@ class CommentService extends AbstractService
      */
     public function __construct()
     {
-        $this->model = new \App\Model\CommentModel;
+        $this->model = new \App\Model\Comment;
     }
 
     /**
@@ -118,7 +118,7 @@ class CommentService extends AbstractService
                 $userIds[$item['user_id']] = $item['user_id'];
             }
 
-            $userInfo = (array) (new \App\Model\UsersModel)
+            $userInfo = (array) (new \App\Model\Users)
                 ->getInfoByIds($userIds);
             foreach ($userInfo as $user) {
                 foreach ($comments as &$comment) {

@@ -7,7 +7,7 @@ use \Think\Model;
  *
  * @author popfeng <popfeng@yeah.net>
  */
-class UsersModel extends Model
+class Users extends Model
 {
     protected $trueTableName = 'users'; 
 

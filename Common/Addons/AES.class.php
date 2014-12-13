@@ -1,4 +1,6 @@
 <?PHP
+namespace Common\Addons;
+
 /**
  * AES加密解密类
  *

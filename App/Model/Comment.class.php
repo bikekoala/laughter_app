@@ -7,7 +7,7 @@ use \Think\Model;
  *
  * @author popfeng <popfeng@yeah.net>
  */
-class CommentModel extends Model
+class Comment extends Model
 {
     protected $trueTableName = 'comment'; 
 

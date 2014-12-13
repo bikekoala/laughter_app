@@ -7,7 +7,7 @@ use App\Service\AbstractService;
  *
  * @author popfeng <popfeng@yeah.net>
  */
-class UserService extends AbstractService
+class User extends AbstractService
 {
     /**
      * 根据ID获取用户详情
@@ -18,7 +18,7 @@ class UserService extends AbstractService
      */
     public function getDetail($id)
     {
-        $detail = (new \App\Model\UsersModel)->getDetail($id);
+        $detail = (new \App\Model\Users)->getDetail($id);
         if (empty($detail)) {
             throw new \Exception('空的用户详情');
         } else {

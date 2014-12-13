@@ -1,13 +1,14 @@
 <?PHP
-namespace App\Controller;
-use Think\Controller;
+namespace App\Action;
+
+use Think\Action;
 
 /**
  * 公共控制器
  *
  * @author popfeng <popfeng@yeah.net>
  */
-class AbstractController extends Controller
+class AbstractAction extends Action
 {
     /**
      * 输出JSON信息

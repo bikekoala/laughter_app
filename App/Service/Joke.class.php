@@ -7,7 +7,7 @@ use App\Service\AbstractService;
  *
  * @author popfeng <popfeng@yeah.net>
  */
-class JokeService extends AbstractService
+class Joke extends AbstractService
 {
     /**
      * 根据ID获取笑话详情 
@@ -18,7 +18,7 @@ class JokeService extends AbstractService
      */
     public function getDetail($id)
     {
-        $detail = (new \App\Model\JokeModel)->getDetail($id);
+        $detail = (new \App\Model\Joke)->getDetail($id);
         if (empty($detail)) {
             throw new \Exception('空的笑话详情');
         }

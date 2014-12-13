@@ -1,12 +1,12 @@
 <?PHP
-namespace App\Controller;
+namespace App\Action;
 
 /**
  * 笑话控制器
  *
  * @author popfeng <popfeng@yeah.net>
  */
-class JokeController extends AbstractController
+class JokeAction extends AbstractAction
 {
     /**
      * 笑话详情页面
@@ -24,15 +24,15 @@ class JokeController extends AbstractController
 
         // service
         try {
-            $joke = (new \App\Service\JokeService)->getDetail($jokeId);
-            $user = (new \App\Service\UserService)->getDetail($joke['user_id']);
+            $joke = (new \App\Service\Joke)->getDetail($jokeId);
+            $user = (new \App\Service\User)->getDetail($joke['user_id']);
 
             $repliedMineComments = array();
             $mineComments = array();
             $superComments = array();
             $lastestComments = array();
             if (0 !== $userId) {
-                $commentService  = new \App\Service\CommentService;
+                $commentService  = new \App\Service\Comment;
                 $mineComments = $commentService->getMine($jokeId, $userId);
                 $repliedMineComments = $commentService->getRepliedMine(
                     $jokeId,

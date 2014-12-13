@@ -21,6 +21,11 @@ $common = array(
 // 项目配置文件
 $custom = array(
     'PORTAL_URL' => 'http://www.jgxhb.com',
+    'JPUSH' => array(
+        'API' => 'https://api.jpush.cn/v3/push',
+        'APP_KEY' => '8008b65dcc28cff0c205842f',
+        'MASTER_SECRET' => 'cfe9f76bba8fb38c4c65178a'
+    ),
 );
 
 return array_merge($common, $custom);

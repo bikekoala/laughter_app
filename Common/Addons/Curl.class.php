@@ -1,4 +1,6 @@
 <?PHP
+namespace Common\Addons;
+
 /**
  * curl库的封装
  *

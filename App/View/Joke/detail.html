@@ -8,10 +8,10 @@
         <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/joke_detail.css">
     </head>
     <body>
-        <div class="body">
-            <div id="joke" data-joke-id="{$joke.id}" data-joke-user-id="{$joke_user.id}">
-                <div class="joke-header">
-                    <img class="joke-avatar" src="<empty name='joke_user.avatar'>__PUBLIC__/img/avatar_default_large.png<else />{$joke_user.avatar}</empty>"/>
+        <div id="wrapper" data-op-user-tid="{$user_tid}">
+            <div id="joke">
+                <div id="joke-header" data-id="{$joke.id}" data-user-id="{$joke_user.id}">
+                    <img class="joke-avatar avatar" src="<empty name='joke_user.avatar'>__PUBLIC__/img/avatar_default_large.png<else />{$joke_user.avatar}</empty>"/>
                     <div class="joke-author">
                         <span>{$joke_user.nickname}</span>
                         <span>{$joke_user.create_time|date="m-d H:i",###}</span>
@@ -25,15 +25,19 @@
                     <span>{$joke.up_count}</span>
                 </div>
                 <div class="joke-action-btn">
-                    <div class="joke-favorite-btn">
+                    <div id="joke-favorite-btn" data-isfav="{$is_favorate}">
+                        <if condition="$is_favorate eq 1">
+                        <img src="__PUBLIC__/img/joke_favorite_press.png"/>
+                        <else />
                         <img src="__PUBLIC__/img/joke_favorite.png"/>
+                        </if>
                         <span>{$joke.favorate_count}</span>
                     </div>
-                    <div class="joke-comment-btn">
+                    <div id="joke-comment-btn">
                         <img src="__PUBLIC__/img/joke_comment.png"/>
                         <span>{$joke.comment_count}</span>
                     </div>
-                    <div class="joke-share-btn">
+                    <div id="joke-share-btn">
                         <img src="__PUBLIC__/img/joke_share.png"/>
                         <span>{$joke.share_count}</span>
                     </div>

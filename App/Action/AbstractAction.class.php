@@ -11,6 +11,17 @@ use Think\Action;
 class AbstractAction extends Action
 {
     /**
+     * 用户TID转换为ID
+     *
+     * @return void
+     * @todo 解密
+     */
+    public function tidToId($userTid)
+    {
+        return 1;
+    }
+
+    /**
      * 输出JSON信息
      *
      * @param mixed $data

@@ -1,6 +1,6 @@
 <div class="comment-body">
-    <div class="comment-header">
-        <img class="comment-avatar" src="<empty name='v.user_avatar'>__PUBLIC__/img/avatar_default_small.png<else />{$v.user_avatar}</empty>"/>
+    <div class="comment-header" data-user-id="{$v.user_id}">
+        <img class="comment-avatar avatar" src="<empty name='v.user_avatar'>__PUBLIC__/img/avatar_default_small.png<else />{$v.user_avatar}</empty>"/>
         <div class="comment-author">
             <span>{$v.user_nickname}</span>
             <span>{$v.create_time}</span>

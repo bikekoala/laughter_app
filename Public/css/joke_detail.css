@@ -12,7 +12,7 @@
     }
 }
 
-.body {
+#wrapper {
     padding: 10px;
     background-color: #ececec;
 }
@@ -21,7 +21,7 @@
     border-right: 1px solid #ccc;
     border-bottom: 2px solid #ccc;
 }
-.joke-header {
+#joke-header {
     height: 90px;
 }
 .joke-avatar {
@@ -100,32 +100,32 @@
     font-size: 9pt;
     color: #a2a2a2;
 }
-.joke-favorite-btn {
+#joke-favorite-btn {
     position: relative;
     width: 100px;
     margin: 0 auto;
 }
-.joke-favorite-btn img {
+#joke-favorite-btn img {
     margin: 0 auto;
 }
-.joke-favorite-btn span {
+#joke-favorite-btn span {
     left: 70%;
 }
-.joke-comment-btn {
+#joke-comment-btn {
     position: absolute;
     width: 100px;
     top : 0px;
     left: 8%;
 }
-.joke-comment-btn span {
+#joke-comment-btn span {
     left: 40%;
 }
-.joke-share-btn {
+#joke-share-btn {
     position: absolute;
     top : 0px;
     right: 8%;
 }
-.joke-share-btn span {
+#joke-share-btn span {
     left: 100%;
 }
 .comment {

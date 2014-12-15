@@ -23,4 +23,26 @@ class Joke extends Model
             array('id' => $id)
         )->find();
     }
+
+    /**
+     * 修改收藏数
+     *
+     * @param int $id
+     * @param bool $isFav
+     * @return mixed
+     */
+    public function modifyFavorateCount($id, $isFav)
+    {
+        $m = $this->where(
+            array('id' => $id)
+        );
+
+        if ($isFav) {
+            $stat = $m->setInc('favorate_count');
+        } else {
+            $stat = $m->setDec('favorate_count');
+        }
+
+        return $stat;
+    }
 }

@@ -20,7 +20,7 @@ class CommentAction extends AbstractAction
         $userId = (int) $_GET['user_id'];
         $start  = (int) $_GET['start'];
         $limit  = ((int) $_GET['limit']) ? : 10;
-        if (0 === $jokeId || 0 === $userId) {
+        if ( ! $jokeId || ! $userId) {
             $this->outputJSON('Invalid params.', false);
         }
 

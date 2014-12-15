@@ -1,6 +1,69 @@
+/**
+ * web端
+ */
 Client = (function() {
     var Return = {
-        bindLoadMore : function(jokeId, userId) {
+        // 打开弹幕
+        openTan : function() {
+            //AndroidWrapper.openTanCallback(code, message);
+        },
+
+        // 关闭弹幕
+        closeTan : function() {
+            //AndroidWrapper.closeTanCallback(code, message);
+        },
+
+        // 绑定点击头像事件
+        bindClickAvatar : function() {
+            $('.avatar').live('click', function() {
+                var userId = $(this).parent().attr('data-user-id');
+                AndroidWrapper.clickAvatar(userId);
+            });
+        },
+
+        // 绑定点击喜欢事件
+        bindClickFavorate : function() {
+            var opUtid = $('#wrapper').attr('data-op-user-tid');
+            var jokeId = $('#joke-header').attr('data-id');
+
+            //joke_id, op_user_id
+            $('#joke-favorite-btn img').click(function() {
+                var $m = $(this).parent();
+                var $image = $(this);
+                var $count = $m.children('span');
+
+                var oldNum = parseInt($count.text());
+                var oldIsFav = $m.attr('data-isfav');
+                var newNum, newIsFav, newImg;
+                if ('1' == oldIsFav) {
+                    newNum = oldNum - 1;
+                    newIsFav = '0';
+                    newImg = '/Public/img/joke_favorite.png';
+                } else {
+                    newNum = oldNum + 1;
+                    newIsFav = '1';
+                    newImg = '/Public/img/joke_favorite_press.png';
+                }
+
+                var result = sendAjax('/joke/favorate', 'POST', {
+                    joke_id:jokeId,
+                    user_tid:opUtid,
+                    is_fav:newIsFav
+                });
+                if (result) {
+                    $image.attr('src', newImg);
+                    $count.text(newNum);
+                    $m.attr('data-isfav', newIsFav)
+                }
+            });
+        },
+
+        // 绑定加载更多评论
+        bindLoadMoreComments : function() {
+            var $j = $('#joke-header');
+            var jokeId = $j.attr('data-id');
+            var jokeUid = $j.attr('data-user-id');
+
             var startNum = parseInt($('#comment-lastest').attr('data-start'));
             var startNums = new Array();
             startNums.push(0, startNum);
@@ -11,34 +74,26 @@ Client = (function() {
                 }
 
                 if ($(document).height() - $(window).scrollTop() - $(window).height() < 100) {
-                    $.ajax({
-                        type: 'GET',
-                        url: '/comment/lastest',
-                        async: false,
-                        data: {joke_id:jokeId, user_id:userId, start:startNum},
-                        dataType: 'json',
-                        context: $('#comment-lastest'),
-                        success: function(data){
-                            if (data.status) {
-                                startNum = data.data.start;
-                                startNums.shift();
-                                startNums.push(startNum)
+                    var result = sendAjax('/comment/lastest', 'GET', {
+                        joke_id:jokeId,
+                        user_id:jokeUid,
+                        start:startNum
+                    });
+                    if (result) {
+                        startNum = result.start;
+                        startNums.shift();
+                        startNums.push(startNum)
 
-                                var html = '';
-                                $.each(data.data.list, function(i, v) {
-                                    html += getCommentCellHtml(v);
-                                })
-                                $(this).append(html);
-                            }
-                        },
-                        error: function(xhr, type){
-                        }
-                    })
+                        var html = '';
+                        $.each(result.list, function(i, v) {
+                            html += getCommentCellHtml(v);
+                        })
+                        $('#comment-lastest').append(html);
+                    }
                 }
             })
-        },
-        
-    }
+        }
+    } 
 
     var getCommentCellHtml = function(d) {
         if ('' == d.user_avatar) {
@@ -47,8 +102,8 @@ Client = (function() {
 
         var code = '';
         code += '<div class="comment-body">';
-        code += '   <div class="comment-header">';
-        code += '       <img class="comment-avatar" src="'+d.user_avatar+'"/>';
+        code += '   <div class="comment-header" data-user-id="'+d.user_id+'">';
+        code += '       <img class="comment-avatar avatar" src="'+d.user_avatar+'"/>';
         code += '       <div class="comment-author">';
         code += '           <span>'+d.user_nickname+'</span>';
         code += '           <span>'+d.create_time+'</span>';
@@ -61,14 +116,91 @@ Client = (function() {
         return code;
     }
 
+    var sendAjax = function(url, methodType, params) {
+        var result;
+        $.ajax({
+            url: url,
+            type: methodType,
+            async: false,
+            data: params,
+            dataType: 'json',
+            success: function(data){
+                if (data.status) {
+                    result = data.data;
+                } else {
+                    AndroidWrapper.alert(data.data);
+                }
+            },
+            error: function(xhr, type){
+                AndroidWrapper.alert('请求时遇到错误，请尝试重新操作。');
+            }
+        })
+        return result;
+    }
+
     return Return;
 })();
 
-Zepto(function($){
-    var jokeId = $('#joke').attr('data-joke-id');
-    var userId = $('#joke').attr('data-joke-user-id');
+/**
+ * Android端接口封装
+ */
+AndroidWrapper = (function() {
+    var Return = {
+        showTan : function(isShow) {
+            if (isExistAndroidObj()) {
+                Android.showTan(isShow);
+            }
+        },
+        openTanCallback : function(code, message) {
+            if (isExistAndroidObj()) {
+                Android.openTanCallback(code, message);
+            }
+        },
+        closeTanCallback : function(code, message) {
+            if (isExistAndroidObj()) {
+                Android.closeTanCallback(code, message);
+            }
+        },
+        clickAvatar : function(userId) {
+            if (isExistAndroidObj()) {
+                Android.clickAvatar(userId);
+            }
+        },
+        clickFavorate : function() {
+            if (isExistAndroidObj()) {
+                Android.clickFavorate();
+            }
+        },
+        clickShare : function() {
+            if (isExistAndroidObj()) {
+                Android.clickShare();
+            }
+        },
+        alert : function(message) {
+            if (isExistAndroidObj()) {
+                Android.alert(message);
+            } else {
+                console.log(message);
+            }
+        },
+    };
 
-    //$(window).bind('touchmove', function(){
-    //})
-    Client.bindLoadMore(jokeId, userId);
+    var isExistAndroidObj = function() {
+        return typeof(Android) != 'undefined';
+    };
+
+    return Return;
+})();
+
+
+Zepto(function($){
+    // 关闭弹幕
+    AndroidWrapper.showTan(0);
+
+    // 绑定加载更多评论
+    Client.bindLoadMoreComments();
+    // 绑定点击头像事件
+    Client.bindClickAvatar();
+    // 绑定点击喜欢事件
+    Client.bindClickFavorate();
 })

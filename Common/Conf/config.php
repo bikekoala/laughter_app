@@ -6,7 +6,7 @@ $common = array(
     'URL_ROUTER_ON'         => true, // 开启路由
     'DEFAULT_C_LAYER'       => 'Action', // 控制器命名空间
     'URL_ROUTE_RULES'       => array( // 定义路由规则
-        'joke/:joke_id\d/[:user_id\d]' => 'joke/detail'
+        'joke/:joke_id\d/[:user_tid\d]' => 'joke/detail'
     ),
 
     // 数据库配置信息

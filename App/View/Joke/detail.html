@@ -25,8 +25,8 @@
                     <span>{$joke.up_count}</span>
                 </div>
                 <div class="joke-action-btn">
-                    <div id="joke-favorite-btn" data-isfav="{$is_favorate}">
-                        <if condition="$is_favorate eq 1">
+                    <div id="joke-favorite-btn" data-isfav="{$joke.is_favorate}">
+                        <if condition="$joke.is_favorate eq 1">
                         <img src="__PUBLIC__/img/joke_favorite_press.png"/>
                         <else />
                         <img src="__PUBLIC__/img/joke_favorite.png"/>

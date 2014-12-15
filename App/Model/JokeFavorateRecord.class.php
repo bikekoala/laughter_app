@@ -16,18 +16,14 @@ class JokeFavorateRecord extends Model
      *
      * @param int $jokeId
      * @param int $userId
-     * @param bool|null $isFav
      * @return mixed
      */
-    public function getData($jokeId, $userId, $isFav = null)
+    public function getData($jokeId, $userId)
     {
         $condition = array(
             'joke_id' => $jokeId,
             'user_id' => $userId
         );
-        if (null !== $isFav) {
-            $condition['is_favorate'] = $isFav;
-        }
         return $this->where($condition)->find();
     }
 
@@ -39,34 +35,26 @@ class JokeFavorateRecord extends Model
      * @param int $isFav
      * @return mixed
      */
-    public function addData($jokeId, $userId, $isFav = 1)
+    public function addData($jokeId, $userId)
     {
         $mTime = date('Y-m-d H:i:s');
         return $this->add(array(
             'joke_id' => $jokeId,
             'user_id' => $userId,
-            'is_favorate' => $isFav,
             'mtime' => $mTime
         ));
     }
 
     /**
-     * 更新数据
+     * 删除数据
      *
      * @param int $jokeId
-     * @param int $userId
-     * @param int $isFav
      * @return mixed
      */
-    public function updateData($jokeId, $userId, $isFav)
+    public function deleteData($jokeId)
     {
-        $mTime = date('Y-m-d H:i:s');
         return $this->where(array(
             'joke_id' => $jokeId,
-            'user_id' => $userId,
-        ))->save(array(
-            'is_favorate' => $isFav,
-            'mtime' => $mTime
-        ));
+        ))->delete();
     }
 }

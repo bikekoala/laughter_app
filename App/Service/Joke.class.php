@@ -13,30 +13,19 @@ class Joke extends AbstractService
      * 根据ID获取笑话详情 
      *
      * @param int $id
+     * @param int $userId
      * @throws Exception
      * @return array
      */
-    public function getDetail($id)
+    public function getDetail($id, $userId)
     {
         $detail = (new \App\Model\Joke)->getDetail($id);
         if (empty($detail)) {
             throw new \Exception('空的笑话详情');
         }
-        return $detail;
-    }
 
-    /**
-     * 是否已收藏
-     *
-     * @param int $id
-     * @param int $userId
-     * @return bool
-     */
-    public function isFavorate($id, $userId)
-    {
-        $model = new \App\Model\JokeFavorateRecord;
-        $data = $model->getData($id, $userId, 1);
-        return ! empty($data);
+        $detail['is_favorate'] = (int) $this->_isFavorate($id, $userId);
+        return $detail;
     }
 
     /**
@@ -53,10 +42,10 @@ class Joke extends AbstractService
             $model = new \App\Model\JokeFavorateRecord;
             $model->startTrans(); // 开始事务
 
-            // 设置原数据
+            // 设置原子数据
             $data = $model->getData($id, $userId);
             if ($data) {
-                $model->updateData($id, $userId, (int) $isFav);
+                $model->deleteData($id);
             } else {
                 $model->addData($id, $userId, (int) $isFav);
             }
@@ -68,6 +57,24 @@ class Joke extends AbstractService
         } catch (\Exception $e) {
             $model->rollback(); // 事务回滚
             throw new \Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * 是否已收藏
+     *
+     * @param int $id
+     * @param int $userId
+     * @return bool
+     */
+    private function _isFavorate($id, $userId)
+    {
+        if ($userId) {
+            $model = new \App\Model\JokeFavorateRecord;
+            $data = $model->getData($id, $userId);
+            return ! empty($data);
+        } else {
+            return false;
         }
     }
 }

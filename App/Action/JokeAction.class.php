@@ -18,26 +18,26 @@ class JokeAction extends AbstractAction
         // get params
         $jokeId = (int) $_GET['joke_id'];
         $userTid = trim($_GET['user_tid']);
+        $userId = $this->tidToId($userTid);
         if ( ! $jokeId) {
             $this->error('无效的ID', C('PORTAL_URL'));
         }
 
         // service
         try {
-            $joke = (new \App\Service\Joke)->getDetail($jokeId);
+            $joke = (new \App\Service\Joke)->getDetail($jokeId, $userId);
             $user = (new \App\Service\User)->getDetail($joke['user_id']);
 
             $repliedMineComments = array();
             $mineComments = array();
             $isFavorate = false;
-            if ($userId = $this->tidToId($userTid)) {
+            if ($userId) {
                 $commentService  = new \App\Service\Comment;
                 $mineComments = $commentService->getMine($jokeId, $userId);
                 $repliedMineComments = $commentService->getRepliedMine(
                     $jokeId,
                     $mineComments
                 );
-                $isFavorate = (new \App\Service\Joke)->isFavorate($jokeId, $userId);
             }
             $superComments = $commentService->getSuper($jokeId);
             $lastestComments = $commentService->getLastest($jokeId, $userId);
@@ -53,7 +53,6 @@ class JokeAction extends AbstractAction
         $this->assign('comment_mine', $mineComments);
         $this->assign('comment_super', $superComments);
         $this->assign('comment_lastest', $lastestComments);
-        $this->assign('is_favorate', (int) $isFavorate);
         $this->display();
     }
 

@@ -57,16 +57,38 @@ class JokeAction extends AbstractAction
     }
 
     /**
+     * 赞操作
+     *
+     * @return void
+     */
+    public function up()
+    {
+        $this->_action(\App\Service\Joke::ACT_UP);
+    }
+
+    /**
      * 收藏操作
      *
      * @return void
      */
     public function favorate()
     {
+        $this->_action(\App\Service\Joke::ACT_FAV);
+    }
+
+
+    /**
+     * 操作事件
+     *
+     * @param int $actionType
+     * @return void
+     */
+    private function _action($actionType)
+    {
         // get params
         $jokeId = (int) $_REQUEST['joke_id'];
         $userTid = trim($_REQUEST['user_tid']);
-        $isFav = (bool) $_REQUEST['is_fav'];
+        $isAct = (bool) $_REQUEST['is_act'];
         $userId = $this->tidToId($userTid);
         if ( ! $jokeId || ! $userId) {
             $this->outputJSON('Invalid params.', false);
@@ -74,7 +96,8 @@ class JokeAction extends AbstractAction
 
         // process
         try {
-            (new \App\Service\Joke)->setFavorate($jokeId, $userId, $isFav);
+            $jokeService = new \App\Service\Joke;
+            $jokeService->setAction($actionType, $jokeId, $userId, $isAct);
         } catch (\Exception $e) {
             $this->outputJSON('操作失败!', false);
         }

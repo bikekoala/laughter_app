@@ -10,6 +10,12 @@ use App\Service\AbstractService;
 class Joke extends AbstractService
 {
     /**
+     * 操作常亮
+     */
+    const ACT_UP = 0;
+    const ACT_FAV = 1;
+
+    /**
      * 根据ID获取笑话详情 
      *
      * @param int $id
@@ -24,22 +30,42 @@ class Joke extends AbstractService
             throw new \Exception('空的笑话详情');
         }
 
-        $detail['is_favorate'] = (int) $this->_isFavorate($id, $userId);
+        $detail['is_up'] = (int) $this->_isAction(
+            new \App\Model\JokeUpRecord,
+            $id,
+            $userId
+        );
+        $detail['is_favorate'] = (int) $this->_isAction(
+            new \App\Model\JokeFavorateRecord,
+            $id,
+            $userId
+        );
         return $detail;
     }
 
     /**
-     * 设置收藏
+     * 设置动作的操作
      *
+     * @param int $model
      * @param int $id
      * @param int $userId
-     * @param bool $isFav
+     * @param bool $isAct
      * @return bool
      */
-    public function setFavorate($id, $userId, $isFav = true)
-    {
+    public function setAction(
+        $actionType,
+        $id,
+        $userId,
+        $isAct = true
+    ) {
         try {
-            $model = new \App\Model\JokeFavorateRecord;
+            switch($actionType) {
+                case self::ACT_UP :
+                    $model = new \App\Model\JokeUpRecord;
+                    break;
+                case self::ACT_FAV :
+                    $model = new \App\Model\JokeFavorateRecord;
+            }
             $model->startTrans(); // 开始事务
 
             // 设置原子数据
@@ -47,11 +73,15 @@ class Joke extends AbstractService
             if ($data) {
                 $model->deleteData($id);
             } else {
-                $model->addData($id, $userId, (int) $isFav);
+                $model->addData($id, $userId, (int) $isAct);
             }
 
             // 更新统计数据
-            (new \App\Model\Joke)->modifyFavorateCount($id, $isFav);
+            (new \App\Model\Joke)->modifyActionCount(
+                $id,
+                $isAct,
+                $model->jokeActionFiledName
+            );
 
             $model->commit(); //提交事务
         } catch (\Exception $e) {
@@ -61,16 +91,19 @@ class Joke extends AbstractService
     }
 
     /**
-     * 是否已收藏
+     * 是否已操作
      *
+     * @param object $model
      * @param int $id
      * @param int $userId
      * @return bool
      */
-    private function _isFavorate($id, $userId)
-    {
+    private function _isAction(
+        \App\Model\JokeActionRecord $model,
+        $id,
+        $userId
+    ) {
         if ($userId) {
-            $model = new \App\Model\JokeFavorateRecord;
             $data = $model->getData($id, $userId);
             return ! empty($data);
         } else {

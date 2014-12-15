@@ -20,12 +20,16 @@
                 <div class="joke-content">
                     {$joke.content|nl2br}
                 </div>
-                <div id="joke-up-btn">
+                <div id="joke-up-btn" data-isact="{$joke.is_up}">
+                    <if condition="$joke.is_up eq 1">
+                    <img src="__PUBLIC__/img/joke_up_press.png"/>
+                    <else />
                     <img src="__PUBLIC__/img/joke_up.png"/>
+                    </if>
                     <span>{$joke.up_count}</span>
                 </div>
                 <div class="joke-action-btn">
-                    <div id="joke-favorite-btn" data-isfav="{$joke.is_favorate}">
+                    <div id="joke-favorite-btn" data-isact="{$joke.is_favorate}">
                         <if condition="$joke.is_favorate eq 1">
                         <img src="__PUBLIC__/img/joke_favorite_press.png"/>
                         <else />

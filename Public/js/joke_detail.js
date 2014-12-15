@@ -23,41 +23,30 @@ Client = (function() {
 
         // 绑定点击喜欢事件
         bindClickFavorate : function() {
-            var opUtid = $('#wrapper').attr('data-op-user-tid');
-            var jokeId = $('#joke-header').attr('data-id');
+            var api = '/joke/favorate';
+            var imgObj = {
+                0 : '/Public/img/joke_favorite.png',
+                1 : '/Public/img/joke_favorite_press.png',
+            };
 
-            //joke_id, op_user_id
             $('#joke-favorite-btn img').click(function() {
-                var $m = $(this).parent();
-                var $image = $(this);
-                var $count = $m.children('span');
-
-                var oldNum = parseInt($count.text());
-                var oldIsFav = $m.attr('data-isfav');
-                var newNum, newIsFav, newImg;
-                if ('1' == oldIsFav) {
-                    newNum = oldNum - 1;
-                    newIsFav = '0';
-                    newImg = '/Public/img/joke_favorite.png';
-                } else {
-                    newNum = oldNum + 1;
-                    newIsFav = '1';
-                    newImg = '/Public/img/joke_favorite_press.png';
-                }
-
-                var result = sendAjax('/joke/favorate', 'POST', {
-                    joke_id:jokeId,
-                    user_tid:opUtid,
-                    is_fav:newIsFav
-                });
-                if (result) {
-                    $image.attr('src', newImg);
-                    $count.text(newNum);
-                    $m.attr('data-isfav', newIsFav)
-                }
+                bindJokeAction($(this), api, imgObj)
             });
         },
 
+        // 绑定点击赞事件
+        bindClickUp : function() {
+            var api = '/joke/up';
+            var imgObj = {
+                0 : '/Public/img/joke_up.png',
+                1 : '/Public/img/joke_up_press.png',
+            };
+
+            $('#joke-up-btn img').click(function() {
+                bindJokeAction($(this), api, imgObj)
+            });
+        },
+       
         // 绑定加载更多评论
         bindLoadMoreComments : function() {
             var $j = $('#joke-header');
@@ -114,6 +103,38 @@ Client = (function() {
         code += '   <span class="comment-content">'+d.content+'</span>';
         code += "</div>";
         return code;
+    }
+
+    var bindJokeAction = function($image, api, imgObj) {
+        var opUtid = $('#wrapper').attr('data-op-user-tid');
+        var jokeId = $('#joke-header').attr('data-id');
+
+        var $m = $image.parent();
+        var $count = $m.children('span');
+
+        var oldNum = parseInt($count.text());
+        var oldIsAct = $m.attr('data-isact');
+        var newNum, newIsAct, newImg;
+        if ('1' == oldIsAct) {
+            newNum = oldNum - 1;
+            newIsAct = 0;
+            newImg = imgObj[newIsAct];
+        } else {
+            newNum = oldNum + 1;
+            newIsAct = 1;
+            newImg = imgObj[newIsAct];
+        }
+
+        var result = sendAjax(api, 'POST', {
+            joke_id:jokeId,
+            user_tid:opUtid,
+            is_act:newIsAct
+        });
+        if (result) {
+            $image.attr('src', newImg);
+            $count.text(newNum);
+            $m.attr('data-isact', newIsAct)
+        }
     }
 
     var sendAjax = function(url, methodType, params) {
@@ -201,6 +222,8 @@ Zepto(function($){
     Client.bindLoadMoreComments();
     // 绑定点击头像事件
     Client.bindClickAvatar();
+    // 绑定点击赞事件
+    Client.bindClickUp();
     // 绑定点击喜欢事件
     Client.bindClickFavorate();
 })

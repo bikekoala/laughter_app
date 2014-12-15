@@ -25,22 +25,23 @@ class Joke extends Model
     }
 
     /**
-     * 修改收藏数
+     * 修改操作数
      *
      * @param int $id
-     * @param bool $isFav
+     * @param bool $isAct
+     * @param string $fieldName
      * @return mixed
      */
-    public function modifyFavorateCount($id, $isFav)
+    public function modifyActionCount($id, $isAct, $fieldName)
     {
         $m = $this->where(
             array('id' => $id)
         );
 
-        if ($isFav) {
-            $stat = $m->setInc('favorate_count');
+        if ($isAct) {
+            $stat = $m->setInc($fieldName);
         } else {
-            $stat = $m->setDec('favorate_count');
+            $stat = $m->setDec($fieldName);
         }
 
         return $stat;

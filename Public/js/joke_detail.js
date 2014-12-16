@@ -21,6 +21,19 @@ Client = (function() {
             });
         },
 
+        // 绑定点击赞事件
+        bindClickUp : function() {
+            var api = '/joke/up';
+            var imgObj = {
+                0 : '/Public/img/joke_up.png',
+                1 : '/Public/img/joke_up_press.png',
+            };
+
+            $('#joke-up-btn img').click(function() {
+                bindJokeAction($(this), api, imgObj)
+            });
+        },
+
         // 绑定点击喜欢事件
         bindClickFavorate : function() {
             var api = '/joke/favorate';
@@ -39,23 +52,17 @@ Client = (function() {
 
         // 绑定点击分享事件
         bindClickShare : function() {
-            $('#joke-share-btn img').click(function() {
+            var $ele = $('#joke-share-btn img');
+            $ele.on('touchstart', function() {
+                this.src = '/Public/img/joke_share_press.png';
+            });
+            $ele.on('touchend', function() {
+                this.src = '/Public/img/joke_share.png';
+            });
+            $ele.click(function() {
                 AndroidWrapper.clickShare();
             });
-        },
-
-        // 绑定点击赞事件
-        bindClickUp : function() {
-            var api = '/joke/up';
-            var imgObj = {
-                0 : '/Public/img/joke_up.png',
-                1 : '/Public/img/joke_up_press.png',
-            };
-
-            $('#joke-up-btn img').click(function() {
-                bindJokeAction($(this), api, imgObj)
-            });
-        },
+        }, 
        
         // 绑定加载更多评论
         bindLoadMoreComments : function() {
@@ -238,4 +245,6 @@ Zepto(function($){
     Client.bindClickUp();
     // 绑定点击喜欢事件
     Client.bindClickFavorate();
+    // 绑定点击分享事件
+    Client.bindClickShare();
 })

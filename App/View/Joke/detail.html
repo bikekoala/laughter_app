@@ -41,8 +41,12 @@
                         <img src="__PUBLIC__/img/joke_comment.png"/>
                         <span>{$joke.comment_count}</span>
                     </div>
-                    <div id="joke-share-btn">
+                    <div id="joke-share-btn" data-isact="{$joke.is_share}">
+                        <if condition="$joke.is_share eq 1">
+                        <img src="__PUBLIC__/img/joke_share_press.png"/>
+                        <else />
                         <img src="__PUBLIC__/img/joke_share.png"/>
+                        </if>
                         <span>{$joke.share_count}</span>
                     </div>
                 </div>

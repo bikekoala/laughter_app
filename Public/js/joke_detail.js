@@ -30,7 +30,17 @@ Client = (function() {
             };
 
             $('#joke-favorite-btn img').click(function() {
-                bindJokeAction($(this), api, imgObj)
+                result = bindJokeAction($(this), api, imgObj)
+                if (result) {
+                    AndroidWrapper.clickFavorate();
+                }
+            });
+        },
+
+        // 绑定点击分享事件
+        bindClickShare : function() {
+            $('#joke-share-btn img').click(function() {
+                AndroidWrapper.clickShare();
             });
         },
 
@@ -135,6 +145,8 @@ Client = (function() {
             $count.text(newNum);
             $m.attr('data-isact', newIsAct)
         }
+
+        return result;
     }
 
     var sendAjax = function(url, methodType, params) {

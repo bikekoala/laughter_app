@@ -66,7 +66,7 @@ Client = (function() {
        
         // 绑定加载更多评论
         bindLoadMoreComments : function() {
-            var $j = $('#joke-header');
+            var $j = $('#joke');
             var jokeId = $j.attr('data-id');
             var jokeUid = $j.attr('data-user-id');
 
@@ -124,7 +124,7 @@ Client = (function() {
 
     var bindJokeAction = function($image, api, imgObj) {
         var opUtid = $('#wrapper').attr('data-op-user-tid');
-        var jokeId = $('#joke-header').attr('data-id');
+        var jokeId = $('#joke').attr('data-id');
 
         var $m = $image.parent();
         var $count = $m.children('span');
@@ -186,6 +186,18 @@ Client = (function() {
  */
 AndroidWrapper = (function() {
     var Return = {
+        getJokeData : function() {
+            if (isExistAndroidObj()) {
+                var jokeType = $('#joke').attr('data-type');
+                var jokeContent = $('#joke-content span').text();
+                var jokeImg = '';
+                if (2 == jokeType) {
+                    jokeImg = $('#joke-content img').attr('src');
+                }
+
+                Android.getJokeData(jokeType, jokeContent, jokeImg);
+            }
+        },
         showTan : function(isShow) {
             if (isExistAndroidObj()) {
                 Android.showTan(isShow);
@@ -234,6 +246,8 @@ AndroidWrapper = (function() {
 
 
 Zepto(function($){
+    // 设置笑话数据(还是set通畅。。。)
+    AndroidWrapper.getJokeData();
     // 关闭弹幕
     AndroidWrapper.showTan(0);
 

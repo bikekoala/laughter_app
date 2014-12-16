@@ -52,6 +52,8 @@ class Joke extends AbstractService
         $data = (new \App\Model\Joke)->getData($id);
         if (empty($data)) {
             throw new \Exception('空的笑话详情');
+        } else {
+            $data['img_url'] = static::fillImageUrl($data['img_url']);
         }
         return $data;
     }

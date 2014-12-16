@@ -9,16 +9,19 @@
     </head>
     <body>
         <div id="wrapper" data-op-user-tid="{$user_tid}">
-            <div id="joke">
-                <div id="joke-header" data-id="{$joke.id}" data-user-id="{$joke_user.id}">
+            <div id="joke" data-id="{$joke.id}" data-type="{$joke.type}" data-user-id="{$joke_user.id}">
+                <div id="joke-header">
                     <img class="joke-avatar avatar" src="<empty name='joke_user.avatar'>__PUBLIC__/img/avatar_default_large.png<else />{$joke_user.avatar}</empty>"/>
                     <div class="joke-author">
                         <span>{$joke_user.nickname}</span>
                         <span>{$joke_user.create_time|date="m-d H:i",###}</span>
                     </div>
                 </div>
-                <div class="joke-content">
-                    {$joke.content|nl2br}
+                <div id="joke-content">
+                    <span>{$joke.content|nl2br}</span>
+                    <if condition="$joke.type eq 2">
+                    <img src="{$joke.img_url}"/>
+                    </if>
                 </div>
                 <div id="joke-up-btn" data-isact="{$joke.is_up}">
                     <if condition="$joke.is_up eq 1">

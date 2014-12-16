@@ -8,9 +8,11 @@ use \Think\Model;
  *
  * @author popfeng <popfeng@yeah.net>
  */
-class JokeFavorateRecord extends JokeActionRecord
+class JokeFavorateRecord extends AbstractActionRecord
 {
     protected $trueTableName = 'joke_favorate_record'; 
+
+    public $cateIdFieldName = 'joke_id';
 
     public $jokeActionFiledName = 'favorate_count';
 }

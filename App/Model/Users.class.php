@@ -8,22 +8,9 @@ use \Think\Model;
  *
  * @author popfeng <popfeng@yeah.net>
  */
-class Users extends Model
+class Users extends AbstractModel
 {
     protected $trueTableName = 'users'; 
-
-    /**
-     * 获取用户数据
-     *
-     * @param int $id
-     * @return mixed
-     */
-    public function getData($id)
-    {
-        return $this->where(
-            array('id' => $id)
-        )->find();
-    }
 
     /**
      * 通过用户ID获取用户信息

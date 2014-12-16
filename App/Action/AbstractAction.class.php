@@ -67,7 +67,7 @@ class AbstractAction extends Action
     protected function _push($opType, $content = '')
     {
         // get associate info
-        $joke = (new Joke)->getData($this->jokeId);
+        $joke = (new Joke($this->jokeId))->getData();
         $user = (new User)->getData($this->userId);
 
         // push message

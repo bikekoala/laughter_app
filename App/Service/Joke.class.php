@@ -1,8 +1,6 @@
 <?PHP
 namespace App\Service;
 
-use App\Service\AbstractService;
-
 /**
  * 笑话逻辑服务
  *
@@ -19,23 +17,19 @@ class Joke extends AbstractService
     /**
      * 根据ID获取笑话详情 
      *
-     * @param int $id
-     * @param int $userId
      * @return array
      */
-    public function getDetail($id, $userId)
+    public function getDetail()
     {
-        $data = $this->getData($id);
+        $data = $this->getData($this->jokeId);
 
         $data['is_up'] = (int) $this->_isAction(
             new \App\Model\JokeUpRecord,
-            $id,
-            $userId
+            $this->jokeId
         );
         $data['is_favorate'] = (int) $this->_isAction(
             new \App\Model\JokeFavorateRecord,
-            $id,
-            $userId
+            $this->jokeId
         );
         return $data;
     }
@@ -43,13 +37,12 @@ class Joke extends AbstractService
     /**
      * 获取笑话数据
      *
-     * @param int $id
      * @throws Exception
      * @return array
      */
-    public function getData($id)
+    public function getData()
     {
-        $data = (new \App\Model\Joke)->getData($id);
+        $data = (new \App\Model\Joke)->getData($this->jokeId);
         if (empty($data)) {
             throw new \Exception('空的笑话详情');
         } else {
@@ -61,18 +54,12 @@ class Joke extends AbstractService
     /**
      * 设置动作的操作
      *
-     * @param int $model
-     * @param int $id
-     * @param int $userId
+     * @param int $actionType
      * @param bool $isAct
      * @return bool
      */
-    public function setAction(
-        $actionType,
-        $id,
-        $userId,
-        $isAct = true
-    ) {
+    public function setAction($actionType, $isAct = true)
+    {
         try {
             switch($actionType) {
                 case self::ACT_UP :
@@ -84,16 +71,16 @@ class Joke extends AbstractService
             $model->startTrans(); // 开始事务
 
             // 设置原子数据
-            $data = $model->getData($id, $userId);
+            $data = $model->getData($this->jokeId, $this->userId);
             if ($data) {
-                $model->deleteData($id);
+                $model->deleteData($this->jokeId);
             } else {
-                $model->addData($id, $userId, (int) $isAct);
+                $model->addData($this->jokeId, $this->userId, (int) $isAct);
             }
 
             // 更新统计数据
             (new \App\Model\Joke)->modifyActionCount(
-                $id,
+                $this->jokeId,
                 $isAct,
                 $model->jokeActionFiledName
             );
@@ -102,27 +89,6 @@ class Joke extends AbstractService
         } catch (\Exception $e) {
             $model->rollback(); // 事务回滚
             throw new \Exception($e->getMessage());
-        }
-    }
-
-    /**
-     * 是否已操作
-     *
-     * @param object $model
-     * @param int $id
-     * @param int $userId
-     * @return bool
-     */
-    private function _isAction(
-        \App\Model\JokeActionRecord $model,
-        $id,
-        $userId
-    ) {
-        if ($userId) {
-            $data = $model->getData($id, $userId);
-            return ! empty($data);
-        } else {
-            return false;
         }
     }
 }

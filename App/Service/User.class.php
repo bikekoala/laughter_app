@@ -1,8 +1,6 @@
 <?PHP
 namespace App\Service;
 
-use App\Service\AbstractService;
-
 /**
  * 用户逻辑服务
  *

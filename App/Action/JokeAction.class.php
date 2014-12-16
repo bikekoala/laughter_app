@@ -27,22 +27,20 @@ class JokeAction extends AbstractAction
 
         // call service
         try {
-            $joke = (new Joke)->getDetail($this->jokeId, $this->userId);
+            $joke = (new Joke($this->jokeId, $this->userId))->getDetail();
             $jokeUser = (new User)->getData($joke['user_id']);
 
+            $commentService  = new Comment($this->jokeId, $this->userId);
             $repliedMineComments = array();
             $mineComments = array();
-            $isFavorate = false;
             if ($this->userId) {
-                $commentService  = new Comment;
-                $mineComments = $commentService->getMine($this->jokeId, $this->userId);
+                $mineComments = $commentService->getMine();
                 $repliedMineComments = $commentService->getRepliedMine(
-                    $this->jokeId,
                     $mineComments
                 );
             }
-            $superComments = $commentService->getSuper($this->jokeId);
-            $lastestComments = $commentService->getLastest($this->jokeId, $this->userId);
+            $superComments = $commentService->getSuper();
+            $lastestComments = $commentService->getLastest();
         } catch (\Exception $e) {
             $this->error($e->getMessage(), C('PORTAL_URL'));
         }
@@ -74,10 +72,8 @@ class JokeAction extends AbstractAction
         // process
         try {
             // call action
-            (new Joke)->setAction(
+            (new Joke($this->jokeId, $this->userId))->setAction(
                 Joke::ACT_UP,
-                $this->jokeId,
-                $this->userId, 
                 $isAct
             );
 
@@ -107,10 +103,8 @@ class JokeAction extends AbstractAction
         // process
         try {
             // call action
-            (new Joke)->setAction(
+            (new Joke($this->jokeId, $this->userId))->setAction(
                 Joke::ACT_FAV,
-                $this->jokeId,
-                $this->userId, 
                 $isAct
             );
         } catch (\Exception $e) {

@@ -8,7 +8,7 @@ use \Think\Model;
  *
  * @author popfeng <popfeng@yeah.net>
  */
-class Comment extends Model
+class Comment extends AbstractModel
 {
     protected $trueTableName = 'comment'; 
 
@@ -23,6 +23,7 @@ class Comment extends Model
     {
         return $this->field(
             array(
+                'id',
                 'user_id',
                 'content',
                 'up_count',
@@ -78,6 +79,7 @@ class Comment extends Model
     {
         return $this->field(
             array(
+                'id',
                 'user_id',
                 'content',
                 'up_count',
@@ -105,6 +107,7 @@ class Comment extends Model
     {
         return $this->field(
             array(
+                'id',
                 'user_id',
                 'content',
                 'up_count',

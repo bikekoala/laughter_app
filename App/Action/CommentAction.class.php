@@ -1,6 +1,9 @@
 <?PHP
 namespace App\Action;
 
+use \App\Service\Comment;
+use \App\Service\JPush\Push;
+
 /**
  * 评论控制器
  *
@@ -24,8 +27,8 @@ class CommentAction extends AbstractAction
 
         // service
         try {
-            $commentService  = new \App\Service\Comment;
-            $lastestComments = $commentService->getLastest($this->jokeId, $this->userId, $start, $limit);
+            $lastestComments = (new Comment($this->jokeId, $this->userId))
+                ->getLastest($start,$limit);
         } catch (\Exception $e) {
             $this->outputJSON('oops.', false);
         }
@@ -38,4 +41,34 @@ class CommentAction extends AbstractAction
             )
         );
     }
+
+    /**
+     * 赞操作
+     *
+     * @return void
+     */
+    public function up()
+    {
+        // get params & validate
+        $cmtId = (int) $_REQUEST['comment_id'];
+        $isAct = (int) $_REQUEST['is_act'];
+        if ( ! $this->jokeId || ! $this->userId || ! $cmtId) {
+            $this->outputJSON('Invalid params.', false);
+        }
+
+        // process
+        try {
+            // call action
+            (new Comment($this->jokeId, $this->userId))->setUp($cmtId, $isAct);
+
+            // push message
+            if (1 === $isAct) {
+                $this->_push(Push::OP_UP_CMT);
+            }
+        } catch (\Exception $e) {
+            $this->outputJSON('操作失败!', false);
+        }
+        $this->outputJSON('操作成功~');
+    }
+
 }

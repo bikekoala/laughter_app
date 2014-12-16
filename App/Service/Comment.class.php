@@ -1,8 +1,6 @@
 <?PHP
 namespace App\Service;
 
-use App\Service\AbstractService;
-
 /**
  * 评论逻辑服务
  *
@@ -17,25 +15,26 @@ class Comment extends AbstractService
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($jokeId, $userId)
     {
+        parent::__construct($jokeId, $userId);
+
         $this->model = new \App\Model\Comment;
     }
 
     /**
      * 获取他人回复我的评论列表
      *
-     * @param int $jokeId
      * @param array $mineComments
      * @return array
      */
-    public function getRepliedMine($jokeId, $mineComments)
+    public function getRepliedMine($mineComments)
     {
         $commentIds = array();
         foreach ($mineComments as $item) {
             $commentIds[] = $item['id'];
         }
-        $comments = $this->model->getRepliedList($jokeId, $commentIds);
+        $comments = $this->model->getRepliedList($this->jokeId, $commentIds);
 
         return $this->_process($comments);
     }
@@ -43,13 +42,14 @@ class Comment extends AbstractService
     /**
      * 获取自己的评论列表
      *
-     * @param int $jokeId
-     * @param int $userId
      * @return array
      */
-    public function getMine($jokeId, $userId)
+    public function getMine()
     {
-        $comments =  $this->model->getListByJokeidAndUserid($jokeId, $userId);
+        $comments =  $this->model->getListByJokeidAndUserid(
+            $this->jokeId,
+            $this->userId
+        );
 
         return $this->_process($comments);
     }
@@ -57,13 +57,12 @@ class Comment extends AbstractService
     /**
      * 获取神评论列表
      *
-     * @param int $jokeId
      * @param int $limit
      * @return array
      */
-    public function getSuper($jokeId, $limit = 5)
+    public function getSuper($limit = 5)
     {
-        $comments = $this->model->getListOrderByUpcount($jokeId, $limit);
+        $comments = $this->model->getListOrderByUpcount($this->jokeId, $limit);
 
         return $this->_process($comments);
     }
@@ -71,18 +70,55 @@ class Comment extends AbstractService
     /**
      * 获取最新评论列表
      *
-     * @param int $jokeId
-     * @param int $userId
      * @param int $start
      * @param int $limit
      * @return array
      */
-    public function getLastest($jokeId, $userId, $start = 0, $limit = 10)
+    public function getLastest($start = 0, $limit = 10)
     {
-        $comments = $this->model->
-            getListByJokeidButUserid($jokeId, $userId, $start, $limit);
+        $comments = $this->model->getListByJokeidButUserid(
+            $this->jokeId,
+            $this->userId,
+            $start,
+            $limit
+        );
 
         return $this->_process($comments);
+    }
+
+    /**
+     * 设置赞的操作
+     *
+     * @param int $id
+     * @param bool $isAct
+     * @return bool
+     */
+    public function setUp($id, $isAct = true)
+    {
+        try {
+            $model = new \App\Model\CommentUpRecord;
+            $model->startTrans(); // 开始事务
+
+            // 设置原子数据
+            $data = $model->getData($id, $this->userId);
+            if ($data) {
+                $model->deleteData($id);
+            } else {
+                $model->addData($id, $this->userId, (int) $isAct);
+            }
+
+            // 更新统计数据
+            (new \App\Model\Comment)->modifyActionCount(
+                $id,
+                $isAct,
+                $model->jokeActionFiledName
+            );
+
+            $model->commit(); //提交事务
+        } catch (\Exception $e) {
+            $model->rollback(); // 事务回滚
+            throw new \Exception($e->getMessage());
+        }
     }
 
     /**
@@ -101,8 +137,33 @@ class Comment extends AbstractService
             );
         }
 
+        // 合并是否点赞状态
+        $this->_mergeActionStatus($comments);
+
         // 合并用户信息
         return $this->_mergeUserInfo($comments);
+    }
+
+    /**
+     * 合并动作状态
+     *
+     * @param array $comments
+     * @return void
+     */
+    private function _mergeActionStatus(&$comments)
+    {
+        $ids = array();
+        foreach ($comments as $item) {
+            $ids[] = $item['id'];
+        }
+        $result = $this->_isAction(
+            new \App\Model\CommentUpRecord,
+            $ids
+        );
+
+        foreach ($comments as &$item) {
+            $item['is_up'] = (int) $result[$item['id']];
+        }
     }
 
     /**

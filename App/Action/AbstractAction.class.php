@@ -71,7 +71,10 @@ class AbstractAction extends Action
         $user = (new User)->getData($this->userId);
 
         // push message
-        if ( ! empty($joke) && ! empty($user)) {
+        if ( ! empty($joke) &&
+             ! empty($user) &&
+             $this->userId != $joke['user_id']
+        ) {
             $pushService = new Push($opType);
             $pushService->setJokeId($joke['id']);
             $pushService->setJokeUserId($joke['user_id']);

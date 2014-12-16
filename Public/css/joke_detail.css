@@ -207,3 +207,8 @@
     color: #4a5152;
 
 }
+#comment-loading {
+    display: none;
+    width: 50px;
+    margin: 0 auto;
+}

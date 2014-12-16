@@ -94,12 +94,16 @@ Client = (function() {
                 }
 
                 if ($(document).height() - $(window).scrollTop() - $(window).height() < 100) {
+                    // display loading image
+                    $('#comment-loading').css('display', 'block');
+                    // request
                     var result = sendAjax('/comment/lastest', 'GET', {
                         joke_id:jokeId,
                         user_id:jokeUid,
                         start:startNum
                     });
                     if (result) {
+                        // fill comments
                         startNum = result.start;
                         startNums.shift();
                         startNums.push(startNum)
@@ -109,6 +113,8 @@ Client = (function() {
                             html += getCommentCellHtml(v);
                         })
                         $('#comment-lastest').append(html);
+                        // remove loading image
+                        $('#comment-loading').hide();
                     }
                 }
             })

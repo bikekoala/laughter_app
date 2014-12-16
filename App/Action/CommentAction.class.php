@@ -16,18 +16,16 @@ class CommentAction extends AbstractAction
     public function lastest()
     {
         // get params
-        $jokeId = (int) $_GET['joke_id'];
-        $userId = (int) $_GET['user_id'];
         $start  = (int) $_GET['start'];
         $limit  = ((int) $_GET['limit']) ? : 10;
-        if ( ! $jokeId || ! $userId) {
+        if ( ! $this->jokeId || ! $this->userId) {
             $this->outputJSON('Invalid params.', false);
         }
 
         // service
         try {
             $commentService  = new \App\Service\Comment;
-            $lastestComments = $commentService->getLastest($jokeId, $userId, $start, $limit);
+            $lastestComments = $commentService->getLastest($this->jokeId, $this->userId, $start, $limit);
         } catch (\Exception $e) {
             $this->outputJSON('oops.', false);
         }

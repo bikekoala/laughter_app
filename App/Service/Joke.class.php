@@ -1,5 +1,6 @@
 <?PHP
 namespace App\Service;
+
 use App\Service\AbstractService;
 
 /**
@@ -20,27 +21,39 @@ class Joke extends AbstractService
      *
      * @param int $id
      * @param int $userId
-     * @throws Exception
      * @return array
      */
     public function getDetail($id, $userId)
     {
-        $detail = (new \App\Model\Joke)->getDetail($id);
-        if (empty($detail)) {
-            throw new \Exception('空的笑话详情');
-        }
+        $data = $this->getData($id);
 
-        $detail['is_up'] = (int) $this->_isAction(
+        $data['is_up'] = (int) $this->_isAction(
             new \App\Model\JokeUpRecord,
             $id,
             $userId
         );
-        $detail['is_favorate'] = (int) $this->_isAction(
+        $data['is_favorate'] = (int) $this->_isAction(
             new \App\Model\JokeFavorateRecord,
             $id,
             $userId
         );
-        return $detail;
+        return $data;
+    }
+
+    /**
+     * 获取笑话数据
+     *
+     * @param int $id
+     * @throws Exception
+     * @return array
+     */
+    public function getData($id)
+    {
+        $data = (new \App\Model\Joke)->getData($id);
+        if (empty($data)) {
+            throw new \Exception('空的笑话详情');
+        }
+        return $data;
     }
 
     /**

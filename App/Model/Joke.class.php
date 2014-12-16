@@ -1,5 +1,6 @@
 <?PHP
 namespace App\Model;
+
 use \Think\Model;
 
 /**
@@ -12,12 +13,12 @@ class Joke extends Model
     protected $trueTableName = 'joke'; 
 
     /**
-     * 获取笑话详情数据
+     * 获取笑话数据
      *
      * @param int $id
      * @return mixed
      */
-    public function getDetail($id)
+    public function getData($id)
     {
         return $this->where(
             array('id' => $id)

@@ -1,5 +1,6 @@
 <?PHP
 namespace App\Service\JPush\Push;
+
 use App\Service\JPush\Push\Consts;
 use Common\Addons\Curl;
 

@@ -1,5 +1,6 @@
 <?PHP
 namespace App\Service;
+
 use App\Service\AbstractService;
 
 /**
@@ -10,21 +11,33 @@ use App\Service\AbstractService;
 class User extends AbstractService
 {
     /**
-     * 根据ID获取用户详情
+     * 根据ID获取用户数据
      *
      * @param int $id
      * @throws Exception
      * @return array
      */
-    public function getDetail($id)
+    public function getData($id)
     {
-        $detail = (new \App\Model\Users)->getDetail($id);
-        if (empty($detail)) {
+        $data = (new \App\Model\Users)->getData($id);
+        if (empty($data)) {
             throw new \Exception('空的用户详情');
         } else {
-            $detail['avatar'] = static::fillImageUrl($detail['avatar']);
+            $data['avatar'] = static::fillImageUrl($data['avatar']);
         }
 
-        return $detail;
+        return $data;
+    }
+
+    /**
+     * 解密用户ID
+     *
+     * @param string $tid
+     * @return int
+     * @todo
+     */
+    public static function decryptUserId($tid)
+    {
+        return 1;
     }
 }

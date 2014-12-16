@@ -1,5 +1,6 @@
 <?PHP
 namespace App\Model;
+
 use \Think\Model;
 
 /**

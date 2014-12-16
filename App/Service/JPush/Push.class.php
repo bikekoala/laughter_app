@@ -1,5 +1,6 @@
 <?PHP
 namespace App\Service\JPush;
+
 use App\Service\JPush\Push\API;
 use App\Service\JPush\Push\Consts;
 
@@ -32,13 +33,6 @@ class Push
      * @var int
      */
     protected $_opType;
-
-    /**
-     * 用户TOKEN
-     *
-     * @var string
-     */
-    protected $_userToken;
 
     /**
      * 推送标题
@@ -90,6 +84,13 @@ class Push
     protected $_opUserName;
 
     /**
+     * 操作用户TOKEN
+     *
+     * @var string
+     */
+    protected $_opUserToken;
+
+    /**
      * 操作用户头像URL
      *
      * @var string
@@ -133,28 +134,6 @@ class Push
     public function __construct($opType)
     {
         $this->_opType = $opType;
-    }
-
-    /**
-     * 设置用户TOKEN
-     *
-     * @param string $token
-     * @return void
-     */
-    public function setUserToken($token)
-    {
-        $this->_userToken = $token;
-    }
-
-    /**
-     * 设置用户名称
-     *
-     * @param string $name
-     * @return void
-     */
-    public function setUserName($name)
-    {
-        $this->setComment($name, $this->_opType);
     }
 
     /**
@@ -243,6 +222,19 @@ class Push
     public function setOpUserName($name)
     {
         $this->_opUserName = $name;
+
+        $this->setComment($name, $this->_opType);
+    }
+
+    /**
+     * 设置操作用户TOKEN
+     *
+     * @param string $token
+     * @return void
+     */
+    public function setOpUserToken($token)
+    {
+        $this->_opUserToken = $token;
     }
 
     /**
@@ -309,7 +301,7 @@ class Push
     {
         $pushApi = new API;
         $pushApi->setPlatform(Consts::PF_ANDROID);
-        $pushApi->setAudienceAlias(md5($this->_userToken));
+        $pushApi->setAudienceAlias(md5($this->_opUserToken));
         $pushApi->setMessageTitle($this->_title);
         $pushApi->setMessageContent($this->_content);
         $pushApi->setMessageExtras(array(

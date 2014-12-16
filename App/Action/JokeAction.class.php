@@ -1,6 +1,11 @@
 <?PHP
 namespace App\Action;
 
+use \App\Service\User;
+use \App\Service\Joke;
+use \App\Service\Comment;
+use \App\Service\JPush\Push;
+
 /**
  * 笑话控制器
  *
@@ -15,40 +20,37 @@ class JokeAction extends AbstractAction
      */
     public function detail()
     {
-        // get params
-        $jokeId = (int) $_GET['joke_id'];
-        $userTid = trim($_GET['user_tid']);
-        $userId = $this->tidToId($userTid);
-        if ( ! $jokeId) {
-            $this->error('无效的ID', C('PORTAL_URL'));
+        // validate
+        if ( ! $this->jokeId) {
+            $this->error('无效的笑话ID', C('PORTAL_URL'));
         }
 
-        // service
+        // call service
         try {
-            $joke = (new \App\Service\Joke)->getDetail($jokeId, $userId);
-            $user = (new \App\Service\User)->getDetail($joke['user_id']);
+            $joke = (new Joke)->getDetail($this->jokeId, $this->userId);
+            $jokeUser = (new User)->getData($joke['user_id']);
 
             $repliedMineComments = array();
             $mineComments = array();
             $isFavorate = false;
-            if ($userId) {
-                $commentService  = new \App\Service\Comment;
-                $mineComments = $commentService->getMine($jokeId, $userId);
+            if ($this->userId) {
+                $commentService  = new Comment;
+                $mineComments = $commentService->getMine($this->jokeId, $this->userId);
                 $repliedMineComments = $commentService->getRepliedMine(
-                    $jokeId,
+                    $this->jokeId,
                     $mineComments
                 );
             }
-            $superComments = $commentService->getSuper($jokeId);
-            $lastestComments = $commentService->getLastest($jokeId, $userId);
+            $superComments = $commentService->getSuper($this->jokeId);
+            $lastestComments = $commentService->getLastest($this->jokeId, $this->userId);
         } catch (\Exception $e) {
             $this->error($e->getMessage(), C('PORTAL_URL'));
         }
 
         // vendor
-        $this->assign('user_tid', $userTid);
+        $this->assign('user_tid', $this->userTid);
         $this->assign('joke', $joke);
-        $this->assign('joke_user', $user);
+        $this->assign('joke_user', $jokeUser);
         $this->assign('comment_replied_mine', $repliedMineComments);
         $this->assign('comment_mine', $mineComments);
         $this->assign('comment_super', $superComments);
@@ -63,7 +65,30 @@ class JokeAction extends AbstractAction
      */
     public function up()
     {
-        $this->_action(\App\Service\Joke::ACT_UP);
+        // get params & validate
+        $isAct = (bool) $_REQUEST['is_act'];
+        if ( ! $this->jokeId || ! $this->userId) {
+            $this->outputJSON('Invalid params.', false);
+        }
+
+        // process
+        try {
+            // call action
+            (new Joke)->setAction(
+                Joke::ACT_UP,
+                $this->jokeId,
+                $this->userId, 
+                $isAct
+            );
+
+            // push message
+            if (1 === $isAct) {
+                $this->_push(Push::OP_UP_JOKE);
+            }
+        } catch (\Exception $e) {
+            $this->outputJSON('操作失败!', false);
+        }
+        $this->outputJSON('操作成功~');
     }
 
     /**
@@ -73,31 +98,21 @@ class JokeAction extends AbstractAction
      */
     public function favorate()
     {
-        $this->_action(\App\Service\Joke::ACT_FAV);
-    }
-
-
-    /**
-     * 操作事件
-     *
-     * @param int $actionType
-     * @return void
-     */
-    private function _action($actionType)
-    {
-        // get params
-        $jokeId = (int) $_REQUEST['joke_id'];
-        $userTid = trim($_REQUEST['user_tid']);
+        // get params & validate
         $isAct = (bool) $_REQUEST['is_act'];
-        $userId = $this->tidToId($userTid);
-        if ( ! $jokeId || ! $userId) {
+        if ( ! $this->jokeId || ! $this->userId) {
             $this->outputJSON('Invalid params.', false);
         }
 
         // process
         try {
-            $jokeService = new \App\Service\Joke;
-            $jokeService->setAction($actionType, $jokeId, $userId, $isAct);
+            // call action
+            (new Joke)->setAction(
+                Joke::ACT_FAV,
+                $this->jokeId,
+                $this->userId, 
+                $isAct
+            );
         } catch (\Exception $e) {
             $this->outputJSON('操作失败!', false);
         }

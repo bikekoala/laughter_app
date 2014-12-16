@@ -1,5 +1,6 @@
 <?PHP
 namespace App\Service;
+
 use App\Service\AbstractService;
 
 /**

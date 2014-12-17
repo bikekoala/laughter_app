@@ -93,9 +93,9 @@ Client = (function() {
                     return false;
                 }
 
-                if ($(document).height() - $(window).scrollTop() - $(window).height() < 100) {
+                if ($(document).height() - $(window).scrollTop() - $(window).height() == 0) {
                     // display loading image
-                    $('#comment-loading').css('display', 'block');
+                    //$('#comment-loading').css('display', 'block');
                     // request
                     var result = sendAjax('/comment/lastest', 'GET', {
                         joke_id:jokeId,
@@ -114,7 +114,7 @@ Client = (function() {
                         })
                         $('#comment-lastest').append(html);
                         // remove loading image
-                        $('#comment-loading').hide();
+                        //$('#comment-loading').hide();
                     }
                 }
             })

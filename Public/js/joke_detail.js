@@ -1,18 +1,8 @@
 /**
- * web端
+ * Web端封装类
  */
-Client = (function() {
+var Web = (function() {
     var Return = {
-        // 打开弹幕
-        openTan : function() {
-            //AndroidWrapper.openTanCallback(code, message);
-        },
-
-        // 关闭弹幕
-        closeTan : function() {
-            //AndroidWrapper.closeTanCallback(code, message);
-        },
-
         // 绑定点击头像事件
         bindClickAvatar : function() {
             $('.avatar').live('click', function() {
@@ -97,7 +87,7 @@ Client = (function() {
                     // display loading image
                     //$('#comment-loading').css('display', 'block');
                     // request
-                    var result = sendAjax('/comment/lastest', 'GET', {
+                    var result = $.global.sendAjax('/comment/lastest', 'GET', {
                         joke_id:jokeId,
                         user_id:jokeUid,
                         start:startNum
@@ -174,7 +164,7 @@ Client = (function() {
             is_act:newIsAct
         }
         $.extend(params, extraParamsObj);
-        var result = sendAjax(api, 'POST', params);
+        var result = $.global.sendAjax(api, 'POST', params);
         if (result) {
             $image.attr('src', newImg);
             $count.text(newNum);
@@ -184,29 +174,42 @@ Client = (function() {
         return result;
     }
 
-    var sendAjax = function(url, methodType, params) {
-        var result;
-        $.ajax({
-            url: url,
-            type: methodType,
-            async: false,
-            data: params,
-            dataType: 'json',
-            success: function(data){
-                if (data.status) {
-                    result = data.data;
-                } else {
-                    AndroidWrapper.alert(data.data);
-                }
-            },
-            error: function(xhr, type){
-                AndroidWrapper.alert('请求时遇到错误，请尝试重新操作。');
-            }
-        })
-        return result;
-    }
-
     return Return;
+})();
+
+/**
+ * Client调用类 
+ */
+Client = (function() {
+    var Return = {
+        // 打开弹幕
+        openTan : function() {
+            //AndroidWrapper.openTanCallback(code, message);
+        },
+
+        // 关闭弹幕
+        closeTan : function() {
+            //AndroidWrapper.closeTanCallback(code, message);
+        },
+
+        // 发送评论
+        sendComment : function(opUtid, comment) {
+            var jokeId = $('#joke').attr('data-id');
+            var params = {
+                'joke_id' : jokeId,
+                'user_tid': opUtid,
+                'comment' : comment
+            };
+            var result = $.global.sendAjax('/comment/add', 'POST', params, true);
+            if (result) {
+                AndroidWrapper.sendCommentCallback(1, '发送评论成功')
+            } else {
+                AndroidWrapper.sendCommentCallback(0, '发送评论失败')
+            }
+        }
+   };
+
+   return Return;
 })();
 
 /**
@@ -241,6 +244,11 @@ AndroidWrapper = (function() {
                 Android.closeTanCallback(code, message);
             }
         },
+        sendCommentCallback : function(code, message) {
+            if (isExistAndroidObj()) {
+                Android.sendCommentCallback(code, message);
+            }
+        },
         clickAvatar : function(userId) {
             if (isExistAndroidObj()) {
                 Android.clickAvatar(userId);
@@ -272,6 +280,37 @@ AndroidWrapper = (function() {
     return Return;
 })();
 
+/**
+ * 全局类
+ */
+$.global = (function() {
+    var Return = {
+        sendAjax : function(url, methodType, params, isQuiet) {
+            var result;
+            $.ajax({
+                url: url,
+                type: methodType,
+                async: false,
+                data: params,
+                dataType: 'json',
+                success: function(data){
+                    if (data.status) {
+                        result = data.data;
+                    } else {
+                        ! isQuiet && AndroidWrapper.alert(data.data);
+                    }
+                },
+                error: function(xhr, type){
+                    ! isQuiet && AndroidWrapper.alert('请求时遇到错误，请尝试重新操作。');
+                }
+            })
+            return result;
+        }
+    };
+
+    return Return;
+})();
+
 
 Zepto(function($){
     // 设置笑话数据(还是set通畅。。。)
@@ -280,15 +319,15 @@ Zepto(function($){
     AndroidWrapper.showTan(0);
 
     // 绑定加载更多评论
-    Client.bindLoadMoreComments();
+    Web.bindLoadMoreComments();
     // 绑定点击头像事件
-    Client.bindClickAvatar();
+    Web.bindClickAvatar();
     // 绑定点击赞事件
-    Client.bindClickUp();
+    Web.bindClickUp();
     // 绑定点击喜欢事件
-    Client.bindClickFavorate();
+    Web.bindClickFavorate();
     // 绑定点击分享事件
-    Client.bindClickShare();
+    Web.bindClickShare();
     // 绑定评论点击赞事件
-    Client.bindCommentClickUp();
+    Web.bindCommentClickUp();
 })

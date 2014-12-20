@@ -6,7 +6,7 @@ var Web = (function() {
         // 绑定点击头像事件
         bindClickAvatar : function() {
             $('.avatar').live('click', function() {
-                var userId = $(this).parent().attr('data-user-id');
+                var userId = $(this).parent().parent().attr('data-user-id');
                 AndroidWrapper.clickAvatar(userId);
             });
         },
@@ -121,8 +121,8 @@ var Web = (function() {
             var img = '<img class="comment-up-btn" src="/Public/img/comment_up.png"/>';
         }
         var code = '';
-        code += '<div class="comment-body">';
-        code += '   <div class="comment-header" data-id="'+d.id+'" data-user-id="'+d.user_id+'">';
+        code += '<div class="comment-body" data-id="'+d.id+'" data-user-id="'+d.user_id+'">';
+        code += '   <div class="comment-header">';
         code += '       <img class="comment-avatar avatar" src="'+d.user_avatar+'"/>';
         code += '       <div class="comment-author">';
         code += '           <span>'+d.user_nickname+'</span>';

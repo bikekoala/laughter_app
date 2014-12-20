@@ -6,7 +6,7 @@ $common = array(
     'URL_ROUTER_ON'         => true, // 开启路由
     'DEFAULT_C_LAYER'       => 'Action', // 控制器命名空间
     'URL_ROUTE_RULES'       => array( // 定义路由规则
-        'joke/:joke_id\d/[:user_tid]' => 'joke/detail'
+        'joke/:joke_id\d' => 'joke/detail'
     ),
 
     // 数据库配置信息
@@ -27,6 +27,7 @@ $custom = array(
         'APP_KEY' => '8008b65dcc28cff0c205842f',
         'MASTER_SECRET' => 'cfe9f76bba8fb38c4c65178a'
     ),
+    'CLIENT_SECRET' => 'd5fb77d6e4e8077f'
 );
 
 return array_merge($common, $custom);

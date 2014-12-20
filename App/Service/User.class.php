@@ -32,10 +32,18 @@ class User extends AbstractService
      *
      * @param string $tid
      * @return int
-     * @todo
      */
     public static function decryptUserId($tid)
     {
-        return 1;
+        $tid = base64_decode($tid);
+        list($token, $timestamp) = explode('_', $tid);
+
+        $key = C('CLIENT_SECRET');
+        $iv = substr(md5($timestamp . '@k#' . $key), -16);
+
+        $str = base64_decode($token);
+        $result = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, $str, MCRYPT_MODE_CBC, $iv);
+        $padLength = hexdec(bin2hex($result[strlen($result) - 1]));
+        return substr($result, 0, strlen($result) - $padLength);
     }
 }

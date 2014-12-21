@@ -71,4 +71,57 @@ class CommentAction extends AbstractAction
         $this->outputJSON('操作成功~');
     }
 
+    /**
+     * 添加评论
+     *
+     * @return void
+     */
+    public function add()
+    {
+        // get params & validate
+        $comment = trim($_REQUEST['comment']);
+        if ( ! $this->jokeId || ! $this->userId || empty($comment)) {
+            $this->outputJSON('Invalid params.', false);
+        }
+
+        // process
+        try {
+            (new Comment($this->jokeId, $this->userId))->addComment($comment);
+
+            // push message
+            $this->_push(Push::OP_RE_JOKE, $comment);
+        } catch (\Exception $e) {
+            $this->outputJSON('操作失败!', false);
+        }
+        $this->outputJSON('操作成功~');
+    }
+
+    /**
+     * 添加回复
+     *
+     * @return void
+     */
+    public function reply()
+    {
+        // get params & validate
+        $replyCmtId = (int) $_REQUEST['comment_id'];
+        $comment = trim($_REQUEST['comment']);
+        if ( ! $this->jokeId || ! $this->userId || $replyCmtId || empty($comment)) {
+            $this->outputJSON('Invalid params.', false);
+        }
+
+        // process
+        try {
+            (new Comment($this->jokeId, $this->userId))->addComment(
+                $comment,
+                $replyCmtId
+            );
+
+            // push message
+            $this->_push(Push::OP_RE_CMT, $comment);
+        } catch (\Exception $e) {
+            $this->outputJSON('操作失败!', false);
+        }
+        $this->outputJSON('操作成功~');
+    }
 }

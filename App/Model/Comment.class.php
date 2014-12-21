@@ -68,6 +68,32 @@ class Comment extends AbstractModel
     }
 
     /**
+     * 通过笑话ID获取评论列表
+     *
+     * @param int $userId
+     * @param int $start
+     * @param int $limit
+     * @return mixed
+     */
+    public function getListByJokeid($jokeId, $start, $limit)
+    {
+        return $this->field(
+            array(
+                'id',
+                'user_id',
+                'content',
+                'up_count',
+                'create_time'
+            )
+        )->where(
+            array(
+                'joke_id'   => $jokeId,
+                'is_closed' => 0
+            )
+        )->order('create_time DESC')->limit($start, $limit)->select();
+    }
+
+    /**
      * 通过笑话ID获取评论列表，并排序指定用户记录
      *
      * @param int $userId
@@ -100,10 +126,11 @@ class Comment extends AbstractModel
      * 获取经过点赞数排序后的评论列表
      *
      * @param int $jokeId
-     * @param int $limit
+     * @param int $countLimit
+     * @param int $recordLimit
      * @return mixed
      */
-    public function getListOrderByUpcount($jokeId, $limit)
+    public function getListOrderByUpcount($jokeId, $countLimit, $recordLimit)
     {
         return $this->field(
             array(
@@ -116,8 +143,35 @@ class Comment extends AbstractModel
         )->where(
             array(
                 'joke_id'   => $jokeId,
-                'is_closed' => 0
+                'is_closed' => 0,
+                'up_count' => array(
+                    'EGT',
+                    $countLimit
+                )
             )
-        )->order('up_count DESC')->limit($limit)->select();
+        )->order('up_count DESC')->limit($recordLimit)->select();
+    }
+
+    /**
+     * 添加数据
+     *
+     * @param string $content
+     * @param int $userId
+     * @param int $jokeId
+     * @param int $replyCmtId
+     * @return mixed
+     */
+    public function addData($content, $userId, $jokeId, $replyCmtId = null)
+    {
+        $data = array(
+            'user_id' => $userId,
+            'joke_id' => $jokeId,
+            'content' => $content,
+            'create_time' => date('Y-m-d H:i:s')
+        );
+        if ($replyCmtId) {
+            $data['reply_comment_id'] = $replyCmtId;
+        }
+        return $this->add($data);
     }
 }

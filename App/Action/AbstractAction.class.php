@@ -52,7 +52,8 @@ class AbstractAction extends Action
         if (isset($_REQUEST['user_tid'])) {
             $this->userTid = trim($_REQUEST['user_tid']);
             if ($this->userTid && ! $this->userId) {
-                $this->userId = User::decryptUserId($this->userTid);
+                $token = User::decryptUserToken($this->userTid);
+                $this->userId = (new \App\Service\User)->tokenToId($token);
             }
         }
     }

@@ -13,5 +13,5 @@ class JokeUpRecord extends AbstractActionRecord
     public $cateIdFieldName = 'joke_id';
     public $mtimeFiledName = 'up_time';
 
-    public $jokeActionFiledName = 'up_count';
+    public static $JOKE_ACT_FIELD_NAME = 'up_count';
 }

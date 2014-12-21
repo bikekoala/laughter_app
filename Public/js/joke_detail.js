@@ -52,7 +52,7 @@ var Web = (function() {
             $ele.click(function() {
                 AndroidWrapper.clickShare();
             });
-        }, 
+        },
 
         // 绑定评论点击赞事件
         bindCommentClickUp : function() {
@@ -62,9 +62,18 @@ var Web = (function() {
                 1 : '/Public/img/comment_up_press.png',
             };
 
-            $('.comment-up-btn img').live('click', function() {
-                var extraParamsObj = {'comment_id' : $(this).parent().parent().attr('data-id')};
+            $('.comment-up-btn img').live('click', function(e) {
+                var extraParamsObj = {'comment_id' : $(this).parent().parent().parent().attr('data-id')};
                 bindAction($(this), api, imgObj, extraParamsObj)
+            });
+        },
+
+        // 绑定评论点击事件
+        bindCommentClick : function() {
+            $('.comment-body').live('click', function() {
+                var comment_id = $(this).attr('data-id');
+                var comment_user_nickname = $(this).attr('data-user-name');
+                AndroidWrapper.sendReply(comment_user_nickname, comment_id);
             });
         },
        
@@ -105,6 +114,8 @@ var Web = (function() {
                         $('#comment-lastest').append(html);
                         // remove loading image
                         //$('#comment-loading').hide();
+                    } else {
+                        AndroidWrapper.alert('已经最后一页咯');
                     }
                 }
             })
@@ -121,7 +132,7 @@ var Web = (function() {
             var img = '<img class="comment-up-btn" src="/Public/img/comment_up.png"/>';
         }
         var code = '';
-        code += '<div class="comment-body" data-id="'+d.id+'" data-user-id="'+d.user_id+'">';
+        code += '<div class="comment-body" data-id="'+d.id+'" data-user-id="'+d.user_id+'" data-user-name="'+d.user_nickname+'">';
         code += '   <div class="comment-header">';
         code += '       <img class="comment-avatar avatar" src="'+d.user_avatar+'"/>';
         code += '       <div class="comment-author">';
@@ -202,9 +213,26 @@ Client = (function() {
             };
             var result = $.global.sendAjax('/comment/add', 'POST', params, true);
             if (result) {
-                AndroidWrapper.sendCommentCallback(1, '发送评论成功')
+                AndroidWrapper.sendCommentCallback(0, '评论成功')
             } else {
-                AndroidWrapper.sendCommentCallback(0, '发送评论失败')
+                AndroidWrapper.sendCommentCallback(1, '评论失败')
+            }
+        },
+
+        // 发送回复
+        sendReply : function(opUtid, comment, commentId) {
+            var jokeId = $('#joke').attr('data-id');
+            var params = {
+                'joke_id' : jokeId,
+                'user_tid': opUtid,
+                'comment' : comment,
+                'comment_id' : commentId,
+            };
+            var result = $.global.sendAjax('/comment/reply', 'POST', params, true);
+            if (result) {
+                AndroidWrapper.sendReplyCallback(0, '回复成功')
+            } else {
+                AndroidWrapper.sendReplyCallback(1, '回复失败')
             }
         }
    };
@@ -247,6 +275,16 @@ AndroidWrapper = (function() {
         sendCommentCallback : function(code, message) {
             if (isExistAndroidObj()) {
                 Android.sendCommentCallback(code, message);
+            }
+        },
+        sendReply : function(comment_user_nickname, comment_id) {
+            if (isExistAndroidObj()) {
+                Android.sendReply(comment_user_nickname, comment_id);
+            }
+        },
+        sendReplyCallback : function(code, message) {
+            if (isExistAndroidObj()) {
+                Android.sendReplyCallback(code, message);
             }
         },
         clickAvatar : function(userId) {
@@ -330,4 +368,6 @@ Zepto(function($){
     Web.bindClickShare();
     // 绑定评论点击赞事件
     Web.bindCommentClickUp();
+    // 绑定评论点击事件
+    Web.bindCommentClick();
 })

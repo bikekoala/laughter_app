@@ -1,17 +1,9 @@
 @charset "utf-8";
-@media screen and (min-width:800px) {
-    body {
-        width: 500px; 
-        margin: 0 auto;
-    }
-}
 @media screen and (max-width:799px) {
-    body {
-        width: 100%; 
-        margin: 0 auto;
-    }
+body {
+    width: 100%; 
+    margin: 0 auto;
 }
-
 #wrapper {
     padding: 10px;
     background-color: #ececec;
@@ -22,7 +14,7 @@
     border-bottom: 2px solid #ccc;
 }
 #joke-header {
-    height: 90px;
+    height: 60px;
 }
 .joke-avatar {
     display: block;
@@ -55,9 +47,9 @@
 }
 #joke-content span {
     display: block;
-    line-height: 180%;
+    line-height: 160%;
     font-family: "verdana","ms song","Arial","Helvetica", "sans-serif";
-    font-size: 16pt;
+    font-size: 14pt;
     letter-spacing: 1px;
     color: #4a5152;
 }
@@ -67,8 +59,8 @@
 }
 #joke-up-btn {
     position: relative;
-    height: 110px;
-    width: 110px;
+    height: 70px;
+    width: 70px;
     margin: 0 auto;
     margin-top: 5px;
 }
@@ -80,16 +72,16 @@
     display: block;
     position: absolute;
     width: 100%;
-    margin-top: -35px;
+    margin-top: -23px;
     text-align: center;
-    font-size: 12pt;
+    font-size: 10pt;
     color: #a2a2a2;
 }
 .joke-action-btn {
     position: relative;
-    height: 35px;
+    height: 25px;
     width: 100%;
-    margin-top: 5px;
+    margin-top: 10px;
     background-color: #f4f4f4;
 }
 .joke-action-btn div {
@@ -98,12 +90,12 @@
 .joke-action-btn img {
     display: block;
     height: 100%;
-    width: 35px;
+    width: 25px;
 }
 .joke-action-btn span {
     position: absolute;
     display: block;
-    top : 13px;
+    top : 9px;
     font-size: 9pt;
     color: #a2a2a2;
 }
@@ -116,7 +108,8 @@
     margin: 0 auto;
 }
 #joke-favorite-btn span {
-    left: 70%;
+    top : 7px;
+    left: 65%;
 }
 #joke-comment-btn {
     position: absolute;
@@ -125,7 +118,8 @@
     left: 8%;
 }
 #joke-comment-btn span {
-    left: 40%;
+    top : 7px;
+    left: 30%;
 }
 #joke-share-btn {
     position: absolute;
@@ -133,7 +127,8 @@
     right: 8%;
 }
 #joke-share-btn span {
-    left: 100%;
+    top : 7px;
+    left: 105%;
 }
 .comment {
     margin-top: 20px;
@@ -152,7 +147,7 @@
     border-bottom: #f1f1f1 1px solid;
 }
 .comment-header {
-    height: 60px;
+    height: 40px;
     padding: 5px 0 0 5px;
 }
 .comment-avatar {
@@ -183,9 +178,7 @@
 .comment-up-count {
     display: block;
     float: right;
-    height: 35px;
-    margin-top: 5px;
-    line-height: 320%;
+    line-height: 315%;
     font-size: 10pt;
     color: #a2a2a2;
 }
@@ -193,13 +186,13 @@
     display: block;
     float: right;
     margin: 5px 3px 0 0;
-    height: 35px;
+    height: 25px;
 }
 .comment-content {
     display: block;
     clear: both;
     min-height: 20px;
-    padding: 15px 0 15px 75px;
+    padding: 15px 0 15px 60px;
     line-height: 150%;
     letter-spacing: 1px;
     font-family: "verdana","ms song","Arial","Helvetica", "sans-serif";
@@ -211,4 +204,6 @@
     display: none;
     width: 50px;
     margin: 0 auto;
+}
+
 }

@@ -30,7 +30,7 @@ class AbstractActionRecord extends AbstractModel
      *
      * @var string
      */
-    public $jokeActionFiledName;
+    public static $JOKE_ACT_FIELD_NAME;
 
     /**
      * 获取单条记录数据

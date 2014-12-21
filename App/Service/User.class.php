@@ -1,6 +1,8 @@
 <?PHP
 namespace App\Service;
 
+use \App\Model\Users;
+
 /**
  * 用户逻辑服务
  *
@@ -17,7 +19,7 @@ class User extends AbstractService
      */
     public function getData($id)
     {
-        $data = (new \App\Model\Users)->getData($id);
+        $data = (new Users)->getData($id);
         if (empty($data)) {
             throw new \Exception('空的用户详情');
         } else {
@@ -28,12 +30,28 @@ class User extends AbstractService
     }
 
     /**
-     * 解密用户ID
+     * 通过TOKEN获取用户ID
+     *
+     * @param string $token
+     * @return int
+     */
+    public function tokenToId($token)
+    {
+        $data = (new Users)->getDataByToken($token);
+        if ( ! empty($data)) {
+            return $data['id'];
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * 解密用户TOKEN
      *
      * @param string $tid
      * @return int
      */
-    public static function decryptUserId($tid)
+    public static function decryptUserToken($tid)
     {
         $tid = base64_decode($tid);
         list($token, $timestamp) = explode('_', $tid);

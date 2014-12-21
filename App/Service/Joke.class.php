@@ -82,7 +82,7 @@ class Joke extends AbstractService
             (new \App\Model\Joke)->modifyActionCount(
                 $this->jokeId,
                 $isAct,
-                $model->jokeActionFiledName
+                $model::$jokeActionFiledName
             );
 
             $model->commit(); //提交事务

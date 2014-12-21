@@ -1,6 +1,8 @@
 <?PHP
 namespace App\Service;
 
+use \App\Model\CommentUpRecord;
+
 /**
  * 评论逻辑服务
  *
@@ -62,7 +64,7 @@ class Comment extends AbstractService
      */
     public function getSuper($limit = 5)
     {
-        $comments = $this->model->getListOrderByUpcount($this->jokeId, $limit);
+        $comments = $this->model->getListOrderByUpcount($this->jokeId, 10, $limit);
 
         return $this->_process($comments);
     }
@@ -76,9 +78,8 @@ class Comment extends AbstractService
      */
     public function getLastest($start = 0, $limit = 10)
     {
-        $comments = $this->model->getListByJokeidButUserid(
+        $comments = $this->model->getListByJokeid(
             $this->jokeId,
-            $this->userId,
             $start,
             $limit
         );
@@ -96,7 +97,7 @@ class Comment extends AbstractService
     public function setUp($id, $isAct = true)
     {
         try {
-            $model = new \App\Model\CommentUpRecord;
+            $model = new CommentUpRecord;
             $model->startTrans(); // 开始事务
 
             // 设置原子数据
@@ -108,15 +109,46 @@ class Comment extends AbstractService
             }
 
             // 更新统计数据
-            (new \App\Model\Comment)->modifyActionCount(
+            $this->model->modifyActionCount(
                 $id,
                 $isAct,
-                $model->jokeActionFiledName
+                $model::$jokeActionFiledName
             );
 
             $model->commit(); //提交事务
         } catch (\Exception $e) {
             $model->rollback(); // 事务回滚
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * 添加评论、回复
+     *
+     * @param string $content
+     * @param int $replyCmtId
+     * @return void
+     */
+    public function addComment($content, $replyCmtId = null)
+    {
+        try {
+            $this->model->startTrans(); // 开始事务
+
+            $this->model->addData(
+                $content,
+                $this->userId,
+                $this->jokeId,
+                $replyCmtId
+            );
+            (new \App\Model\Joke)->modifyActionCount(
+                $this->jokeId,
+                true,
+                \App\Model\JokeCmtRecord::$JOKE_ACT_FIELD_NAME
+            );
+
+            $this->model->commit(); //提交事务
+        } catch (\Exception $e) {
+            $this->model->rollback(); // 事务回滚
             throw new \Exception($e->getMessage());
         }
     }
@@ -180,8 +212,7 @@ class Comment extends AbstractService
                 $userIds[$item['user_id']] = $item['user_id'];
             }
 
-            $userInfo = (array) (new \App\Model\Users)
-                ->getInfoByIds($userIds);
+            $userInfo = (array) (new \App\Model\Users)->getDataByIds($userIds);
             foreach ($userInfo as $user) {
                 foreach ($comments as &$comment) {
                     if ($user['id'] === $comment['user_id']) {

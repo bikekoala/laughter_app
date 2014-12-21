@@ -14,5 +14,5 @@ class JokeFavorateRecord extends AbstractActionRecord
 
     public $cateIdFieldName = 'joke_id';
 
-    public $jokeActionFiledName = 'favorate_count';
+    public static $JOKE_ACT_FIELD_NAME = 'favorate_count';
 }

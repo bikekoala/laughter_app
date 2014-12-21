@@ -13,19 +13,15 @@ class Users extends AbstractModel
     protected $trueTableName = 'users'; 
 
     /**
-     * 通过用户ID获取用户信息
+     * 通过TOKEN获取数据
      *
-     * @param array $ids
+     * @param string $token
      * @return mixed
      */
-    public function getInfoByIds($ids)
+    public function getDataByToken($token)
     {
-        return $this->field(
-            array('id', 'nickname', 'avatar')
-        )->where(
-            array(
-                'id' => array('IN', $ids)
-            )
-        )->select();
+        return $this->where(
+            array('token' => $token)
+        )->find();
     }
 }

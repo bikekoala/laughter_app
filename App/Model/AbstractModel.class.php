@@ -24,6 +24,21 @@ class AbstractModel extends Model
     }
 
     /**
+     * 根据ID列表批量获取数据
+     *
+     * @param array $ids
+     * @return mixed
+     */
+    public function getDataByIds($ids)
+    {
+        return $this->where(
+            array(
+                'id' => array('IN', $ids)
+            )
+        )->select();
+    }
+
+    /**
      * 修改操作数
      *
      * @param int $id

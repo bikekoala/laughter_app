@@ -51,7 +51,10 @@ class CommentAction extends AbstractAction
     {
         // get params & validate
         $cmtId = (int) $_REQUEST['comment_id'];
-        $isAct = (int) $_REQUEST['is_act'];
+        $isAct = (bool) $_REQUEST['is_act'];
+        if ($this->userTid && ! $this->userId) {
+            $this->outputJSON('请先登录~', false);
+        }
         if ( ! $this->jokeId || ! $this->userId || ! $cmtId) {
             $this->outputJSON('Invalid params.', false);
         }
@@ -62,7 +65,7 @@ class CommentAction extends AbstractAction
             (new Comment($this->jokeId, $this->userId))->setUp($cmtId, $isAct);
 
             // push message
-            if (1 === $isAct) {
+            if ($isAct) {
                 $this->_push(Push::OP_UP_CMT);
             }
         } catch (\Exception $e) {
@@ -80,20 +83,23 @@ class CommentAction extends AbstractAction
     {
         // get params & validate
         $comment = trim($_REQUEST['comment']);
+        if ($this->userTid && ! $this->userId) {
+            $this->outputJSON('请先登录~', false);
+        }
         if ( ! $this->jokeId || ! $this->userId || empty($comment)) {
             $this->outputJSON('Invalid params.', false);
         }
 
         // process
         try {
-            (new Comment($this->jokeId, $this->userId))->addComment($comment);
+            $id = (new Comment($this->jokeId, $this->userId))->addComment($comment);
 
             // push message
             $this->_push(Push::OP_RE_JOKE, $comment);
         } catch (\Exception $e) {
             $this->outputJSON('操作失败!', false);
         }
-        $this->outputJSON('操作成功~');
+        $this->outputJSON($id);
     }
 
     /**
@@ -106,13 +112,21 @@ class CommentAction extends AbstractAction
         // get params & validate
         $replyCmtId = (int) $_REQUEST['comment_id'];
         $comment = trim($_REQUEST['comment']);
+        if ($this->userTid && ! $this->userId) {
+            $this->outputJSON('请先登录~', false);
+        }
         if ( ! $this->jokeId || ! $this->userId || $replyCmtId || empty($comment)) {
             $this->outputJSON('Invalid params.', false);
         }
 
         // process
         try {
-            (new Comment($this->jokeId, $this->userId))->addComment(
+            $joke = (new Joke($this->jokeId, $this->userId))->getDetail();
+            if ($this->userId == $joke['user_id']) {
+                $this->outputJSON('试试回复其他小伙伴的评论吧~', false);
+            }
+
+            $id = (new Comment($this->jokeId, $this->userId))->addComment(
                 $comment,
                 $replyCmtId
             );
@@ -122,6 +136,6 @@ class CommentAction extends AbstractAction
         } catch (\Exception $e) {
             $this->outputJSON('操作失败!', false);
         }
-        $this->outputJSON('操作成功~');
+        $this->outputJSON($id);
     }
 }

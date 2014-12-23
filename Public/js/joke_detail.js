@@ -20,7 +20,10 @@ var Web = (function() {
             };
 
             $('#joke-up-btn img').click(function() {
-                bindAction($(this), api, imgObj, {})
+                var result = bindAction($(this), api, imgObj, {})
+                if (result) {
+                    $(this).next().css('color', 'white');
+                }
             });
         },
 
@@ -32,8 +35,8 @@ var Web = (function() {
                 1 : '/Public/img/joke_favorite_press.png',
             };
 
-            $('#joke-favorite-btn img').click(function() {
-                result = bindAction($(this), api, imgObj, {})
+            $('#joke-favorite-btn').click(function() {
+                var result = bindAction($(this), api, imgObj, {})
                 if (result) {
                     AndroidWrapper.clickFavorate();
                 }
@@ -42,7 +45,7 @@ var Web = (function() {
 
         // 绑定点击分享事件
         bindClickShare : function() {
-            var $ele = $('#joke-share-btn img');
+            var $ele = $('#joke-share-btn');
             $ele.on('touchstart', function() {
                 this.src = '/Public/img/joke_share_press.png';
             });
@@ -62,7 +65,7 @@ var Web = (function() {
                 1 : '/Public/img/comment_up_press.png',
             };
 
-            $('.comment-up-btn img').live('click', function(e) {
+            $('.comment-up-btn').live('click', function(e) {
                 var extraParamsObj = {'comment_id' : $(this).parent().parent().parent().attr('data-id')};
                 bindAction($(this), api, imgObj, extraParamsObj)
             });
@@ -70,7 +73,14 @@ var Web = (function() {
 
         // 绑定评论点击事件
         bindCommentClick : function() {
-            $('.comment-body').live('click', function() {
+            $('.comment-body').live('click', function(e) {
+                if ($(e.target).hasClass('comment-up-btn')) {
+                    return false;
+                }
+                if ($(e.target).hasClass('comment-avatar')) {
+                    return false;
+                }
+
                 var comment_id = $(this).attr('data-id');
                 var comment_user_nickname = $(this).attr('data-user-name');
                 AndroidWrapper.sendReply(comment_user_nickname, comment_id);
@@ -119,8 +129,33 @@ var Web = (function() {
                     }
                 }
             })
+        },
+
+        // 获取评论模块html
+        showCommentHtml : function(idStr, d) {
+            return getCommentHtml(idStr, d);
+        },
+
+        // 获取评论单元html
+        showCommentCellHtml : function(d) {
+            return getCommentCellHtml(d);
+        },
+    }
+
+    var getCommentHtml = function(idStr, d) {
+        if (idStr == 'comment-mine') {
+            title = '我的评论';
+        } else {
+            return '';
         }
-    } 
+
+        var code = '';
+        code += '<div id="'+idStr+'">';
+        code += '   <span class="comment-title">'+title+'</span>';
+        code += getCommentCellHtml(d);
+        code += '</div>';
+        return code;
+    }
 
     var getCommentCellHtml = function(d) {
         if ('' == d.user_avatar) {
@@ -211,8 +246,10 @@ Client = (function() {
                 'user_tid': opUtid,
                 'comment' : comment
             };
-            var result = $.global.sendAjax('/comment/add', 'POST', params, true);
-            if (result) {
+            var id = $.global.sendAjax('/comment/add', 'POST', params, true);
+            if (id) {
+                increaseJokeCmtNum();
+                insertCommentHtml(id, comment);
                 AndroidWrapper.sendCommentCallback(0, '评论成功')
             } else {
                 AndroidWrapper.sendCommentCallback(1, '评论失败')
@@ -228,16 +265,50 @@ Client = (function() {
                 'comment' : comment,
                 'comment_id' : commentId,
             };
-            var result = $.global.sendAjax('/comment/reply', 'POST', params, true);
-            if (result) {
+            var id = $.global.sendAjax('/comment/reply', 'POST', params, true);
+            if (id) {
+                increaseJokeCmtNum();
+                insertCommentHtml(id, comment);
                 AndroidWrapper.sendReplyCallback(0, '回复成功')
             } else {
                 AndroidWrapper.sendReplyCallback(1, '回复失败')
             }
         }
-   };
+    };
 
-   return Return;
+    // 笑话评论数+1
+    var increaseJokeCmtNum = function() {
+        var $btn = $('#joke-comment-btn').children('span');
+        $btn.html(parseInt($btn.text()) + 1);
+    };
+
+    // 向评论头部插入最新评论或回复
+    var insertCommentHtml = function(id, comment) {
+        var d = new Date();
+        var create_time = d.getMonth() + 1 + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();
+        var $user = $('#wrapper');
+        var data = {
+            'id' : id,
+            'user_id' : $user.attr('data-op-user-id'), 
+            'user_nickname' :  $user.attr('data-op-user-name'),
+            'user_avatar' : $user.attr('data-op-user-avatar'),
+            'create_time' : create_time,
+            'is_up' : 0,
+            'up_count' : 0,
+            'content' : comment
+        };
+
+        var cmtIdStr = 'comment-mine';
+        if ($('#' + cmtIdStr).length > 0) {
+            var html = Web.showCommentCellHtml(data);
+            $('#' + cmtIdStr).children('span').after(html);
+        } else {
+            var html = Web.showCommentHtml(cmtIdStr, data);
+            $('#comment').prepend(html);
+        }
+    };
+
+    return Return;
 })();
 
 /**

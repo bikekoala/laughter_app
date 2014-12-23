@@ -147,7 +147,9 @@ class API
     {
         $data = array(
             'platform' => $this->_platform,
-            'audience' => $this->_audienceAlias,
+            'audience' => array(
+                'alias' => $this->_audienceAlias
+            ),
             'message' => array(
                 'msg_content' => $this->_messageContent,
                 'title' => $this->_messageTitle,

@@ -19,7 +19,7 @@ body {
 .joke-avatar {
     display: block;
     float: left;
-    margin-left: 10px;
+    margin: 5px 0 0 10px;
     height: 100%;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
@@ -27,7 +27,7 @@ body {
 }
 .joke-author {
     float: left;
-    margin: 20px 0 0 10px;
+    margin: 18px 0 0 10px;
 }
 .joke-author span {
     display: block;
@@ -130,7 +130,7 @@ body {
     top : 7px;
     left: 105%;
 }
-.comment {
+#comment {
     margin-top: 20px;
     background-color: #ffffff;
 }

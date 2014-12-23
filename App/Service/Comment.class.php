@@ -112,7 +112,7 @@ class Comment extends AbstractService
             $this->model->modifyActionCount(
                 $id,
                 $isAct,
-                $model::$jokeActionFiledName
+                $model::$JOKE_ACT_FIELD_NAME
             );
 
             $model->commit(); //提交事务
@@ -127,14 +127,14 @@ class Comment extends AbstractService
      *
      * @param string $content
      * @param int $replyCmtId
-     * @return void
+     * @return int
      */
     public function addComment($content, $replyCmtId = null)
     {
         try {
             $this->model->startTrans(); // 开始事务
 
-            $this->model->addData(
+            $insertId = $this->model->addData(
                 $content,
                 $this->userId,
                 $this->jokeId,
@@ -147,10 +147,13 @@ class Comment extends AbstractService
             );
 
             $this->model->commit(); //提交事务
+
         } catch (\Exception $e) {
             $this->model->rollback(); // 事务回滚
             throw new \Exception($e->getMessage());
         }
+
+        return $insertId;
     }
 
     /**

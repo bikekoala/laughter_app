@@ -47,6 +47,7 @@ class JokeAction extends AbstractAction
 
         // vendor
         $this->assign('user_tid', $this->userTid);
+        $this->assign('user_data', $this->userData);
         $this->assign('joke', $joke);
         $this->assign('joke_user', $jokeUser);
         $this->assign('comment_replied_mine', $repliedMineComments);
@@ -65,6 +66,9 @@ class JokeAction extends AbstractAction
     {
         // get params & validate
         $isAct = (bool) $_REQUEST['is_act'];
+        if ($this->userTid && ! $this->userId) {
+            $this->outputJSON('请先登录~', false);
+        }
         if ( ! $this->jokeId || ! $this->userId) {
             $this->outputJSON('Invalid params.', false);
         }
@@ -78,7 +82,7 @@ class JokeAction extends AbstractAction
             );
 
             // push message
-            if (1 === $isAct) {
+            if ($isAct) {
                 $this->_push(Push::OP_UP_JOKE);
             }
         } catch (\Exception $e) {
@@ -96,6 +100,9 @@ class JokeAction extends AbstractAction
     {
         // get params & validate
         $isAct = (bool) $_REQUEST['is_act'];
+        if ($this->userTid && ! $this->userId) {
+            $this->outputJSON('请先登录~', false);
+        }
         if ( ! $this->jokeId || ! $this->userId) {
             $this->outputJSON('Invalid params.', false);
         }

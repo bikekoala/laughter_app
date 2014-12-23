@@ -20,7 +20,7 @@ body {
 .joke-avatar {
     display: block;
     float: left;
-    margin-left: 10px;
+    margin: 5px 0 0 10px;
     height: 100%;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
@@ -28,7 +28,7 @@ body {
 }
 .joke-author {
     float: left;
-    margin: 20px 0 0 10px;
+    margin: 25px 0 0 10px;
 }
 .joke-author span {
     display: block;
@@ -76,7 +76,12 @@ body {
     margin-top: -35px;
     text-align: center;
     font-size: 12pt;
+}
+.joke-up-btn-span {
     color: #a2a2a2;
+}
+.joke-up-btn-span-press {
+    color: white;
 }
 .joke-action-btn {
     position: relative;
@@ -128,7 +133,7 @@ body {
 #joke-share-btn span {
     left: 100%;
 }
-.comment {
+#comment {
     margin-top: 20px;
     background-color: #ffffff;
 }

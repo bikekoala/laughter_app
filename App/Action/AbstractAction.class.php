@@ -35,6 +35,13 @@ class AbstractAction extends Action
     public $userId;
 
     /**
+     * 用户数据
+     *
+     * @var mixed
+     */
+    public $userData;
+
+    /**
      * 构造函数
      *
      * @return void
@@ -53,7 +60,11 @@ class AbstractAction extends Action
             $this->userTid = trim($_REQUEST['user_tid']);
             if ($this->userTid && ! $this->userId) {
                 $token = User::decryptUserToken($this->userTid);
-                $this->userId = (new \App\Service\User)->tokenToId($token);
+                $userData = (new \App\Service\User)->getDataByToken($token);
+                if ( ! empty($userData)) {
+                    $this->userId = $userData['id'];
+                    $this->userData = $userData;
+                }
             }
         }
     }
@@ -95,16 +106,16 @@ class AbstractAction extends Action
      *
      * @param mixed $data
      * @param bool $status
+     * @param array $exts
      * @return string
      */
-    public function outputJSON($data = null, $status = true)
+    public function outputJSON($data = null, $status = true, $exts = array())
     {
-        $this->ajaxReturn(
-            array(
-                'status' => $status,
-                'data'   => $data
-            )
+        $result = array(
+            'status' => $status,
+            'data'   => $data
         );
+        $this->ajaxReturn(array_merge($result, $exts));
     }
 
     /**

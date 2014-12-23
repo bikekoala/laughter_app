@@ -9,7 +9,7 @@
         <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/joke_detail_small.css">
     </head>
     <body>
-        <div id="wrapper" data-op-user-tid="{$user_tid}">
+        <div id="wrapper" data-op-user-tid="{$user_tid}" data-op-user-id="{$user_data.id}" data-op-user-name="{$user_data.nickname}" data-op-user-avatar="{$user_data.avatar}">
             <div id="joke" data-id="{$joke.id}" data-type="{$joke.type}" data-user-id="{$joke_user.id}">
                 <div id="joke-header">
                     <img class="joke-avatar avatar" src="<empty name='joke_user.avatar'>__PUBLIC__/img/avatar_default_large.png<else />{$joke_user.avatar}</empty>"/>
@@ -27,10 +27,11 @@
                 <div id="joke-up-btn" data-isact="{$joke.is_up}">
                     <if condition="$joke.is_up eq 1">
                     <img src="__PUBLIC__/img/joke_up_press.png"/>
+                    <span class="joke-up-btn-span-press">{$joke.up_count}</span>
                     <else />
                     <img src="__PUBLIC__/img/joke_up.png"/>
+                    <span class="joke-up-btn-span">{$joke.up_count}</span>
                     </if>
-                    <span>{$joke.up_count}</span>
                 </div>
                 <div class="joke-action-btn">
                     <div id="joke-favorite-btn" data-isact="{$joke.is_favorate}">
@@ -55,7 +56,7 @@
                     </div>
                 </div>
             </div>
-            <div class="comment">
+            <div id="comment">
                 <notempty name="comment_replied_mine">
                 <div id="comment-replied-mine">
                     <span class="comment-title">回复我的评论</span>

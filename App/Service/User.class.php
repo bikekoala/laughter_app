@@ -30,19 +30,14 @@ class User extends AbstractService
     }
 
     /**
-     * 通过TOKEN获取用户ID
+     * 通过TOKEN获取用户数据
      *
      * @param string $token
-     * @return int
+     * @return array
      */
-    public function tokenToId($token)
+    public function getDataByToken($token)
     {
-        $data = (new Users)->getDataByToken($token);
-        if ( ! empty($data)) {
-            return $data['id'];
-        } else {
-            return 0;
-        }
+        return (array) (new Users)->getDataByToken($token);
     }
 
     /**

@@ -67,11 +67,11 @@ class JokeAction extends AbstractAction
     {
         // get params & validate
         $isAct = (bool) $_REQUEST['is_act'];
-        if ($this->userTid && ! $this->userId) {
+        if ( ! $this->userTid || ! $this->userId) {
             $this->outputJSON('请先登录~', false);
         }
-        if ( ! $this->jokeId || ! $this->userId) {
-            $this->outputJSON('Invalid params.', false);
+        if ( ! $this->jokeId) {
+            $this->outputJSON('无效的笑话ID~', false);
         }
 
         // process
@@ -102,11 +102,11 @@ class JokeAction extends AbstractAction
         // get params & validate
         /*
         $isAct = (bool) $_REQUEST['is_act'];
-        if ($this->userTid && ! $this->userId) {
+        if ( ! $this->userTid || ! $this->userId) {
             $this->outputJSON('请先登录~', false);
         }
-        if ( ! $this->jokeId || ! $this->userId) {
-            $this->outputJSON('Invalid params.', false);
+        if ( ! $this->jokeId) {
+            $this->outputJSON('无效的笑话ID~', false);
         }
          */
 

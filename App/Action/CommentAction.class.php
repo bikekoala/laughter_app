@@ -22,8 +22,11 @@ class CommentAction extends AbstractAction
         // get params
         $start  = (int) $_GET['start'];
         $limit  = ((int) $_GET['limit']) ? : 10;
-        if ( ! $this->jokeId || ! $this->userId) {
-            $this->outputJSON('Invalid params.', false);
+        if ( ! $this->userId) {
+            $this->outputJSON('无效的用户ID~', false);
+        }
+        if ( ! $this->jokeId) {
+            $this->outputJSON('无效的笑话ID~', false);
         }
 
         // service
@@ -53,11 +56,14 @@ class CommentAction extends AbstractAction
         // get params & validate
         $cmtId = (int) $_REQUEST['comment_id'];
         $isAct = (bool) $_REQUEST['is_act'];
-        if ($this->userTid && ! $this->userId) {
+        if ( ! $this->userTid || ! $this->userId) {
             $this->outputJSON('请先登录~', false);
         }
-        if ( ! $this->jokeId || ! $this->userId || ! $cmtId) {
-            $this->outputJSON('Invalid params.', false);
+        if ( ! $this->jokeId) {
+            $this->outputJSON('无效的笑话ID~', false);
+        }
+        if ( ! $cmtId) {
+            $this->outputJSON('无效的ID~', false);
         }
 
         // process
@@ -84,11 +90,14 @@ class CommentAction extends AbstractAction
     {
         // get params & validate
         $comment = trim($_REQUEST['comment']);
-        if ($this->userTid && ! $this->userId) {
+        if ( ! $this->userTid || ! $this->userId) {
             $this->outputJSON('请先登录~', false);
         }
-        if ( ! $this->jokeId || ! $this->userId || empty($comment)) {
-            $this->outputJSON('Invalid params.', false);
+        if ( ! $this->jokeId) {
+            $this->outputJSON('无效的笑话ID~', false);
+        }
+        if ( ! $comment) {
+            $this->outputJSON('无效的评论内容~', false);
         }
 
         // process
@@ -113,11 +122,17 @@ class CommentAction extends AbstractAction
         // get params & validate
         $replyCmtId = (int) $_REQUEST['comment_id'];
         $comment = trim($_REQUEST['comment']);
-        if ($this->userTid && ! $this->userId) {
+        if ( ! $this->userTid || ! $this->userId) {
             $this->outputJSON('请先登录~', false);
         }
-        if ( ! $this->jokeId || ! $this->userId || ! $replyCmtId || empty($comment)) {
-            $this->outputJSON('Invalid params.', false);
+        if ( ! $this->jokeId) {
+            $this->outputJSON('无效的笑话ID~', false);
+        }
+        if ( ! $replyCmtId) {
+            $this->outputJSON('无效的回复评论ID~', false);
+        }
+        if ( ! $comment) {
+            $this->outputJSON('无效的回复内容~', false);
         }
 
         // process

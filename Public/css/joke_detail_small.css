@@ -77,6 +77,12 @@ body {
     font-size: 10pt;
     color: #a2a2a2;
 }
+.joke-up-btn-span {
+    color: #a2a2a2;
+}
+.joke-up-btn-span-press {
+    color: white;
+}
 .joke-action-btn {
     position: relative;
     height: 25px;

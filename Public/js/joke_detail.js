@@ -22,7 +22,12 @@ var Web = (function() {
             $('#joke-up-btn img').click(function() {
                 var result = bindAction($(this), api, imgObj, {})
                 if (result.status) {
-                    $(this).next().css('color', 'white');
+                    var $num = $(this).next();
+                    if ($num.hasClass('joke-up-btn-span')) {
+                        $num.attr('class', 'joke-up-btn-span-press');
+                    } else {
+                        $num.attr('class', 'joke-up-btn-span');
+                    }
                 }
             });
         },
@@ -216,7 +221,6 @@ var Web = (function() {
         $.extend(params, extraParamsObj);
         var result = $.global.sendAjax(api, 'POST', params);
         if (result.status) {
-            console.log(newImg);
             $image.attr('src', newImg);
             $count.text(newNum);
             $m.attr('data-isact', newIsAct)

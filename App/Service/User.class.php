@@ -37,7 +37,14 @@ class User extends AbstractService
      */
     public function getDataByToken($token)
     {
-        return (array) (new Users)->getDataByToken($token);
+        $data = (new Users)->getDataByToken($token);
+        if (empty($data)) {
+            throw new \Exception('空的用户详情');
+        } else {
+            $data['avatar'] = static::fillImageUrl($data['avatar']);
+        }
+
+        return $data;
     }
 
     /**

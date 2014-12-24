@@ -292,10 +292,6 @@ Client = (function() {
                 $('#joke').attr('data-fav-status', 1);
             }
         },
-
-        test : function() {
-            insertCommentHtml(2, 'HaHa~~');
-        }
     };
 
     // 笑话评论数+1
@@ -473,5 +469,4 @@ Zepto(function($){
     Web.bindCommentClickUp();
     // 绑定评论点击事件
     Web.bindCommentClick();
-    //Client.test();
 })

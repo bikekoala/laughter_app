@@ -54,6 +54,7 @@ class JokeAction extends AbstractAction
         $this->assign('comment_mine', $mineComments);
         $this->assign('comment_super', $superComments);
         $this->assign('comment_lastest', $lastestComments);
+        $this->assign('static_ver', C('STATIC_VER'));
         $this->display();
     }
 

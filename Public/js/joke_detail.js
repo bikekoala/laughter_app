@@ -275,6 +275,9 @@ Client = (function() {
             } else {
                 AndroidWrapper.sendReplyCallback(1, '回复失败')
             }
+        },
+        test : function() {
+            insertCommentHtml(2, 'HaHa~~');
         }
     };
 
@@ -300,6 +303,7 @@ Client = (function() {
             'content' : comment
         };
 
+        // 我的评论
         var cmtIdStr = 'comment-mine';
         if ($('#' + cmtIdStr).length > 0) {
             var html = Web.showCommentCellHtml(data);
@@ -309,6 +313,7 @@ Client = (function() {
             $('#comment').prepend(html);
         }
 
+        // 最新
         var cmtIdStr = 'comment-lastest';
         if ($('#' + cmtIdStr).length > 0) {
             var html = Web.showCommentCellHtml(data);
@@ -452,4 +457,5 @@ Zepto(function($){
     Web.bindCommentClickUp();
     // 绑定评论点击事件
     Web.bindCommentClick();
+    //Client.test();
 })

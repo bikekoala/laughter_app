@@ -1,6 +1,7 @@
 <?PHP
 namespace App\Action;
 
+use \App\Service\Joke;
 use \App\Service\Comment;
 use \App\Service\JPush\Push;
 
@@ -115,7 +116,7 @@ class CommentAction extends AbstractAction
         if ($this->userTid && ! $this->userId) {
             $this->outputJSON('请先登录~', false);
         }
-        if ( ! $this->jokeId || ! $this->userId || $replyCmtId || empty($comment)) {
+        if ( ! $this->jokeId || ! $this->userId || ! $replyCmtId || empty($comment)) {
             $this->outputJSON('Invalid params.', false);
         }
 

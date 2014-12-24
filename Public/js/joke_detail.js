@@ -145,6 +145,8 @@ var Web = (function() {
     var getCommentHtml = function(idStr, d) {
         if (idStr == 'comment-mine') {
             title = '我的评论';
+        } else if (idStr == 'comment-lastest') {
+            title = '最新';
         } else {
             return '';
         }
@@ -305,6 +307,15 @@ Client = (function() {
         } else {
             var html = Web.showCommentHtml(cmtIdStr, data);
             $('#comment').prepend(html);
+        }
+
+        var cmtIdStr = 'comment-lastest';
+        if ($('#' + cmtIdStr).length > 0) {
+            var html = Web.showCommentCellHtml(data);
+            $('#' + cmtIdStr).children('span').after(html);
+        } else {
+            var html = Web.showCommentHtml(cmtIdStr, data);
+            $('#comment').append(html);
         }
     };
 

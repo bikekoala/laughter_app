@@ -181,18 +181,18 @@ body {
 .comment-author span:nth-child(2) {
     font-size: 8pt;
 }
+.comment-up-img {
+    display: block;
+    float: right;
+    margin: 5px 3px 0 0;
+    height: 25px;
+}
 .comment-up-count {
     display: block;
     float: right;
     line-height: 315%;
     font-size: 10pt;
     color: #a2a2a2;
-}
-.comment-up-btn {
-    display: block;
-    float: right;
-    margin: 5px 3px 0 0;
-    height: 25px;
 }
 .comment-content {
     display: block;

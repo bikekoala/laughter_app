@@ -63,7 +63,7 @@ class CommentAction extends AbstractAction
             $this->outputJSON('无效的笑话ID~', false);
         }
         if ( ! $cmtId) {
-            $this->outputJSON('无效的ID~', false);
+            $this->outputJSON('无效的评论ID~', false);
         }
 
         // process

@@ -178,6 +178,12 @@ body {
 .comment-author span:nth-child(2) {
     font-size: 8pt;
 }
+.comment-up-img {
+    display: block;
+    float: right;
+    margin: 5px 3px 0 0;
+    height: 35px;
+}
 .comment-up-count {
     display: block;
     float: right;
@@ -187,12 +193,7 @@ body {
     font-size: 10pt;
     color: #a2a2a2;
 }
-.comment-up-btn {
-    display: block;
-    float: right;
-    margin: 5px 3px 0 0;
-    height: 35px;
-}
+
 .comment-content {
     display: block;
     clear: both;

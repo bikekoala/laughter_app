@@ -73,7 +73,7 @@ var Web = (function() {
             };
 
             $('.comment-up-btn').live('click', function(e) {
-                var extraParamsObj = {'comment_id' : $(this).parent().parent().parent().attr('data-id')};
+                var extraParamsObj = {'comment_id' : $(this).parent().parent().attr('data-id')};
                 bindAction($(this).children('img'), api, imgObj, extraParamsObj)
             });
         },
@@ -183,7 +183,7 @@ var Web = (function() {
         code += '           <span>'+d.user_nickname+'</span>';
         code += '           <span>'+d.create_time+'</span>';
         code += '       </div>';
-        code += '       <div class="comment-up-btn" data-isact="'+d.is_up+'">';
+        code += '       <div class="comment-up-img" data-isact="'+d.is_up+'">';
         code += '           '+img;
         code += '           <span class="comment-up-count">'+d.up_count+'</span>';
         code += '       </div>';

@@ -120,12 +120,12 @@ var Web = (function() {
                     });
                     if (result.status) {
                         // fill comments
-                        startNum = result.start;
+                        startNum = result.data.start;
                         startNums.shift();
                         startNums.push(startNum)
 
                         var html = '';
-                        $.each(result.list, function(i, v) {
+                        $.each(result.data.list, function(i, v) {
                             html += getCommentCellHtml(v);
                         })
                         $('#comment-lastest').append(html);

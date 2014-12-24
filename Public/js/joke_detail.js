@@ -436,9 +436,8 @@ $.global = (function() {
                 data: params,
                 dataType: 'json',
                 success: function(data){
-                    if (data.status) {
-                        result = data;
-                    } else {
+                    result = data;
+                    if ( ! data.status) {
                         ! isQuiet && AndroidWrapper.alert(data.data);
                     }
                 },

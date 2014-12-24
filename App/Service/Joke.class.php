@@ -79,16 +79,28 @@ class Joke extends AbstractService
             }
 
             // 更新统计数据
-            (new \App\Model\Joke)->modifyActionCount(
-                $this->jokeId,
-                $isAct,
-                $model::$JOKE_ACT_FIELD_NAME
-            );
+            $this->modifyActionCount($model::$JOKE_ACT_FIELD_NAME, $isAct);
 
             $model->commit(); //提交事务
         } catch (\Exception $e) {
             $model->rollback(); // 事务回滚
             throw new \Exception($e->getMessage());
         }
+    }
+
+    /**
+     * 修改特定操作计数
+     *
+     * @param string $fieldName
+     * @param int $isAct
+     * @return mixed
+     */
+    public function modifyActionCount($fieldName, $isAct)
+    {
+        return (new \App\Model\Joke)->modifyActionCount(
+            $this->jokeId,
+            $isAct,
+            $fieldName
+        );
     }
 }

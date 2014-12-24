@@ -21,7 +21,7 @@ var Web = (function() {
 
             $('#joke-up-btn img').click(function() {
                 var result = bindAction($(this), api, imgObj, {})
-                if (result) {
+                if (result.status) {
                     $(this).next().css('color', 'white');
                 }
             });
@@ -36,9 +36,9 @@ var Web = (function() {
             };
 
             $('#joke-favorite-btn').click(function() {
-                var result = bindAction($(this), api, imgObj, {})
-                if (result) {
-                    AndroidWrapper.clickFavorate();
+                var stat = AndroidWrapper.clickFavorate();
+                if (stat) {
+                    bindAction($(this).children('img'), api, imgObj, {})
                 }
             });
         },
@@ -67,7 +67,7 @@ var Web = (function() {
 
             $('.comment-up-btn').live('click', function(e) {
                 var extraParamsObj = {'comment_id' : $(this).parent().parent().parent().attr('data-id')};
-                bindAction($(this), api, imgObj, extraParamsObj)
+                bindAction($(this).children('img'), api, imgObj, extraParamsObj)
             });
         },
 
@@ -111,7 +111,7 @@ var Web = (function() {
                         user_id:jokeUid,
                         start:startNum
                     });
-                    if (result) {
+                    if (result.status) {
                         // fill comments
                         startNum = result.start;
                         startNums.shift();
@@ -213,7 +213,8 @@ var Web = (function() {
         }
         $.extend(params, extraParamsObj);
         var result = $.global.sendAjax(api, 'POST', params);
-        if (result) {
+        if (result.status) {
+            console.log(newImg);
             $image.attr('src', newImg);
             $count.text(newNum);
             $m.attr('data-isact', newIsAct)
@@ -248,7 +249,8 @@ Client = (function() {
                 'user_tid': opUtid,
                 'comment' : comment
             };
-            var id = $.global.sendAjax('/comment/add', 'POST', params, true);
+            var result = $.global.sendAjax('/comment/add', 'POST', params, true);
+            var id = result.data;
             if (id) {
                 increaseJokeCmtNum();
                 insertCommentHtml(id, comment);
@@ -267,7 +269,8 @@ Client = (function() {
                 'comment' : comment,
                 'comment_id' : commentId,
             };
-            var id = $.global.sendAjax('/comment/reply', 'POST', params, true);
+            var result = $.global.sendAjax('/comment/reply', 'POST', params, true);
+            var id = result.data;
             if (id) {
                 increaseJokeCmtNum();
                 insertCommentHtml(id, comment);
@@ -420,7 +423,7 @@ $.global = (function() {
                 dataType: 'json',
                 success: function(data){
                     if (data.status) {
-                        result = data.data;
+                        result = data;
                     } else {
                         ! isQuiet && AndroidWrapper.alert(data.data);
                     }

@@ -100,6 +100,7 @@ class JokeAction extends AbstractAction
     public function favorate()
     {
         // get params & validate
+        /*
         $isAct = (bool) $_REQUEST['is_act'];
         if ($this->userTid && ! $this->userId) {
             $this->outputJSON('请先登录~', false);
@@ -107,13 +108,14 @@ class JokeAction extends AbstractAction
         if ( ! $this->jokeId || ! $this->userId) {
             $this->outputJSON('Invalid params.', false);
         }
+         */
 
         // process
         try {
             // call action
-            (new Joke($this->jokeId, $this->userId))->setAction(
-                Joke::ACT_FAV,
-                $isAct
+            (new Joke($this->jokeId, $this->userId))->modifyActionCount(
+                \App\Model\JokeFavorateRecord::$JOKE_ACT_FIELD_NAME,
+                true
             );
         } catch (\Exception $e) {
             $this->outputJSON('操作失败!', false);

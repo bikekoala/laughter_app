@@ -36,8 +36,10 @@ var Web = (function() {
             };
 
             $('#joke-favorite-btn').click(function() {
-                var stat = AndroidWrapper.clickFavorate();
-                if (stat) {
+                AndroidWrapper.clickFavorate();
+
+                var favStatus = $('#joke').attr('data-fav-status');
+                if (1 == favStatus) {
                     bindAction($(this).children('img'), api, imgObj, {})
                 }
             });
@@ -279,6 +281,14 @@ Client = (function() {
                 AndroidWrapper.sendReplyCallback(1, '回复失败')
             }
         },
+
+        // 设置收藏状态
+        setfavoratestatus : function(stat) {
+            if (stat) {
+                $('#joke').attr('data-fav-status', 1);
+            }
+        },
+
         test : function() {
             insertCommentHtml(2, 'HaHa~~');
         }

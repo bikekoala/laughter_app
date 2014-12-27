@@ -119,7 +119,7 @@ class AbstractAction extends Action
                     }
                 // 推送笑话主人
                 } else {
-                    if ( ! empty($cmt) && $this->userId != $joke['user_id']) {
+                    if ($this->userId != $joke['user_id']) {
                         $pushService = new Push($opType, $joke['user_id']);
                         $pushService->setOpContent($params[0]);
                         $pushService->setSourceContent(

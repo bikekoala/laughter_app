@@ -80,7 +80,7 @@ class Comment extends AbstractService
     {
         $comments = $this->model->getListOrderByUpcount(
             $this->jokeId,
-            C('CMT_SUPER_COUNT'),
+            C('CMT_SUPER_UP_COUNT'),
             5
         );
 

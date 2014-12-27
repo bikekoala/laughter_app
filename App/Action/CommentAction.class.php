@@ -148,7 +148,8 @@ class CommentAction extends AbstractAction
             );
 
             // push message
-            $this->_push(Push::OP_RE_CMT, $comment, $replyCmtId);
+            $this->_push(Push::OP_RE_CMT, $comment); // 推送Joke作者
+            $this->_push(Push::OP_RE_CMT, $comment, $replyCmtId); // 推送评论作者
         } catch (\Exception $e) {
             $this->outputJSON('操作失败!', false);
         }

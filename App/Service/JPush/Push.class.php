@@ -28,6 +28,13 @@ class Push
     const RD_CUSTOM  = 3; // 自定义URL
 
     /**
+     * 推送用户UID
+     *
+     * @var int
+     */
+    protected $_pushUserId;
+
+    /**
      * 操作类型
      *
      * @var int
@@ -129,11 +136,13 @@ class Push
      * 构造方法
      *
      * @param int $opType
+     * @param int $pushUserid
      * @return void
      */
-    public function __construct($opType)
+    public function __construct($opType, $pushUserid)
     {
         $this->_opType = $opType;
+        $this->_pushUserId = $pushUserid;
     }
 
     /**
@@ -301,11 +310,11 @@ class Push
     {
         $pushApi = new API;
         $pushApi->setPlatform(Consts::PF_ANDROID);
-        $pushApi->setAudienceAlias(md5($this->_jokeUserId));
+        $pushApi->setAudienceAlias(md5($this->_pushUserId));
         $pushApi->setMessageTitle($this->_title);
         $pushApi->setMessageContent($this->_msgContent);
         $pushApi->setMessageExtras(array(
-            'user_id_alias' => md5($this->_jokeUserId),
+            'user_id_alias' => md5($this->_pushUserId),
             'joke_id' => (int) $this->_jokeId,
             'joke_user_id' => (int) $this->_jokeUserId,
             'joke_user_name' => $this->_jokeUserName,

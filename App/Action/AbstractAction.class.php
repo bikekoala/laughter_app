@@ -87,34 +87,57 @@ class AbstractAction extends Action
         $user = (new User)->getData($this->userId);
 
         // push message
-        if ( ! empty($joke) &&
-             ! empty($user) &&
-             $this->userId != $joke['user_id']
-        ) {
-            $pushService = new Push($opType);
+        if ( ! empty($joke) && ! empty($user)) {
+            if (Push::OP_UP_JOKE === $opType) {
+                if ($this->userId != $joke['user_id']) {
+                    $pushService = new Push($opType, $joke['user_id']);
+                    $pushService->setSourceContent(str_cut_off($joke['content']));
+                }
+            }
+            if (Push::OP_UP_CMT === $opType) {
+                $cmt = (new Comment)->getData($params[0]);
+                if ( ! empty($cmt) && $this->userId != $cmt['user_id']) {
+                    $pushService = new Push($opType, $cmt['user_id']);
+                    $pushService->setSourceContent(str_cut_off($cmt['content']));
+                }
+            }
+            if (Push::OP_RE_JOKE === $opType) {
+                $pushService = new Push($opType, $joke['user_id']);
+                $pushService->setOpContent($params[0]);
+                $pushService->setSourceContent(str_cut_off($joke['content']));
+            }
+            if (Push::OP_RE_CMT === $opType) {
+                // 推送评论主人
+                if (isset($params[1])) {
+                    $cmt = (new Comment)->getData($params[1]);
+                    if ( ! empty($cmt) && $this->userId != $cmt['user_id']) {
+                        $pushService = new Push($opType, $cmt['user_id']);
+                        $pushService->setOpContent($params[0]);
+                        $pushService->setSourceContent(
+                            str_cut_off($joke['content'])
+                        );
+                    }
+                // 推送笑话主人
+                } else {
+                    if ( ! empty($cmt) && $this->userId != $joke['user_id']) {
+                        $pushService = new Push($opType, $joke['user_id']);
+                        $pushService->setOpContent($params[0]);
+                        $pushService->setSourceContent(
+                            str_cut_off($cmt['content'])
+                        );
+                    }
+                }
+            }
+            if (empty($pushService)) {
+                return false;
+            }
+
             $pushService->setJokeId($joke['id']);
             $pushService->setJokeUserId($joke['user_id']);
             $pushService->setJokeUserName('讲个笑话吧');
             $pushService->setOpUserId($user['id']);
             $pushService->setOpUserName($user['nickname']);
             $pushService->setOpUserAvatar($user['avatar']);
-            if (Push::OP_UP_JOKE === $opType) {
-                $pushService->setSourceContent(str_cut_off($joke['content']));
-            }
-            if (Push::OP_UP_CMT === $opType) {
-                $cmt = (new Comment)->getData($params[0]);
-                $pushService->setSourceContent(str_cut_off($cmt['content']));
-            }
-            if (Push::OP_RE_JOKE === $opType) {
-                $pushService->setOpContent($params[0]);
-                $pushService->setSourceContent(str_cut_off($joke['content']));
-            }
-            if (Push::OP_RE_CMT === $opType) {
-                $cmt = (new Comment)->getData($params[1]);
-                $pushService->setOpContent($params[0]);
-                $pushService->setSourceContent(str_cut_off($cmt['content']));
-            }
-
             $pushService->fire();
         }
     }

@@ -134,7 +134,7 @@ class API
 
         $curl = new Curl($conf['API']);
         $curl->setopt(CURLOPT_USERPWD, $authString);
-        $curl->setopt(CURLOPT_TIMEOUT, 1); // 超时描述
+        $curl->setopt(CURLOPT_TIMEOUT, 10); // 超时秒数
         return $curl->post($body);
     }
 

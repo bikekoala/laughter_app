@@ -114,7 +114,7 @@ class AbstractAction extends Action
                         $pushService = new Push($opType, $cmt['user_id']);
                         $pushService->setOpContent($params[0]);
                         $pushService->setSourceContent(
-                            str_cut_off($joke['content'])
+                            str_cut_off($cmt['content'])
                         );
                     }
                 // 推送笑话主人
@@ -123,7 +123,7 @@ class AbstractAction extends Action
                         $pushService = new Push($opType, $joke['user_id']);
                         $pushService->setOpContent($params[0]);
                         $pushService->setSourceContent(
-                            str_cut_off($cmt['content'])
+                            str_cut_off($joke['content'])
                         );
                     }
                 }

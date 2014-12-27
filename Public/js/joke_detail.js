@@ -20,14 +20,15 @@ var Web = (function() {
             };
 
             $('#joke-up-btn img').click(function() {
-                var result = bindAction($(this), api, imgObj, {})
-                if (result.status) {
-                    var $num = $(this).next();
-                    if ($num.hasClass('joke-up-btn-span')) {
-                        $num.attr('class', 'joke-up-btn-span-press');
-                    } else {
-                        $num.attr('class', 'joke-up-btn-span');
-                    }
+                // 请求服务器
+                bindAction($(this), api, imgObj, {})
+
+                // 改变样式
+                var $num = $(this).next();
+                if ($num.hasClass('joke-up-btn-span')) {
+                    $num.attr('class', 'joke-up-btn-span-press');
+                } else {
+                    $num.attr('class', 'joke-up-btn-span');
                 }
             });
         },
@@ -113,7 +114,7 @@ var Web = (function() {
                     // display loading image
                     //$('#comment-loading').css('display', 'block');
                     // request
-                    var result = $.global.sendAjax('/comment/lastest', 'GET', {
+                    var result = $.global.sendAjax('/comment/lastest', 'GET', false, {
                         joke_id:jokeId,
                         user_id:jokeUid,
                         start:startNum
@@ -213,20 +214,19 @@ var Web = (function() {
             newImg = imgObj[newIsAct];
         }
 
+        // 立即改变样式
+        $image.attr('src', newImg);
+        $count.text(newNum);
+        $m.attr('data-isact', newIsAct)
+
+        // 请求服务器
         var params = {
             joke_id:jokeId,
             user_tid:opUtid,
             is_act:newIsAct
         }
         $.extend(params, extraParamsObj);
-        var result = $.global.sendAjax(api, 'POST', params);
-        if (result.status) {
-            $image.attr('src', newImg);
-            $count.text(newNum);
-            $m.attr('data-isact', newIsAct)
-        }
-
-        return result;
+        return $.global.sendAjax(api, 'POST', true, params);
     }
 
     return Return;
@@ -255,7 +255,7 @@ Client = (function() {
                 'user_tid': opUtid,
                 'comment' : comment
             };
-            var result = $.global.sendAjax('/comment/add', 'POST', params, true);
+            var result = $.global.sendAjax('/comment/add', 'POST', false, params, true);
             var id = result.data;
             if (id) {
                 increaseJokeCmtNum();
@@ -275,7 +275,7 @@ Client = (function() {
                 'comment' : comment,
                 'comment_id' : commentId,
             };
-            var result = $.global.sendAjax('/comment/reply', 'POST', params, true);
+            var result = $.global.sendAjax('/comment/reply', 'POST', false, params, true);
             var id = result.data;
             if (id) {
                 increaseJokeCmtNum();
@@ -423,12 +423,12 @@ AndroidWrapper = (function() {
  */
 $.global = (function() {
     var Return = {
-        sendAjax : function(url, methodType, params, isQuiet) {
+        sendAjax : function(url, methodType, isAsync, params, isQuiet) {
             var result;
             $.ajax({
                 url: url,
                 type: methodType,
-                async: false,
+                async: isAsync,
                 data: params,
                 dataType: 'json',
                 success: function(data){

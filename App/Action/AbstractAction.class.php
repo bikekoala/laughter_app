@@ -4,6 +4,7 @@ namespace App\Action;
 use Think\Action;
 use \App\Service\User;
 use \App\Service\Joke;
+use \App\Service\Comment;
 use \App\Service\JPush\Push;
 
 /**
@@ -79,7 +80,7 @@ class AbstractAction extends Action
      * @param string $content
      * @return void
      */
-    protected function _push($opType, $content = '')
+    protected function _push($opType, ...$params)
     {
         // get associate info
         $joke = (new Joke($this->jokeId))->getData();
@@ -97,7 +98,15 @@ class AbstractAction extends Action
             $pushService->setOpUserId($user['id']);
             $pushService->setOpUserName($user['nickname']);
             $pushService->setOpUserAvatar($user['avatar']);
-            $pushService->setSourceContent($content);
+            if (Push::OP_RE_JOKE === $opType) {
+                $pushService->setOpContent($params[0]);
+                $pushService->setSourceContent($joke['content']);
+            }
+            if (Push::OP_RE_CMT === $opType) {
+                $cmt = (new Comment)->getData($params[1]);
+                $pushService->setOpContent($params[0]);
+                $pushService->setSourceContent($cmt['content']);
+            }
 
             $pushService->fire();
         }

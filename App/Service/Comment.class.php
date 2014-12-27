@@ -25,6 +25,21 @@ class Comment extends AbstractService
     }
 
     /**
+     * 获取评论数据
+     *
+     * @params int $id
+     * @return array
+     */
+    public function getData($id)
+    {
+        $data = $this->model->getData($id);
+        if (empty($data)) {
+            throw new \Exception('空的评论详情');
+        }
+        return $data;
+    }
+
+    /**
      * 获取他人回复我的评论列表
      *
      * @param array $mineComments

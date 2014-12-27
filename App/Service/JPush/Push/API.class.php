@@ -161,7 +161,7 @@ class API
             )
         );
 
-        $data = array_filter_recursive($data);
+        //$data = array_filter_recursive($data);
         return json_encode($data);
     }
 }

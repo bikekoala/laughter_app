@@ -98,6 +98,13 @@ class Push
     protected $_opUserLevel;
 
     /**
+     * 评论或回复的内容
+     *
+     * @var string
+     */
+    protected $_opContent;
+
+    /**
      * 评论或回复的源内容
      *
      * @var string
@@ -242,7 +249,18 @@ class Push
     }
 
     /**
-     * 设置评论或回复的源内容（只需评论或回复操作时设置）
+     * 设置评论或回复的内容
+     *
+     * @param string $content
+     * @return void
+     */
+    public function setOpContent($content)
+    {
+        $this->_opContent = $content;
+    }
+
+    /**
+     * 设置笑话 或 评论 的源内容
      *
      * @param string $content
      * @return void
@@ -283,22 +301,22 @@ class Push
     {
         $pushApi = new API;
         $pushApi->setPlatform(Consts::PF_ANDROID);
-        $pushApi->setAudienceAlias(md5($this->_opUserId));
+        $pushApi->setAudienceAlias(md5($this->_jokeUserId));
         $pushApi->setMessageTitle($this->_title);
         $pushApi->setMessageContent($this->_content);
         $pushApi->setMessageExtras(array(
-            'joke_id' => $this->_jokeId,
-            'joke_user_id' => $this->_jokeUserId,
+            'joke_id' => (int) $this->_jokeId,
+            'joke_user_id' => (int) $this->_jokeUserId,
             'joke_user_name' => $this->_jokeUserName,
             'op_type' => $this->_opType,
-            'op_user_id' => $this->_opUserId,
+            'op_user_id' => (int) $this->_opUserId,
             'op_user_name' => $this->_opUserName,
             'op_user_avatar' => $this->_opUserAvatar,
-            'op_user_level' => $this->_opUserLevel,
-            'op_content' => $this->_content,
+            'op_user_level' => (int) $this->_opUserLevel,
+            'op_content' => $this->_opContent,
             'op_time' => date('Y-m-d H:i:s'),
             'source_content' => $this->_sourceContent,
-            'redirect_type' => $this->_redirectType,
+            'redirect_type' => (int) $this->_redirectType,
             'redirect_url' => $this->_redirectUrl
         ));
 

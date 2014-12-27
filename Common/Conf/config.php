@@ -22,7 +22,8 @@ $common = array(
 // 项目配置文件
 $custom = array(
     'PORTAL_URL' => 'http://www.jgxhb.com',
-    'STATIC_VER' => '1.0.1',
+    'STATIC_VER' => '0.0.1',
+    'CMT_SUPER_COUNT' => 2,
     'JPUSH' => array(
         'API' => 'https://api.jpush.cn/v3/push',
         'APP_KEY' => '8008b65dcc28cff0c205842f',

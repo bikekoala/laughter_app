@@ -74,12 +74,15 @@ class Comment extends AbstractService
     /**
      * 获取神评论列表
      *
-     * @param int $limit
      * @return array
      */
-    public function getSuper($limit = 5)
+    public function getSuper()
     {
-        $comments = $this->model->getListOrderByUpcount($this->jokeId, 10, $limit);
+        $comments = $this->model->getListOrderByUpcount(
+            $this->jokeId,
+            C('CMT_SUPER_COUNT'),
+            5
+        );
 
         return $this->_process($comments);
     }

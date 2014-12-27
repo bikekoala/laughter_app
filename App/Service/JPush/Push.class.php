@@ -42,11 +42,11 @@ class Push
     protected $_title = '讲个笑话吧';
 
     /**
-     * 推送内容
+     * 推送消息内容
      *
      * @var string
      */
-    protected $_content;
+    protected $_msgContent;
 
     /**
      * 笑话ID
@@ -137,13 +137,13 @@ class Push
     }
 
     /**
-     * 设置推送内容
+     * 设置消息内容
      *
      * @param string $name
      * @param int $opType
      * @return void
      */
-    public function setComment($name, $opType)
+    public function setMsgContent($name, $opType)
     {
         $opTypeStr = '';
         $cateName = '';
@@ -166,7 +166,7 @@ class Push
                 break;
         }
 
-        $this->_content = sprintf('%s%s了您的%s', $name, $opTypeStr, $cateName);
+        $this->_msgContent = sprintf('%s%s了您的%s', $name, $opTypeStr, $cateName);
     }
 
     /**
@@ -223,7 +223,7 @@ class Push
     {
         $this->_opUserName = $name;
 
-        $this->setComment($name, $this->_opType);
+        $this->setMsgContent($name, $this->_opType);
     }
 
     /**
@@ -303,7 +303,7 @@ class Push
         $pushApi->setPlatform(Consts::PF_ANDROID);
         $pushApi->setAudienceAlias(md5($this->_jokeUserId));
         $pushApi->setMessageTitle($this->_title);
-        $pushApi->setMessageContent($this->_content);
+        $pushApi->setMessageContent($this->_msgContent);
         $pushApi->setMessageExtras(array(
             'joke_id' => (int) $this->_jokeId,
             'joke_user_id' => (int) $this->_jokeUserId,
@@ -313,7 +313,7 @@ class Push
             'op_user_name' => $this->_opUserName,
             'op_user_avatar' => $this->_opUserAvatar,
             'op_user_level' => (int) $this->_opUserLevel,
-            'op_content' => $this->_opContent,
+            'op_content' => $this->_opContent ? : $this->_msgContent,
             'op_time' => date('Y-m-d H:i:s'),
             'source_content' => $this->_sourceContent,
             'redirect_type' => (int) $this->_redirectType,

@@ -73,7 +73,7 @@ class CommentAction extends AbstractAction
 
             // push message
             if ($isAct) {
-                $this->_push(Push::OP_UP_CMT);
+                $this->_push(Push::OP_UP_CMT, $cmtId);
             }
         } catch (\Exception $e) {
             $this->outputJSON('操作失败!', false);

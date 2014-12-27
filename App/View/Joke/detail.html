@@ -9,7 +9,7 @@
         <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/joke_detail_small.css?ver={$static_ver}">
     </head>
     <body>
-        <div id="wrapper" data-op-user-tid="{$user_tid}" data-op-user-id="{$user_data.id}" data-op-user-name="{$user_data.nickname}" data-op-user-avatar="{$user_data.avatar}">
+        <div id="wrapper" data-is-login="{$is_login}" data-op-user-tid="{$user_tid}" data-op-user-id="{$user_data.id}" data-op-user-name="{$user_data.nickname}" data-op-user-avatar="{$user_data.avatar}">
             <div id="joke" data-id="{$joke.id}" data-type="{$joke.type}" data-user-id="{$joke_user.id}" data-fav-status="0">
                 <div id="joke-header">
                     <img class="joke-avatar avatar" src="<empty name='joke_user.avatar'>__PUBLIC__/img/avatar_default_large.png<else />{$joke_user.avatar}</empty>"/>

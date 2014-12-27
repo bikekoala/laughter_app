@@ -46,6 +46,7 @@ class JokeAction extends AbstractAction
         }
 
         // vendor
+        $this->assign('is_login', (int) ! empty($this->userId));
         $this->assign('user_tid', $this->userTid);
         $this->assign('user_data', $this->userData);
         $this->assign('joke', $joke);

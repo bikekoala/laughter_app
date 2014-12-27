@@ -171,9 +171,9 @@ var Web = (function() {
             d.user_avatar = '/Public/img/avatar_default_small.png';
         }
         if (1 == d.is_up) {
-            var img = '<img class="comment-up-btn" src="/Public/img/comment_up_press.png"/>';
+            var img = '<img class="comment-up-img" src="/Public/img/comment_up_press.png"/>';
         } else {
-            var img = '<img class="comment-up-btn" src="/Public/img/comment_up.png"/>';
+            var img = '<img class="comment-up-img" src="/Public/img/comment_up.png"/>';
         }
         var code = '';
         code += '<div class="comment-body" data-id="'+d.id+'" data-user-id="'+d.user_id+'" data-user-name="'+d.user_nickname+'">';
@@ -183,7 +183,7 @@ var Web = (function() {
         code += '           <span>'+d.user_nickname+'</span>';
         code += '           <span>'+d.create_time+'</span>';
         code += '       </div>';
-        code += '       <div class="comment-up-img" data-isact="'+d.is_up+'">';
+        code += '       <div class="comment-up-btn" data-isact="'+d.is_up+'">';
         code += '           '+img;
         code += '           <span class="comment-up-count">'+d.up_count+'</span>';
         code += '       </div>';

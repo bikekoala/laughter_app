@@ -6,15 +6,13 @@
 body {
     width: 100%; 
     margin: 0 auto;
+    background-color: #ececec;
 }
 #wrapper {
     padding: 10px;
-    background-color: #ececec;
 }
 #joke {
     background-color: #ffffff;
-    border-right: 1px solid #ccc;
-    border-bottom: 2px solid #ccc;
 }
 #joke-header {
     height: 60px;
@@ -22,7 +20,7 @@ body {
 .joke-avatar {
     display: block;
     float: left;
-    margin: 5px 0 0 10px;
+    margin: 10px 0 0 10px;
     height: 100%;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
@@ -62,8 +60,8 @@ body {
 }
 #joke-up-btn {
     position: relative;
-    height: 70px;
-    width: 70px;
+    height: 90px;
+    width: 90px;
     margin: 0 auto;
     margin-top: 5px;
 }
@@ -75,9 +73,9 @@ body {
     display: block;
     position: absolute;
     width: 100%;
-    margin-top: -23px;
+    margin-top: -30px;
     text-align: center;
-    font-size: 10pt;
+    font-size: 12pt;
 }
 .joke-up-btn-span {
     color: #a2a2a2;
@@ -87,24 +85,24 @@ body {
 }
 .joke-action-btn {
     position: relative;
-    height: 25px;
+    height: 30px;
     width: 100%;
     margin-top: 10px;
     background-color: #f4f4f4;
 }
 .joke-action-btn div {
+    top : 0px;
     height: 100%;
 }
 .joke-action-btn img {
     display: block;
     height: 100%;
-    width: 25px;
 }
 .joke-action-btn span {
     position: absolute;
     display: block;
-    top : 9px;
-    font-size: 9pt;
+    top : 6px;
+    font-size: 12pt;
     color: #a2a2a2;
 }
 #joke-favorite-btn {
@@ -116,26 +114,21 @@ body {
     margin: 0 auto;
 }
 #joke-favorite-btn span {
-    top : 7px;
     left: 65%;
 }
 #joke-comment-btn {
     position: absolute;
     width: 100px;
-    top : 0px;
     left: 8%;
 }
 #joke-comment-btn span {
-    top : 7px;
     left: 30%;
 }
 #joke-share-btn {
     position: absolute;
-    top : 0px;
     right: 8%;
 }
 #joke-share-btn span {
-    top : 7px;
     left: 105%;
 }
 #comment {
@@ -187,13 +180,13 @@ body {
     display: block;
     float: right;
     margin: 5px 3px 0 0;
-    height: 25px;
+    height: 32px;
 }
 .comment-up-count {
     display: block;
     float: right;
-    line-height: 315%;
-    font-size: 10pt;
+    line-height: 300%;
+    font-size: 12pt;
     color: #a2a2a2;
 }
 .comment-content {

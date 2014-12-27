@@ -99,20 +99,20 @@ class AbstractAction extends Action
             $pushService->setOpUserName($user['nickname']);
             $pushService->setOpUserAvatar($user['avatar']);
             if (Push::OP_UP_JOKE === $opType) {
-                $pushService->setSourceContent($joke['content']);
+                $pushService->setSourceContent(str_cut_off($joke['content']));
             }
             if (Push::OP_UP_CMT === $opType) {
                 $cmt = (new Comment)->getData($params[0]);
-                $pushService->setSourceContent($cmt['content']);
+                $pushService->setSourceContent(str_cut_off($cmt['content']));
             }
             if (Push::OP_RE_JOKE === $opType) {
                 $pushService->setOpContent($params[0]);
-                $pushService->setSourceContent($joke['content']);
+                $pushService->setSourceContent(str_cut_off($joke['content']));
             }
             if (Push::OP_RE_CMT === $opType) {
                 $cmt = (new Comment)->getData($params[1]);
                 $pushService->setOpContent($params[0]);
-                $pushService->setSourceContent($cmt['content']);
+                $pushService->setSourceContent(str_cut_off($cmt['content']));
             }
 
             $pushService->fire();

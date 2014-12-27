@@ -14,3 +14,19 @@ function array_filter_recursive($input) {
 
     return array_filter($input);
 }
+
+/**
+ * 截断字符串
+ *
+ * @param mixed $str
+ * @param int $length
+ * @access public
+ * @return void
+ */
+function str_cut_off($str, $length = 10, $sufix = '...') {
+    if (mb_strlen($str) > $length) {
+        return mb_substr($str, 0, $length) . $sufix;
+    } else {
+        return $str;
+    }
+}

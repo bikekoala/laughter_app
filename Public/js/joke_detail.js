@@ -81,7 +81,7 @@ var Web = (function() {
         // 绑定评论点击事件
         bindCommentClick : function() {
             $('.comment-body').live('click', function(e) {
-                if ($(e.target).hasClass('comment-up-btn')) {
+                if ($(e.target).hasClass('comment-up-img')) {
                     return false;
                 }
                 if ($(e.target).hasClass('comment-avatar')) {

@@ -305,6 +305,7 @@ class Push
         $pushApi->setMessageTitle($this->_title);
         $pushApi->setMessageContent($this->_msgContent);
         $pushApi->setMessageExtras(array(
+            'user_id_alias' => md5($this->_jokeUserId),
             'joke_id' => (int) $this->_jokeId,
             'joke_user_id' => (int) $this->_jokeUserId,
             'joke_user_name' => $this->_jokeUserName,

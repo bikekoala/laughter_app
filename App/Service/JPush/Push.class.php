@@ -84,13 +84,6 @@ class Push
     protected $_opUserName;
 
     /**
-     * 操作用户TOKEN
-     *
-     * @var string
-     */
-    protected $_opUserToken;
-
-    /**
      * 操作用户头像URL
      *
      * @var string
@@ -227,17 +220,6 @@ class Push
     }
 
     /**
-     * 设置操作用户TOKEN
-     *
-     * @param string $token
-     * @return void
-     */
-    public function setOpUserToken($token)
-    {
-        $this->_opUserToken = $token;
-    }
-
-    /**
      * 色沪指操作用户头像URL
      *
      * @param string $url
@@ -301,7 +283,7 @@ class Push
     {
         $pushApi = new API;
         $pushApi->setPlatform(Consts::PF_ANDROID);
-        $pushApi->setAudienceAlias(md5($this->_opUserToken));
+        $pushApi->setAudienceAlias(md5($this->_opUserId));
         $pushApi->setMessageTitle($this->_title);
         $pushApi->setMessageContent($this->_content);
         $pushApi->setMessageExtras(array(

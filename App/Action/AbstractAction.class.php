@@ -97,7 +97,6 @@ class AbstractAction extends Action
             $pushService->setOpUserId($user['id']);
             $pushService->setOpUserName($user['nickname']);
             $pushService->setOpUserAvatar($user['avatar']);
-            $pushService->setOpUserToken($user['token']);
             $pushService->setSourceContent($content);
 
             $pushService->fire();

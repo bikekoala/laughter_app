@@ -102,9 +102,11 @@ class AbstractAction extends Action
                 }
             }
             if (Push::OP_RE_JOKE === $opType) {
-                $pushService = new Push($opType, $joke['user_id']);
-                $pushService->setOpContent($params[0]);
-                $pushService->setSourceContent(str_cut_off($joke['content']));
+                if ($this->userId != $joke['user_id']) {
+                    $pushService = new Push($opType, $joke['user_id']);
+                    $pushService->setOpContent($params[0]);
+                    $pushService->setSourceContent(str_cut_off($joke['content']));
+                }
             }
             if (Push::OP_RE_CMT === $opType) {
                 // 推送评论主人

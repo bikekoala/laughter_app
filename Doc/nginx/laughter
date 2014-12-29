@@ -1,0 +1,70 @@
+server {
+    listen 80;
+    server_name jgxhb.com www.jgxhb.com;
+
+    # 笑话分享页面
+    location ~ ^/joke/ {
+        rewrite ^/joke/(\d+)$   http://www.jgxhb.com:8090/joke/$1;
+    }
+
+    # 首页
+    location / {
+        proxy_pass      http://www.jgxhb.com:8080;
+    }
+
+    # 后台
+    location ~ ^/web/ {
+        proxy_pass      http://www.jgxhb.com:8080;
+    }
+   
+
+    # 客户端，API转发
+    location ~ ^/api/ {
+        proxy_pass      http://127.0.0.1:8080;
+    }
+
+    # 静态文件虚拟路径
+    location ~ ^/(css|js|download)/ {
+        root /mnt/web/laughter/;
+    }
+
+    ##
+    # 图片转发，并缓存
+    #
+    # 参数：
+    #   proxy_cache 缓存空间名称
+    #   proxy_cache_min_uses 设置连接请求几次就被缓存
+    #   proxy_cache_valid 定义哪些http头要存，以及缓存时间
+    #   proxy_cache_use_stale 定义哪些情况下就用过期缓存, 如网关错误、超时
+    #   proxy_cache_key 设置缓存的关键字
+    # 清理：crontab 中每2天清理一次
+    ##
+    location ~ ^/img/ {
+        # proxy_cache的配置
+        proxy_cache           nginx_cache_one;
+        proxy_cache_min_uses  1;
+        proxy_cache_valid     200 302 1d;
+        proxy_cache_use_stale error timeout invalid_header http_500;
+        proxy_cache_key       $host$uri$is_args$args;
+        proxy_pass            http://127.0.0.1:8801;
+    }
+
+    # 手动清理图片缓存
+    location ~ ^/purge(/.*) {
+        #allow              127.0.0.1;
+        #deny               all;
+        proxy_cache_purge  nginx_cache_one $host$1$is_args$args;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+
+    error_log /var/log/nginx/laughter_error.log;
+}
+
+server {
+    listen 8801;
+    server_name 127.0.0.1;
+    root /mnt/web/laughter/;
+}

@@ -1,0 +1,27 @@
+server {
+    listen 8090;
+    #server_name jgxhb.com www.jgxhb.com;
+    root /mnt/web/laughter_v2/app;
+    index index.php index.html;
+
+    # ThinkPHP路径rewrite模式
+    location / {
+        if (!-e $request_filename) {
+            rewrite ^(.*)$ /index.php?s=$1 last;
+            break;
+        }
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+
+    error_log /var/log/nginx/laughter_v2_error.log;
+}

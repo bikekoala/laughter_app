@@ -24,11 +24,13 @@ var Web = (function() {
                 bindAction($(this), api, imgObj, {})
 
                 // 改变样式
-                var $num = $(this).next();
-                if ($num.hasClass('joke-up-btn-span')) {
-                    $num.attr('class', 'joke-up-btn-span-press');
-                } else {
-                    $num.attr('class', 'joke-up-btn-span');
+                if ($.global.checkLogin()) {
+                    var $num = $(this).next();
+                    if ($num.hasClass('joke-up-btn-span')) {
+                        $num.attr('class', 'joke-up-btn-span-press');
+                    } else {
+                        $num.attr('class', 'joke-up-btn-span');
+                    }
                 }
             });
         },
@@ -195,6 +197,13 @@ var Web = (function() {
     }
 
     var bindAction = function($image, api, imgObj, extraParamsObj) {
+        // 检查是否登录
+        var stat = $.global.checkLogin();
+        if ( ! stat) {
+            return false;
+        }
+
+        // action逻辑
         var opUtid = $('#wrapper').attr('data-op-user-tid');
         var jokeId = $('#joke').attr('data-id');
 
@@ -442,6 +451,15 @@ $.global = (function() {
                 }
             })
             return result;
+        },
+        checkLogin : function() {
+            var isLogin = $('#wrapper').attr('data-is-login');
+            if (0 == isLogin) {
+                AndroidWrapper.alert('请登录后再试哦亲～');
+                return false;
+            } else {
+                return true;
+            }
         }
     };
 

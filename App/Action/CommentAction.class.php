@@ -138,8 +138,8 @@ class CommentAction extends AbstractAction
         // process
         try {
             $commentService = new Comment($this->jokeId, $this->userId);
-            $comment = $commentService->getData($replyCmtId);
-            if ($this->userId == $comment['user_id']) {
+            $replyCommentData = $commentService->getData($replyCmtId);
+            if ($this->userId == $replyCommentData['user_id']) {
                 $this->outputJSON('试试回复其他小伙伴的评论吧~', false);
             }
             $id = $commentService->addComment(

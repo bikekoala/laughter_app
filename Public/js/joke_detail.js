@@ -103,7 +103,10 @@ var Web = (function() {
             var jokeId = $j.attr('data-id');
             var jokeUid = $j.attr('data-user-id');
 
-            var startNum = parseInt($('#comment-lastest').attr('data-start'));
+            var startNum = 0;
+            if (typeof($('#comment-lastest').length) > 0) {
+                startNum = parseInt($('#comment-lastest').attr('data-start'));
+            }
             var startNums = new Array();
             startNums.push(0, startNum);
 
@@ -265,10 +268,9 @@ Client = (function() {
                 'comment' : comment
             };
             var result = $.global.sendAjax('/comment/add', 'POST', false, params, true);
-            var id = result.data;
-            if (id) {
+            if (result.status) {
                 increaseJokeCmtNum();
-                insertCommentHtml(id, comment);
+                insertCommentHtml(result.data, comment);
                 AndroidWrapper.sendCommentCallback(0, '评论成功')
             } else {
                 AndroidWrapper.sendCommentCallback(1, '评论失败')
@@ -486,5 +488,4 @@ Zepto(function($){
     Web.bindCommentClickUp();
     // 绑定评论点击事件
     Web.bindCommentClick();
-    Client.sendReply('OGxCU3gxQWc4ZSsxRjMvVHU1alF6WHlSWDZRaXNOaFc0NE90L1ZLNzNaMDM3SzFIWUhDSnpDOWwvWFpUc1ZhVl8xNDE5OTQzNzIyODIy', 'haha', 22);
 })

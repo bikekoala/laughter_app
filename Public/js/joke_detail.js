@@ -285,13 +285,12 @@ Client = (function() {
                 'comment_id' : commentId,
             };
             var result = $.global.sendAjax('/comment/reply', 'POST', false, params, true);
-            var id = result.data;
-            if (id) {
+            if (result.status) {
                 increaseJokeCmtNum();
-                insertCommentHtml(id, comment);
+                insertCommentHtml(result.data, comment);
                 AndroidWrapper.sendReplyCallback(0, '回复成功')
             } else {
-                AndroidWrapper.sendReplyCallback(1, '回复失败')
+                AndroidWrapper.sendReplyCallback(1, result.data)
             }
         },
 
@@ -487,4 +486,5 @@ Zepto(function($){
     Web.bindCommentClickUp();
     // 绑定评论点击事件
     Web.bindCommentClick();
+    Client.sendReply('OGxCU3gxQWc4ZSsxRjMvVHU1alF6WHlSWDZRaXNOaFc0NE90L1ZLNzNaMDM3SzFIWUhDSnpDOWwvWFpUc1ZhVl8xNDE5OTQzNzIyODIy', 'haha', 22);
 })

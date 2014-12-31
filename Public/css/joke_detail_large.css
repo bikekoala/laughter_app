@@ -1,18 +1,22 @@
 @charset "utf-8";
 @media screen and (min-width:800px) {
+* {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
 body {
     width: 500px; 
     margin: 0 auto;
+    background-color: #ececec;
 }
-
 #wrapper {
     padding: 10px;
     background-color: #ececec;
 }
 #joke {
     background-color: #ffffff;
-    border-right: 1px solid #ccc;
-    border-bottom: 2px solid #ccc;
+    -webkit-box-shadow: 1px 1px 5px #ccc;
+    -moz-box-shadow: 1px 1px 5px #ccc;
+    box-shadow: 1px 1px 5px #ccc;
 }
 #joke-header {
     height: 90px;
@@ -53,6 +57,8 @@ body {
     font-size: 16pt;
     letter-spacing: 1px;
     color: #4a5152;
+    word-break: break-all;
+    word-wrap: break-word;
 }
 #joke-content img {
     display: block;
@@ -91,12 +97,12 @@ body {
     background-color: #f4f4f4;
 }
 .joke-action-btn div {
+    top : 0px;
     height: 100%;
 }
 .joke-action-btn img {
     display: block;
     height: 100%;
-    width: 35px;
 }
 .joke-action-btn span {
     position: absolute;
@@ -119,7 +125,6 @@ body {
 #joke-comment-btn {
     position: absolute;
     width: 100px;
-    top : 0px;
     left: 8%;
 }
 #joke-comment-btn span {
@@ -127,7 +132,6 @@ body {
 }
 #joke-share-btn {
     position: absolute;
-    top : 0px;
     right: 8%;
 }
 #joke-share-btn span {
@@ -136,6 +140,9 @@ body {
 #comment {
     margin-top: 20px;
     background-color: #ffffff;
+    -webkit-box-shadow: 1px 1px 5px #ccc;
+    -moz-box-shadow: 1px 1px 5px #ccc;
+    box-shadow: 1px 1px 5px #ccc;
 }
 .comment-title {
     display: block;
@@ -187,13 +194,10 @@ body {
 .comment-up-count {
     display: block;
     float: right;
-    height: 35px;
-    margin-top: 5px;
     line-height: 320%;
     font-size: 10pt;
     color: #a2a2a2;
 }
-
 .comment-content {
     display: block;
     clear: both;
@@ -204,7 +208,8 @@ body {
     font-family: "verdana","ms song","Arial","Helvetica", "sans-serif";
     font-size: 12pt;
     color: #4a5152;
-
+    word-break: break-all;
+    word-wrap: break-word;
 }
 #comment-loading {
     display: none;

@@ -10,6 +10,9 @@
     </head>
     <body>
         <div id="wrapper" data-is-login="{$is_login}" data-op-user-tid="{$user_tid}" data-op-user-id="{$user_data.id}" data-op-user-name="{$user_data.nickname}" data-op-user-avatar="{$user_data.avatar}">
+            <div id="download-tips">
+                <img src="__PUBLIC__/img/download_tips.png" />
+            </div>
             <div id="joke" data-id="{$joke.id}" data-type="{$joke.type}" data-user-id="{$joke_user.id}" data-fav-status="0">
                 <div id="joke-header">
                     <img class="joke-avatar avatar" src="<empty name='joke_user.avatar'>__PUBLIC__/img/avatar_default_large.png<else />{$joke_user.avatar}</empty>"/>
@@ -91,6 +94,14 @@
                 </notempty>
                 <img id="comment-loading" src="__PUBLIC__/img/loading_progress.png"/>
             </div>
+            <div id="download-banner">
+                <img class="download-avatar" src="__PUBLIC__/img/download_avatar.png" />
+                <div class="download-slogon">
+                    <span>讲个笑话吧</span>
+                    <span>还等什么？赶快假如组织！</span>
+                </div>
+                <img id="download-btn" src="__PUBLIC__/img/download_btn.png" />
+            </div>  
         </div>
     </div>
     <script src="__PUBLIC__/js/common/zepto.min.js"></script>

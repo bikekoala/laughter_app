@@ -216,5 +216,61 @@ body {
     width: 50px;
     margin: 0 auto;
 }
+#download-banner {
+    display: none;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 70px;
+    padding: 5px;
+    border-top: 2px solid #ccc;
+    background-color: #fff;
+}
+.download-avatar {
+    display: block;
+    float: left;
+    height: 100%;
+}
+.download-slogon {
+    display: block;
+    float: left;
+    height: 100%;
+    padding: 10px 0 0 10px;
+}
+.download-slogon span {
+    display: block;
+}
+.download-slogon span:nth-child(1) {
+    font-family: "verdana","ms song","Arial","Helvetica", "sans-serif";
+    font-size: 14pt;
+    color: #4a5152;
+    line-height: 160%;
+}
+.download-slogon span:nth-child(2) {
+    font-family: "verdana","ms song","Arial","Helvetica", "sans-serif";
+    font-size: 8pt;
+    color: #727778;
+    line-height: 120%;
+}
+#download-btn {
+    display: block;
+    float: right;
+    height: 100%;
+}
+#download-tips {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 15px 25px 15px 25px;
+    border-bottom: 1px solid #ccc;
+    background-color: #fff;
+}
+#download-tips img {
+    display: block;
+    width: 100%;
+}
 
 }

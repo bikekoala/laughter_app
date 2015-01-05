@@ -100,6 +100,7 @@ class JokeAction extends AbstractAction
      */
     public function favorate()
     {
+        $this->outputJSON('操作成功~');
         // get params & validate
         /*
         $isAct = (bool) $_REQUEST['is_act'];
@@ -109,7 +110,6 @@ class JokeAction extends AbstractAction
         if ( ! $this->jokeId) {
             $this->outputJSON('无效的笑话ID~', false);
         }
-         */
 
         // process
         try {
@@ -122,5 +122,6 @@ class JokeAction extends AbstractAction
             $this->outputJSON('操作失败!', false);
         }
         $this->outputJSON('操作成功~');
+        */
     }
 }

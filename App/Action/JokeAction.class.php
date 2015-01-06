@@ -60,6 +60,39 @@ class JokeAction extends AbstractAction
     }
 
     /**
+     * 笑话详情分享页面
+     *
+     * @return void
+     */
+    public function share()
+    {
+        // validate
+        if ( ! $this->jokeId) {
+            $this->error('无效的笑话ID', C('PORTAL_URL'));
+        }
+
+        // call service
+        try {
+            $joke = (new Joke($this->jokeId, $this->userId))->getDetail();
+            $jokeUser = (new User)->getData($joke['user_id']);
+
+            $commentService  = new Comment($this->jokeId, $this->userId);
+            $superComments = $commentService->getSuper();
+            $lastestComments = $commentService->getLastest();
+        } catch (\Exception $e) {
+            $this->error($e->getMessage(), C('PORTAL_URL'));
+        }
+
+        // vendor
+        $this->assign('joke', $joke);
+        $this->assign('joke_user', $jokeUser);
+        $this->assign('comment_super', $superComments);
+        $this->assign('comment_lastest', $lastestComments);
+        $this->assign('static_ver', C('STATIC_VER'));
+        $this->display();
+    }
+
+    /**
      * 赞操作
      *
      * @return void

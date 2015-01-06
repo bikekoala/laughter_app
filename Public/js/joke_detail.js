@@ -104,7 +104,7 @@ var Web = (function() {
             var jokeUid = $j.attr('data-user-id');
 
             var startNum = 0;
-            if (typeof($('#comment-lastest').length) > 0) {
+            if ($('#comment-lastest').length > 0) {
                 startNum = parseInt($('#comment-lastest').attr('data-start'));
             }
             var startNums = new Array();
@@ -142,19 +142,6 @@ var Web = (function() {
                     }
                 }
             })
-        },
-
-        // 检查是否下载客户端
-        checkDownload : function() {
-            if ($.global.isWechat()) {
-                $('#download-banner').show();
-                $('#comment').css('margin-bottom', '70px');
-                $('#download-btn').click(function() {
-                    $(this).attr('src', '/Public/img/download_btn_press.png');
-                    $('#download-tips').show();
-                    $('#joke').css('margin-top', '68px');
-                });
-            }
         },
 
         // 获取评论模块html
@@ -474,17 +461,7 @@ $.global = (function() {
             } else {
                 return true;
             }
-        },
-        isWechat : function() {
-            var ua = navigator.userAgent.toLowerCase();
-            //if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-            //todo
-            if (ua.match(/UCBrowser/i) == 'ucbrowser') {
-                return true;
-            } else {
-                return false;
-            }
-        }
+        } 
     };
 
     return Return;
@@ -499,8 +476,6 @@ Zepto(function($){
 
     // 绑定加载更多评论
     Web.bindLoadMoreComments();
-    // 检查是否下载客户端
-    Web.checkDownload();
 
     // 绑定点击头像事件
     Web.bindClickAvatar();

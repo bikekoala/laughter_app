@@ -4,7 +4,7 @@ server {
 
     # 笑话分享页面
     location ~ ^/joke/ {
-        rewrite ^/joke/(\d+)$   http://www.jgxhb.com:8090/joke/$1;
+        rewrite ^/joke/(\d+)$   http://www.jgxhb.com:8090/joke/share/$1;
     }
 
     # 首页
